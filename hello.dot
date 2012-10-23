@@ -1,4 +1,7 @@
 digraph abc{
+node [shape="record"];
+edge [style="dashed"];
+
 a;
 b;
 c;
