@@ -2,10 +2,10 @@ digraph abc{
 node [shape="record"];
 edge [style="dashed"];
 
-a;
+a[style="filled", color="black", fillcolor="chartreuse"];
 b;
 c;
-d;
+d[color="red"];
  
 a -> b;
 b -> d;
