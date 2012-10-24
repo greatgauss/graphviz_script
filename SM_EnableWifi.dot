@@ -1,0 +1,22 @@
+
+digraph automata_0 {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Initial [ style = filled, shape = doublecircle, color=lightgrey ];
+	Initial -> DriverLoaded [ label = " " ];
+	Initial-> DriverUnloaded  [ label = " " ];
+	DriverUnloaded   -> DriverLoading [ label = "C_LOADDRIVER\n/WN.loadDriver() " ];
+	DriverLoading  -> DriverLoaded [ label = "C_LOADDRIVER_OK " ];
+	DriverLoaded  -> SupStarting [ label = "C_START_SUP\n/WN.startSupplicant() " ];
+	SupStarting  -> DriverStarted [ label = "E_SUP_CONNECTIION\n/send SUP_CONNECTION_CHANGE_ACTION " ];
+	DriverStarted -> DriverStarted [ label = "C_SET_FREQ_BAND\n/startScan() " ];
+	DriverStarted -> Disconnected[ label = " " ];
+	Disconnected -> Disconnected[ label = "E_SUP_STATE_CHANGE| E_SCAN_RESULTS| C_START_SCAN" ];
+	Disconnected -> Disconnecting[ label = "C_CONNECT_NETWORK\n/WN.reconnectCommand() " ];
+	"WifiStateMachine: Enable Wifi" [ shape = plaintext ];
+}
+
+
