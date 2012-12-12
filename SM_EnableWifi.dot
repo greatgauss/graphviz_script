@@ -8,14 +8,14 @@ digraph automata_0 {
 	Initial [ style = filled, shape = doublecircle, color=lightgrey ];
 	Initial -> DriverLoaded [ label = " " ];
 	Initial-> DriverUnloaded  [ label = " " ];
-	DriverUnloaded   -> DriverLoading [ label = "C_LOADDRIVER\n/WN.loadDriver() " ];
-	DriverLoading  -> DriverLoaded [ label = "C_LOADDRIVER_OK " ];
-	DriverLoaded  -> SupStarting [ label = "C_START_SUP\n/WN.startSupplicant() " ];
-	SupStarting  -> DriverStarted [ label = "E_SUP_CONNECTIION\n/send SUP_CONNECTION_CHANGE_ACTION " ];
-	DriverStarted -> DriverStarted [ label = "C_SET_FREQ_BAND\n/startScan() " ];
+	DriverUnloaded   -> DriverLoading [ label = "CMD_LOADDRIVER\n/WN.loadDriver() " ];
+	DriverLoading  -> DriverLoaded [ label = "CMD_LOADDRIVER_OK " ];
+	DriverLoaded  -> SupStarting [ label = "CMD_START_SUP\n/WN.startSupplicant() " ];
+	SupStarting  -> DriverStarted [ label = "EVENT_SUP_CONNECTIION\n/send SUP_CONNECTION_CHANGE_ACTION " ];
+	DriverStarted -> DriverStarted [ label = "CMD_SET_FREQ_BAND\n/startScan() " ];
 	DriverStarted -> Disconnected[ label = " " ];
-	Disconnected -> Disconnected[ label = "E_SUP_STATE_CHANGE| E_SCAN_RESULTS| C_START_SCAN" ];
-	Disconnected -> Disconnecting[ label = "C_CONNECT_NETWORK\n/WN.reconnectCommand() " ];
+	Disconnected -> Disconnected[ label = "EVENT_SUP_STATE_CHANGE | EVENT_SCAN_RESULTS | CMD_START_SCAN" ];
+	Disconnected -> Disconnecting[ label = "CMD_CONNECT_NETWORK\n/WN.reconnectCommand() " ];
 	"WifiStateMachine: Enable Wifi" [ shape = plaintext ];
 }
 
