@@ -16,7 +16,6 @@ digraph automata_0 {
 	DriverStarted -> Disconnected[ label = " " ];
 	Disconnected -> Disconnected[ label = "EVENT_SUP_STATE_CHANGE | EVENT_SCAN_RESULTS | CMD_START_SCAN" ];
 	Disconnected -> Disconnecting[ label = "CMD_CONNECT_NETWORK\n/WN.reconnectCommand() " ];
-	"WifiStateMachine: Enable Wifi" [ shape = plaintext ];
+	"WifiStateMachine: ICS: Enable Wifi" [ shape = plaintext ];
 }
-
 

@@ -10,7 +10,6 @@ digraph automata_0 {
 	Connecting -> Connecting[ label = "  /CMD_PRE_DHCP_ACTION " ];
 	Connecting -> Connecting[ label = "  CMD_PRE_DHCP_ACTION_COMPLETE " ];
 	Connecting -> Connected[ label = "CMD_POST_DHCP_ACTION " ];
-	"WifiStateMachine: Connect AP and Get IP" [ shape = plaintext ];
+	"WifiStateMachine: ICS: Connect AP and Get IP" [ shape = plaintext ];
 }
-
 

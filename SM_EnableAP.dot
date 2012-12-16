@@ -12,9 +12,9 @@ digraph automata_0 {
 	DriverLoaded-> SoftApStarting [ label = "CMD_START_AP" ];
 	SoftApStarting -> SoftApStarting [ label = " @ send CMD_REQUEST_AP_CONFIG to WifiApConfigStore " ];
 	SoftApStarting -> SoftApStarting [ label = "CMD_RESPONSE_AP_CONFIG \n / startSoftApWithConfig( ) " ];
-	SoftApStarting -> SoftApStarted [ label = "CMD_START_AP_SUCCESS " ];
+	SoftApStarting -> SoftApStarted [ label = "CMD_START_AP_SUCCESS //wlap0 created " ];
 	SoftApStarted -> Tethering[ label = "CMD_TETHER_STATE_CHANGE \n / startTethering(\"wlap0\") " ];
-	"WifiStateMachine: Enable AP" [ shape = plaintext ];
+	"WifiStateMachine: ICS: Enable AP" [ shape = plaintext ];
 }
 
 
