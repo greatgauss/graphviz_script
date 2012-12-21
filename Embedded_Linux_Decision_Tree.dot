@@ -1,0 +1,70 @@
+/* Embedded Linux Decision Tree Generator
+  Alison Chaiken, alison@she-devel.com, http://www.exerciseforthereader.org/
+  7/30/2011 
+  Licensed under CC-BY-SA, http://creativecommons.org/licenses/by-sa/3.0
+*/
+// Create SVG file, view with browser:
+// dot -Tsvg Embedded_Linux_Decision_Tree.dot -o Embedded_Linux_Decision_Tree.svg; eog Embedded_Linux_Decision_Tree.svg
+
+digraph "embedded_linux_decision_tree" {
+// graph [fontsize=12,orientation="landscape"];
+// graph [fontsize=12,rotate=90];
+ graph [fontsize=12,label="Embedded Linux Decision Tree\n\n",labelfontsize=24,labelloc="t"];
+ node [fontsize=10];
+ edge [fontsize=12,color=springgreen3,headport="n"];
+// questions
+//  root [shape=box,color=blue,label="Have MMU?"];
+  root [shape=box,label="Have MMU?",fillcolor=thistle,style=filled,color=lightslateblue];
+//  NeedRTQ [shape=box,fillcolor=yellow,style=filled,label="Real-time\ncritical?"];
+  NeedRTQ [shape=box,label="Real-time\ncritical?",fillcolor=thistle,style=filled,color=lightslateblue];
+  ProprietaryQ [shape=box,label="Open source\nimportant?",fillcolor=thistle,style=filled,color=lightslateblue];
+  LGPLQ [shape=box,label="LGPL OK?",fillcolor=thistle,style=filled,color=lightslateblue];
+  HeadlessQ [shape=box,label="Headless or\nsingle-app?",fillcolor=thistle,style=filled,color=lightslateblue];
+  HandsetTabletQ [shape=box,label="Handset\nor Tablet?",fillcolor=thistle,style=filled,color=lightslateblue];
+  ARMQ [shape=box,label="ARM?",fillcolor=thistle,style=filled,color=lightslateblue];
+  LibCQ [shape=box,label="Prefer\ntraditional\nLinux to Java?",fillcolor=thistle,style=filled,color=lightslateblue];
+  LearnCurveQ [shape=box,label="Value\nsimplicity\nover features?",fillcolor=thistle,style=filled,color=lightslateblue];
+// leaves/distros
+  NoMMU [shape=triangle,URL="http://www.linux-arm.org/LinuxKernel/LinuxM3",label="ucLinux\non\nCortex-M3",fillcolor=palegoldenrod,style=filled,color=springgreen3]
+  RealTimeProprietary [shape=triangle,label="VxWorks,\nNucleus,\netc.",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  Android [shape=triangle,URL="http://developer.android.com/index.html",label="Android",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  UbuntuCore [shape=triangle,URL="http://www.canonical.com/engineering-services/ubuntu-core",label="Ubuntu\nCore",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  EmbeddedBSD [shape=triangle,URL="http://bsdmag.org/magazine/1067-embedded-bsd",label="embedded\nBSD",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  RTEMS [shape=triangle,URL="http://www.rtems.org/",label="RTEMS",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+ // Angstrom [shape=triangle,URL="http://www.angstrom-distribution.org/",label="?ngstrom"];
+//  Angstrom [shape=triangle,URL="http://www.angstrom-distribution.org/",label="&#197;ngstrom"];
+  Angstrom [shape=triangle,URL="http://www.angstrom-distribution.org/",label="Angstrom\nand\nYocto",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  Buildroot [shape=triangle,URL="http://buildroot.uclibc.org/",label="Buildroot",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  AtomOrMIPS [shape=triangle,URL="http://meego.com/",label="MeeGo",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+  ARMnotHeadless [shape=triangle,URL="http://linaro.org/",label="Linaro",fillcolor=palegoldenrod,style=filled,color=springgreen3];
+// edges
+  root -> NeedRTQ [weight=2,label="Yes"];
+  root -> NoMMU [weight=2,label="No"];
+  NeedRTQ -> LGPLQ [weight=2,label="No"];
+  NeedRTQ -> ProprietaryQ [weight=2,label="Yes"]
+  ProprietaryQ -> RTEMS [weight=2,label="Yes"];
+  ProprietaryQ -> RealTimeProprietary [weight=2,label="No"];
+//  LGPLQ -> HeadlessQ [weight=2,label="Yes"];
+//  LGPLQ -> Android [weight=2,label="No"];
+  LGPLQ -> HeadlessQ [weight=2,label="Yes"];
+  LGPLQ -> EmbeddedBSD [weight=2,label="No"];
+//  LGPLQ -> RTEMS [weight=2,label="No"];
+//  LGPLQ -> HandsetTabletQ [weight=2,label="No"];
+//  HandsetTabletQ -> HeadlessQ [weight=2,label="No"];
+   HeadlessQ -> HandsetTabletQ [weight=2,label="No"];
+  HeadlessQ -> LearnCurveQ [weight=2,label="Yes"];   
+   LearnCurveQ -> Angstrom [weight=2,label="No"];
+   LearnCurveQ -> Buildroot [weight=2,label="Yes"];
+  LibCQ -> Android [weight=2,label="No"];
+  LibCQ -> UbuntuCore [weight=2,label="Yes"];
+  HandsetTabletQ -> ARMQ [weight=2,label="No"];
+  HandsetTabletQ -> LibCQ [weight=2,label="Yes"];
+  ARMQ -> ARMnotHeadless [weight=2,label="Yes"];
+  ARMQ -> AtomOrMIPS [weight=2,label="No,\nAtom\nor MIPS"];
+
+Footer [style="",label="Alison Chaiken, alchaiken@gmail.com, distributed under CC-BY-SA license",URL="http://she-devel.com/",fontsize=8,fontcolor=black,color=white]
+{ rank = max Footer }
+
+}
+
+

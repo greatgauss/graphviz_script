@@ -2,7 +2,7 @@
 digraph unix {
 	size="6,6";
 	node [color=lightblue2, style=filled];
-	"5th Edition" -> "6th Edition";
+	"G" <- "H";
 	"5th Edition" -> "PWB 1.0";
 	"6th Edition" -> "LSX";
 	"6th Edition" -> "1 BSD";
