@@ -13,28 +13,26 @@ digraph main {
 subgraph cluster0 {
 label="s0"; color=blue;
 "s0"
-subgraph cluster1 {
-label="s1"; color=blue;
-"s1"
-subgraph cluster11 {
-label="s11"; color=blue;
-"s11"
-}
-}
+	subgraph cluster1 {
+	label="s1"; color=blue;
+	"s1"
+		subgraph cluster11 {
+		label="s11"; color=blue;
+		"s11"
+		}
+	}
 
-subgraph cluster2 {
-label="s2"; color=blue;
-"s2"
-subgraph cluster21 {
-label="s21"; color=blue;
-"s21"
-subgraph cluster211 {
-label="s211"; color=blue;
-"s211"
+	subgraph cluster2 {
+	label="s2"; color=blue;
+	"s2"
+		subgraph cluster21 {
+		label="s21"; color=blue;
+		"s21"
+			subgraph cluster211 {
+			label="s211"; color=blue;
+			"s211"
+			}
+		}
+	}
 }
-}
-}
-
-}
-
 }
