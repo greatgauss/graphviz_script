@@ -1,0 +1,35 @@
+digraph WSM {
+	size="3,3";
+	node [color=lightblue2, style=filled];
+"mDefault" -> "mInitial";
+ "mDefault" -> "mDriverUnloading";
+"mDefault" -> "mInitial";
+"mDefault" -> "mDriverUnloading";
+"mDefault" -> "mDriverUnloaded";
+"mDriverUnloaded" -> "mDriverFailed";
+"mDefault" -> "mDriverLoading";
+"mDefault" -> "mDriverLoaded";
+"mDefault" -> "mSupplicantStarting";
+"mDefault" -> "mSupplicantStarted";
+"mSupplicantStarted" -> "mDriverStarting";
+"mSupplicantStarted" -> "mDriverStarted";
+"mDriverStarted" -> "mScanMode";
+"mDriverStarted" -> "mConnectMode";
+"mConnectMode" -> "mConnecting";
+"mConnectMode" -> "mConnected";
+"mConnectMode" -> "mDisconnecting";
+"mConnectMode" -> "mDisconnected";
+"mConnectMode" -> "mWaitForWpsCompletion";
+"mSupplicantStarted" -> "mDriverStopping";
+"mSupplicantStarted" -> "mDriverStopped";
+"mDefault" -> "mSupplicantStopping";
+"mDefault" -> "mSoftApStarting";
+"mDefault" -> "mSoftApStarted";
+"mSoftApStarted" -> "mTethering";
+"mSoftApStarted" -> "mTethered";
+"mDefault" -> "mSoftApStopping";
+"mDefault" -> "mWaitForP2pDisable";
+}
+
+
+
