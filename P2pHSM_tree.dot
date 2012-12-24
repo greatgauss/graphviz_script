@@ -9,16 +9,16 @@ digraph P2pSM
   node[style=filled, shape=record, fontsize=8];
   node[height=0.20, width=0.20, color=gray];
 
-"DefaultState" -> "P2pNotSupportedState";
-"DefaultState" -> "P2pDisablingState";
-"DefaultState" -> "P2pDisabledState";
-"DefaultState" -> "P2pEnablingState";
-"DefaultState" -> "P2pEnabledState";
-"P2pEnabledState" -> "InactiveState";
-"P2pEnabledState" -> "GroupCreatingState";
-"GroupCreatingState" -> "UserAuthorizingInvitationState";
-"GroupCreatingState" -> "ProvisionDiscoveryState";
-"GroupCreatingState" -> "GroupNegotiationState";
-"P2pEnabledState" -> "GroupCreatedState";
-"GroupCreatedState" -> "UserAuthorizingJoinState";
+"Default" -> "P2pNotSupported";
+"Default" -> "P2pDisabling";
+"Default" -> "P2pDisabled";
+"Default" -> "P2pEnabling";
+"Default" -> "P2pEnabled";
+"P2pEnabled" -> "Inactive";
+"P2pEnabled" -> "GroupCreating";
+"GroupCreating" -> "UserAuthorizingInvitation";
+"GroupCreating" -> "ProvisionDiscovery";
+"GroupCreating" -> "GroupNegotiation";
+"P2pEnabled" -> "GroupCreated";
+"GroupCreated" -> "UserAuthorizingJoin";
 }
