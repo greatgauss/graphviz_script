@@ -8,7 +8,7 @@ digraph automata_0 {
 	edge [fontname = "Microsoft YaHei", fontsize = 10];
 	P2pDisabled -> P2pEnabling[ label = "CMD_ENABLE_P2P\n/ WMtr.startMonitoring() #connect to wpa_supplicant and send SUPP_CONNECTION_EVENT " ];
 	P2pEnabling -> Inactive[ label = "SUPP_CONNECTION_EVENT " ];
-	Inactive -> Inactive[ label = "DISCOVER_PEERS #UI calls WMgr.discoverPeers() to send it\n / ^WN.p2pFind() #\"P2P FIND 120\"" ];
+	Inactive -> Inactive[ label = "DISCOVER_PEERS #UI calls WMgr.discoverPeers() to send it\n / ^WN.p2pFind() #\"P2P FIND 120\" \n^send WIFI_P2P_DISCOVERY_CHANGED_ACTION " ];
 	Inactive -> Inactive[ label = "P2P_DEVICE_FOUND_EVENT\n/ ^update WifiP2pDeviceList\n ^send WIFI_P2P_PEERS_CHANGED_ACTION " ];
 	Inactive -> Inactive[ label = "P2P-PROV-DISC-PBC-REQ #peer requests to P2P\n/ ignore it" ];
 	Inactive -> UserAuthorizingInvitation[ label = "P2P_GO_NEGOTIATION_REQUEST_EVENT\n/ sendConnectNoticeToApp() " ];
