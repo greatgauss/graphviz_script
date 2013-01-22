@@ -1,0 +1,23 @@
+digraph graphname {
+    node [fontname=Monospace, fontsize=14]; 
+    subgraph clusterMasterBox {
+        node [shape=record];
+        l1 [label = "{ horiz-1 \r| \
+ horiz-2 \r| \
+ horiz-3 \r| \
+ horiz-4 \r} \
+"];
+        subgraph clusterSubRotateBox {
+            rotate=90;
+            node [shape=record,rotate=90];
+            l2 [label = "{ verti-1 \r| \
+ verti-2 \r| \
+ verti-3 \r| \
+ verti-4 \r} \
+"];     
+            label="B";
+        }
+    label="A"
+    }
+}
+

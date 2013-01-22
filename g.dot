@@ -1,0 +1,11 @@
+digraph g {
+    node[shape=point, width=0.2];
+    {
+        rank=same;
+        p1 -> n [label="text1"];
+        n -> p2 [label="text2"];
+    }
+    n -> p3 [label="text3", dir=back];
+    n[label="node", shape=rect, style=rounded];
+}
+
