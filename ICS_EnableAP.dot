@@ -18,6 +18,7 @@ digraph automata_0 {
 	SoftApStarting  -> SoftApStarting [ label = "CMD_RESPONSE_AP_CONFIG/\n start thread to call NMS.startAccessPoint() \n and send CMD_START_AP_SUCCESS" ];
 	SoftApStarting  -> SoftApStarted [ label = "CMD_START_AP_SUCCESS" ];
 	SoftApStarted  -> Tethering [ label = "CMD_TETHER_STATE_CHANGE \n /startTethering()" ];
+	Tethering -> Tethered [ label = "CMD_TETHER_STATE_CHANGE && isWifiTethered()\n" ];
 	"WifiStateMachine: ICS: Enable SoftAP" [ shape = plaintext ];
 }
 

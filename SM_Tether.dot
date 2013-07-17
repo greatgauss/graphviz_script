@@ -1,0 +1,28 @@
+
+
+digraph Tether {
+subgraph TetherMasterSM {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Initial -> TetherModeAlive [ label = "CMD_TETHER_MODE_REQUESTED" ];
+	TetherModeAlive -> TetherModeAlive [ label = " @ turnOnMasterTetherSettings(): \n           // change /proc/sys/net/ipv4/ip_forward \n NMS.setIpForwardingEnabled(true)  \n //start dnsmasq \n NMS.startTethering() \n NMS.setDnsForwarders() \n @ chooseUpstreamType() //select uplink interface \n ~@ notifyTetheredOfNewUpstreamIface(null)" ];
+	"TetherMasterSM" [ shape = plaintext ];
+}
+
+subgraph TetherInterfaceSM {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Inital -> Starting [ label = "CMD_TETHER_REQUESTED\n / Send CMD_TETHER_MODE_REQUESTED to TetherMasterSM" ];
+	Inital -> Unavailable[ label = "CMD_INTERFACE_DOWN\n" ];
+	Starting-> Tethered;
+	Tethered-> Tethered[ label = "// send command \"tether interface add\" \n @ NMS.tetherInterface(\"wlap0\")" ];
+	Tethered-> Unavailable[ label = "CMD_INTERFACE_DOWN\n /cleanupUpstream(); \n /NMS.untetherInterface(\"wlap0\"); \n /send CMD_TETHER_MODE_UNREQUESTED to TetherMasterSM" ];
+	"TetherInterfaceSM" [ shape = plaintext ];
+}
+}
