@@ -1,0 +1,12 @@
+
+digraph TetherMasterSM {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Initial -> TetherModeAlive [ label = "CMD_TETHER_MODE_REQUESTED\n / Send WIFI_ENABLE_PENDING to P2PService " ];
+	TetherModeAlive -> TetherModeAlive [ label = " @ NMS.setIpForwardingEnabled(true)  // change /proc/sys/net/ipv4/ip_forward \n @ NMS.startTethering() //start dnsmasq \n @ NMS.setDnsForwarders() \n @ chooseUpstreamType() //select uplink interface" ];
+	"TetherMasterSM: ICS: TetherMasterSM" [ shape = plaintext ];
+}
+

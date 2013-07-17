@@ -1,0 +1,20 @@
+
+digraph automata_0 {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	DriverUnloaded   -> WaitForP2PDisable[ label = "CMD_LOADDRIVER\n / Send WIFI_ENABLE_PENDING to P2PService " ];
+	WaitForP2PDisable-> DriverLoading [ label = "WIFI_ENABLE_PROCEED " ];
+	DriverLoading  -> DriverLoading [ label = " @ WN.loadDriver( ) and send CMD_LOADDRIVER_SUCCESS " ];
+	DriverLoading  -> DriverLoaded [ label = " CMD_LOADDRIVER_SUCCESS " ];
+	DriverLoaded-> SoftApStarting [ label = "CMD_START_AP" ];
+	SoftApStarting -> SoftApStarting [ label = " @ send CMD_REQUEST_AP_CONFIG to WifiApConfigStore " ];
+	SoftApStarting -> SoftApStarting [ label = "CMD_RESPONSE_AP_CONFIG \n / startSoftApWithConfig( ) " ];
+	SoftApStarting -> SoftApStarted [ label = "CMD_START_AP_SUCCESS //wlap0 created " ];
+	SoftApStarted -> Tethering[ label = "CMD_TETHER_STATE_CHANGE \n / startTethering(\"wlap0\") " ];
+	"WifiStateMachine: ICS: Enable AP" [ shape = plaintext ];
+}
+
+

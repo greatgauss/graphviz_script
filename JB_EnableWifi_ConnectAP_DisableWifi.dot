@@ -1,0 +1,34 @@
+
+digraph automata_0 {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Initial [ style = filled, shape = doublecircle, color=lightgrey ];
+	Initial -> DriverLoaded [ label = " " ];
+	Initial-> DriverUnloaded  [ label = " " ];
+	DriverUnloaded   -> WaitForP2pDisable [ label = "CMD_LOAD_DRIVER\n/ send WIFI_ENABLE_PENDING to WifiP2pService" ];
+	WaitForP2pDisable -> WaitForP2pDisable [ label = "CMD_START_SUPP \n/ DeferMsg" ];
+	WaitForP2pDisable -> DriverLoading [ label = "WIFI_ENABLE_PROCEED" ];
+	DriverLoading -> DriverLoading [ label = "@ WN.loadDriver() \n @ send CMD_LOAD_DRIVER_OK " ];
+	DriverLoading -> DriverLoading [ label = "CMD_START_SUPP \n/ DeferMsg " ];
+	DriverLoading  -> DriverLoaded [ label = "CMD_LOAD_DRIVER_OK " ];
+	DriverLoaded  -> SuppStarting [ label = "CMD_START_SUPP\n/ NMS.wifiFirmwareReload() \n WN.startSupplicant() //start supplicant\n WMtr.startMonitoring()//WMtr connect to supplicant and monitor it " ];
+	SuppStarting  -> DriverStarted [ label = "SUP_CONNECTIION_EVENT //WMtr connected to supplicant\n/send SUPP_CONNECTION_CHANGE_ACTION " ];
+	DriverStarted -> DriverStarted [ label = "@ transitionTo(Disconnected) " ];
+	DriverStarted -> Disconnected[ label = "@ WN.reconnectCommand() " ];
+	Disconnected -> Disconnected[ label = "SUP_STATE_CHANGE_EVENT |\n SCAN_RESULTS_EVENT |\n CMD_START_SCAN" ];
+	Disconnected -> Connecting[ label = "NETWORK_CONNECTION_EVENT\n/ ^ transitionTo(Connecting) " ];
+	Connecting -> Connecting[ label = "@ makeDhcpStateMachine\n @ send CMD_START_DHCP to DhcpSM " ];
+	Connecting -> Connected[ label = "CMD_POST_DHCP_ACTION\n/handleSuccessfulIpCfg() " ];
+	Connected -> SupplicantStopping[ label = "CMD_STOP_SUPP\n/^^^ transitionTo(SupplicantStopping) " ];
+	SupplicantStopping-> SupplicantStopping[ label = "@ WN.stopSupplicant() \n @ send CMD_STOP_DHCP to DhcpSM " ];
+	SupplicantStopping-> SupplicantStopping[ label = "CMD_UNLOAD_DRIVER\n DeferMsg " ];
+	SupplicantStopping-> DriverLoaded[ label = "SUP_DISCONNECTION_EVENT\n/ WN.killSupplicant() " ];
+	DriverLoaded -> DriverUnloading[ label = "CMD_UNLOAD_DRIVER " ];
+	DriverUnloading -> DriverUnloading[ label = "@ WN.unloadDriver() \n @ send CMD_UNLOAD_DRIVER_OK" ];
+	DriverUnloading -> DriverUnloaded[ label = "CMD_UNLOAD_DRIVER_OK "];
+	"WifiStateMachine: ICS: Enable Wifi" [ shape = plaintext ];
+}
+

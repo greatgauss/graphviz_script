@@ -1,0 +1,12 @@
+
+
+digraph TetherInterfaceSM {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	Inital -> Starting [ label = "CMD_TETHER_REQUESTED\n / Send CMD_TETHER_MODE_REQUESTED to TetherMasterSM" ];
+	"TetherInterfaceSM: ICS: Tether Interface" [ shape = plaintext ];
+}
+
