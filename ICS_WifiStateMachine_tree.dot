@@ -34,6 +34,7 @@ digraph WSM {
 "SoftApStarted" -> "Tethered";
 "Default" -> "SoftApStopping";
 "Default" -> "WaitForP2pDisable";
+"ICS" [ shape = plaintext ];
 }
 
 
