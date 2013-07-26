@@ -11,13 +11,12 @@ digraph automata_0 {
 	DriverUnloaded   -> WaitForP2pDisable [ label = "CMD_LOAD_DRIVER\n/ send WIFI_ENABLE_PENDING to WifiP2pService" ];
 	WaitForP2pDisable -> WaitForP2pDisable [ label = "CMD_START_SUPP \n/ DeferMsg" ];
 	WaitForP2pDisable -> DriverLoading [ label = "WIFI_ENABLE_PROCEED" ];
-	DriverLoading -> DriverLoading [ label = "@ WN.loadDriver() \n @ send CMD_LOAD_DRIVER_OK " ];
+	DriverLoading -> DriverLoading [ label = "@ start thread to WN.loadDriver() \n @ send CMD_LOAD_DRIVER_OK " ];
 	DriverLoading -> DriverLoading [ label = "CMD_START_SUPP \n/ DeferMsg " ];
 	DriverLoading  -> DriverLoaded [ label = "CMD_LOAD_DRIVER_OK " ];
-	DriverLoaded  -> SuppStarting [ label = "CMD_START_SUPP\n/ NMS.wifiFirmwareReload() \n WN.startSupplicant() //start supplicant\n WMtr.startMonitoring()//WMtr connect to supplicant and monitor it " ];
-	SuppStarting  -> DriverStarted [ label = "SUP_CONNECTIION_EVENT //WMtr connected to supplicant\n/send SUPP_CONNECTION_CHANGE_ACTION " ];
-	DriverStarted -> DriverStarted [ label = "@ transitionTo(Disconnected) " ];
-	DriverStarted -> Disconnected[ label = "@ WN.reconnectCommand() " ];
+	DriverLoaded  -> SuppStarting [ label = "CMD_START_SUPP\n/ NMS.wifiFirmwareReload() \n WN.startSupplicant() \n //WMtr connect to supplicant and monitor it\nWMtr.startMonitoring() " ];
+	SuppStarting  -> DriverStarted [ label = "SUP_CONNECTIION_EVENT \n/send SUPP_CONNECTION_CHANGE_ACTION " ];
+	DriverStarted -> Disconnected[ label = "@ WN.reconnectCommand()\n@ transitionTo(Disconnected) " ];
 	Disconnected -> Disconnected[ label = "SUP_STATE_CHANGE_EVENT |\n SCAN_RESULTS_EVENT |\n CMD_START_SCAN" ];
 	Disconnected -> Connecting[ label = "NETWORK_CONNECTION_EVENT\n/ ^ transitionTo(Connecting) " ];
 	Connecting -> Connecting[ label = "@ makeDhcpStateMachine\n @ send CMD_START_DHCP to DhcpSM " ];

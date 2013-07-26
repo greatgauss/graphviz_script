@@ -10,7 +10,7 @@ digraph TetherInterfaceSM{
 	Inital -> Unavailable[ label = "CMD_INTERFACE_DOWN\n" ];
 	Starting-> Tethered;
 	Tethered-> Tethered[ label = "// send command \"tether interface add\" \n @ NMS.tetherInterface(\"wlap0\")" ];
-	Tethered-> Tethered[ label = "CMD_TETHER_CONNECTION_CHANGED \n /NMS.disableNat(\"wlap0\",\"ppp0\")\n /NMS.enableNat(\"wlap0\",\"eth0\")" ];
-	Tethered-> Unavailable[ label = "CMD_INTERFACE_DOWN\n /cleanupUpstream(); \n /NMS.untetherInterface(\"wlap0\"); \n /send CMD_TETHER_MODE_UNREQUESTED to TetherMasterSM" ];
+	Tethered-> Tethered[ label = "CMD_TETHER_CONNECTION_CHANGED \n /NMS.disableNat(\"wlap0\",\"eth0\")\n /NMS.enableNat(\"wlap0\",\"ppp0\")" ];
+	Tethered-> Unavailable[ label = "CMD_INTERFACE_DOWN\n /cleanupUpstream(); \n /NMS.untetherInterface(\"wlap0\"); //disable NAT\n /send CMD_TETHER_MODE_UNREQUESTED" ];
 	"TetherInterfaceSM" [ shape = plaintext ];
 }

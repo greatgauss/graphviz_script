@@ -7,8 +7,9 @@ digraph TetherMasterSM{
 	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
 	edge [fontname = "Microsoft YaHei", fontsize = 10];
 	Initial -> TetherModeAlive [ label = "CMD_TETHER_MODE_REQUESTED" ];
-	TetherModeAlive -> TetherModeAlive [ label = " @ turnOnMasterTetherSettings(): \n           // change /proc/sys/net/ipv4/ip_forward \n NMS.setIpForwardingEnabled(true)  \n //start dnsmasq \n NMS.startTethering() \n NMS.setDnsForwarders() \n //select uplink interface \n //and send CMD_TETHER_CONNECTION_CHANGED\n @ chooseUpstreamType() \n ~@ notifyTetheredOfNewUpstreamIface(null)" ];
 	TetherModeAlive -> TetherModeAlive [ label = " CMD_TETHER_MODE_REQUESTED \n /send CMD_TETHER_CONNECTION_CHANGED" ];
+	TetherModeAlive -> TetherModeAlive [ label = " @ turnOnMasterTetherSettings(): \n           // change /proc/sys/net/ipv4/ip_forward \n NMS.setIpForwardingEnabled(true)  \n //start dnsmasq \n NMS.startTethering() \n NMS.setDnsForwarders() \n //select uplink interface \n //send CMD_TETHER_CONNECTION_CHANGED\n @ chooseUpstreamType() \n ~@ notifyTetheredOfNewUpstreamIface(null)" ];
+	TetherModeAlive -> Initial[ label = " CMD_TETHER_MODE_UNREQUESTED \n /NMS.setIpForwardingEnabled(false);\n NMS.stopTethering()//send SIGTERM to dnsmasq" ];
 	"TetherMasterSM" [ shape = plaintext ];
 }
 
