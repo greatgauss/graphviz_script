@@ -298,15 +298,82 @@ subgraph financial {
     }
 	}
 
+subgraph QA {
+    oo_dir_1 [label="技术质量部 \n 13人"]
+
+    o_point_1 [shape=point]
+    p_dir_1 [label="副部长 1 \n \
+ （尚林纳）"]
+    o_point_1 -> p_dir_1
+
+    o_point_2 [shape=point]
+    p_dir_2 [label="副部长兼质量验收总代表 1 \n \
+ （崔志民） "]
+    o_point_2 -> p_dir_2
+
+    o_point_3 [shape=point]
+    p_dir_3 [label="硬件总监 1 \n \
+ （徐匡一）"]
+    o_point_3 -> p_dir_3
+
+    o_point_4 [shape=point]
+    p_dir_4 [label="配置主管 1 \n \
+  （常  昊）"]
+    o_point_4 -> p_dir_4
+
+    o_point_5 [shape=point]
+    p_dir_5 [label="质量主管 1 \n \
+   (何其洁）"]
+    o_point_5 -> p_dir_5
+
+    o_point_6 [shape=point]
+    p_dir_6 [label="CMMI主管 1 \n \
+  （李英霞）"]
+    o_point_6 -> p_dir_6
+ 
+    o_point_7 [shape=point]
+    p_dir_7 [label="质量助理 1 \n \
+   (宋青林）"]
+    o_point_7 -> p_dir_7
+
+    o_point_8 [shape=point]
+    p_dir_8 [label= "技术质量 1 \n \
+  （邵 宇）"]
+    o_point_8 -> p_dir_8
+
+    o_point_9 [shape=point]
+    p_dir_9 [label="知识产权主管 2 \n \
+  （王立华）  \n \
+  （计  军）"]
+    o_point_9 -> p_dir_9
+
+    o_point_10 [shape=point]
+    p_dir_10 [label="项目主 管 1  \n \
+  （张 健）"]
+    o_point_10 -> p_dir_10
+
+    o_point_11 [shape=point]
+    p_dir_11 [label="检验主管 1  \n \
+  （周毓伟）"]
+    o_point_11 -> p_dir_11
+
+    {
+        rank=same;
+        oo_dir_1 -> o_point_1 -> o_point_2 -> o_point_3 -> o_point_4 -> o_point_5 -> o_point_6 -> o_point_7 -> \
+        o_point_8 -> o_point_9 -> o_point_10 -> o_point_11[arrowhead=none]
+    }
+	}
+
 	subgraph control {
 		node [shape=point]
-    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k
+    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m
     {rank=same; a; cc_dir_1;}
     {rank=same; c; ee_dir_1;}
     {rank=same; e; gg_dir_1;}
     {rank=same; g; ii_dir_1;}
     {rank=same; i; kk_dir_1;}
     {rank=same; k; mm_dir_1;}
+    {rank=same; m; oo_dir_1;}
     }
 
 }
