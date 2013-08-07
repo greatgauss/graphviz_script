@@ -1,0 +1,62 @@
+﻿digraph tree
+{
+    rankdir=LR;    
+    fixedsize=true;          
+    
+ node [shape=box, fontname="FangSong" size="15,15"];
+    c_dir_1 [label="办公室 \n 25人"]
+
+    c_point_1 [shape=point]
+    d_dir_1 [label="主 任  1（王增梅）"]
+    c_point_1 -> d_dir_1
+
+    c_point_2 [shape=point]
+    d_dir_2 [label="副主任 1（孙 原） "]
+    c_point_2 -> d_dir_2
+
+    c_point_3 [shape=point]
+    d_dir_3 [label="专刊主办 2 \n  （职  菲）\n  （喻  晓）"]
+    c_point_3 -> d_dir_3
+
+    c_point_4 [shape=point]
+    d_dir_4 [label="文档主办 1\n  （高  歌）"]
+    c_point_4 -> d_dir_4
+
+    c_point_5 [shape=point]
+    d_dir_5 [label="综合秘书 1\n  （徐东旭）"]
+    c_point_5 -> d_dir_5
+
+    c_point_6 [shape=point]
+    d_dir_6 [label="前 台"]
+    c_point_6 -> d_dir_6
+ 
+    c_point_7 [shape=point]
+    d_dir_7 [label="行政专员 4 \n（柳 莉  胡 韫）\n（陈 磊  高 磊）"]
+    c_point_7 -> d_dir_7
+
+    c_point_8 [shape=point]
+    d_dir_8 [label= \
+      "综合专员 3 \n \
+       (田  鹏）   \n \
+       （王  姣）\n \
+       （周大助）"]
+    c_point_8 -> d_dir_8
+
+    c_point_9 [shape=point]
+    d_dir_9 [label="    司  机 9\n  \
+    （张贵宏  伽庆诚)   \n  \
+    （王  伟  周卫兵）\n  \
+    （蔡多信  卢宝旭）\n  \
+    （张新耀  李  猛）\n  \
+    （翟东浩 ）"]
+    c_point_9 -> d_dir_9
+
+    {
+        rank=same;
+        c_dir_1 -> c_point_1 -> c_point_2 -> c_point_3 -> c_point_4 -> c_point_5 -> c_point_6 -> c_point_7 -> \
+        c_point_8 -> c_point_9[arrowhead=none]
+    }
+
+
+}
+ 
