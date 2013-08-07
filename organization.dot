@@ -1,0 +1,59 @@
+﻿digraph tree
+{
+
+    rankdir=LR;    
+    fixedsize=true;          
+    
+ node [shape=box, fontname="FangSong" size="20,20"];
+    a_dir_1 [label="X" shape=box]
+
+    a_point_1 [shape=point]
+    b_dir_1 [label="X.Y"]
+    a_point_1 -> b_dir_1
+
+    b_point_1 [shape=point]
+    c_dir_1 [label="X.Y.Z"]
+    b_point_1 -> c_dir_1
+
+    c_point_1 [shape=point]
+    d_dir_1 [label="X.Y.Z.100"]
+    c_point_1 -> d_dir_1
+
+    c_point_2 [shape=point]
+    d_dir_2 [label="X.Y.Z.20000"]
+    c_point_2 -> d_dir_2
+
+    c_point_3 [shape=point]
+    d_dir_3 [label="X.Y.Z.300"]
+    c_point_3 -> d_dir_3
+
+    c_point_4 [shape=point]
+    d_dir_4 [label="X.Y.Z.400"]
+    c_point_4 -> d_dir_4
+
+    c_point_5 [shape=point]
+    d_dir_5 [label="X.Y.Z.500"]
+    c_point_5 -> d_dir_5
+
+    c_point_6 [shape=point]
+    d_dir_6 [label="X.Y.Z.6000"]
+    c_point_6 -> d_dir_6
+ 
+    b_point_2 [shape=point]
+    c_dir_2 [label="X.Y.100"]
+    b_point_2 -> c_dir_2
+ 
+    {
+        rank=same;
+        a_dir_1 -> a_point_1 [arrowhead=none]
+    }
+    {
+        rank=same;
+        b_dir_1 -> b_point_1 -> b_point_2 [arrowhead=none]
+    }
+    {
+        rank=same;
+        c_dir_1 -> c_point_1 -> c_point_2 -> c_point_3 -> c_point_4 -> c_point_5 -> c_point_6 [arrowhead=none]
+    }
+}
+ 
