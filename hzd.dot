@@ -1,9 +1,8 @@
 ﻿digraph tree
 {
-    rankdir=LR;    
-    fixedsize=true;          
-    
+    rankdir=LR;
  node [shape=box, fontname="FangSong" size="15,15"];
+    
 subgraph xxx {
     cc_dir_1 [label="办公室 \n 25人"]
 
@@ -58,11 +57,12 @@ subgraph xxx {
         c_point_8 -> c_point_9[arrowhead=none]
     }
 	}
+	
 	subgraph yyy {
-		rotate=90;
+    rankdir=LR;
     ee_dir_1 [label="人力资源部 \n \
     9人  "]
-
+		
     e_point_1 [shape=point]
     f_dir_1 [label="部 长 1 \n \
   （唐晓英）"]
@@ -113,6 +113,12 @@ subgraph xxx {
         ee_dir_1 -> e_point_1 -> e_point_2 -> e_point_3 -> e_point_4 -> e_point_5 -> e_point_6 -> e_point_7 [arrowhead=none]
     }
 	}
+
+subgraph control {
+        x -> y -> z
+    {rank=same; x; cc_dir_1;}
+    {rank=same; z; ee_dir_1;}
+        }
 
 }
  
