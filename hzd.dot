@@ -194,13 +194,119 @@ subgraph financial {
     }
 	}
 	
+	subgraph INFO {
+    rankdir=LR;
+    kk_dir_1 [label="信息部 \n \
+    12人  "]
+		
+    k_point_1 [shape=point]
+    l_dir_1 [label="部 长 1 \n \
+  （李  健）"]
+    k_point_1 -> l_dir_1
+
+    k_point_2 [shape=point]
+    l_dir_2 [label="数据库管理员 1  \n \
+  （李洪军）"]
+    k_point_2 -> l_dir_2
+
+    k_point_3 [shape=point]
+    l_dir_3 [label= "ERP项目经理 1 \n \
+  （李健兼）"]
+    k_point_3 -> l_dir_3
+
+    k_point_4 [shape=point]
+    l_dir_4 [label= "  咨询顾问 5  \n \
+  （罗亚丽）  \n \
+  （尤  磊） \n \
+  （朱  明）   \n \
+  （刘  兵）   \n \
+  （卢  红) \n \
+  ERP 项目1 \n \
+  （喻晓峰）"]
+    k_point_4 -> l_dir_4
+
+    k_point_5 [shape=point]
+    l_dir_5 [label= "ERP系统维护 1 \n \
+（吴宇新）"]
+    k_point_5 -> l_dir_5
+
+    k_point_6 [shape=point]
+    l_dir_6 [label="网  管 2  \n \
+ （王  辉) \n \
+ （王俊生）"]
+    k_point_6 -> l_dir_6
+ 
+    k_point_7 [shape=point]
+    l_dir_7 [label="办公系统维护 1 \n \
+  （魏  杰）"]
+    k_point_7 -> l_dir_7
+
+    {
+        rank=same;
+        kk_dir_1 -> k_point_1 -> k_point_2 -> k_point_3 -> k_point_4 -> k_point_5 -> k_point_6 -> k_point_7 [arrowhead=none]
+    }
+	}
+	
+	subgraph JXGL {
+    rankdir=LR;
+    mm_dir_1 [label="经营管理部 \n \
+    11人  "]
+		
+    m_point_1 [shape=point]
+    n_dir_1 [label="部 长 1 \n \
+  （陈晓敏）"]
+    m_point_1 -> n_dir_1
+
+    m_point_2 [shape=point]
+    n_dir_2 [label="副部长 2 \n \
+卢  瑄  \n \
+王英猛  "]
+    m_point_2 -> n_dir_2
+
+    m_point_3 [shape=point]
+    n_dir_3 [label= "运营管理部经理 1 \n \
+ （翟  健）"]
+    m_point_3 -> n_dir_3
+
+    m_point_4 [shape=point]
+    n_dir_4 [label= "  行政助理 1\n \
+  （董 蕊）"]
+    m_point_4 -> n_dir_4
+
+    m_point_5 [shape=point]
+    n_dir_5 [label= "大区经理 3 \n \
+ (黄  琦)  \n \
+ (赵  欢）\n \
+ (张咸伟）"]
+    m_point_5 -> n_dir_5
+
+    m_point_6 [shape=point]
+    n_dir_6 [label="计划与综合 \n \
+管理主管 2 \n \
+ （张  琳） \n \
+ （蔡易宏）"]
+    m_point_6 -> n_dir_6
+ 
+    m_point_7 [shape=point]
+    n_dir_7 [label="运营监管 1 \n \
+ (邢  彦）"]
+    m_point_7 -> n_dir_7
+
+    {
+        rank=same;
+        mm_dir_1 -> m_point_1 -> m_point_2 -> m_point_3 -> m_point_4 -> m_point_5 -> m_point_6 -> m_point_7 [arrowhead=none]
+    }
+	}
+
 	subgraph control {
 		node [shape=point]
-    a -> b ->c -> d -> e -> f ->g 
+    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k
     {rank=same; a; cc_dir_1;}
     {rank=same; c; ee_dir_1;}
     {rank=same; e; gg_dir_1;}
     {rank=same; g; ii_dir_1;}
+    {rank=same; i; kk_dir_1;}
+    {rank=same; k; mm_dir_1;}
     }
 
 }
