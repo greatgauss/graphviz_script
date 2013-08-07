@@ -58,6 +58,32 @@ subgraph Office {
     }
 	}
 	
+subgraph BOARD {
+    rankdir=LR;
+    qq_dir_1 [label="董事会办公室 \n \
+    3人  "]
+		
+    q_point_1 [shape=point]
+    r_dir_1 [label="副主任 1 \n \
+（朱  凯）"]
+    q_point_1 -> r_dir_1
+
+    q_point_2 [shape=point]
+    r_dir_2 [label="事务主管 1 \n \
+ （徐  烽）"]
+    q_point_2 -> r_dir_2
+
+    q_point_3 [shape=point]
+    r_dir_3 [label= "事务主办 1 \n \
+  (吴  丹）"]
+    q_point_3 -> r_dir_3
+
+    {
+        rank=same;
+        qq_dir_1 -> q_point_1 -> q_point_2 -> q_point_3[arrowhead=none]
+    }
+	}
+
 	subgraph HR {
     rankdir=LR;
     ee_dir_1 [label="人力资源部 \n \
@@ -366,14 +392,15 @@ subgraph QA {
 
 	subgraph control {
 		node [shape=point]
-    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m
-    {rank=same; a; cc_dir_1;}
-    {rank=same; c; ee_dir_1;}
-    {rank=same; e; gg_dir_1;}
-    {rank=same; g; ii_dir_1;}
-    {rank=same; i; kk_dir_1;}
-    {rank=same; k; mm_dir_1;}
-    {rank=same; m; oo_dir_1;}
+    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m -> n ->o
+    {rank=same; a; qq_dir_1;}
+    {rank=same; c; cc_dir_1;}
+    {rank=same; e; ee_dir_1;}
+    {rank=same; g; gg_dir_1;}
+    {rank=same; i; ii_dir_1;}
+    {rank=same; k; kk_dir_1;}
+    {rank=same; m; mm_dir_1;}
+    {rank=same; o; oo_dir_1;}
     }
 
 }
