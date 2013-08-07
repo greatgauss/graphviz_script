@@ -12,4 +12,12 @@
     make_string [label="make a\nstring"];
     node [shape=box, style=filled, color=".7 .3 1.0"];
     execute -> compare;
+subgraph G {
+    a->b->c;
+    b->d;
+    a[shape=polygon,sides=5,peripheries=5,color=lightblue,style=filled];
+    c[shape=polygon,sides=4,skew=.1,label="hello world"];
+    d[shape=invtriangle];
+    e[shape=polygon,sides=10,distortion=.7];
+}
 }
