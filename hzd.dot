@@ -113,11 +113,54 @@ subgraph xxx {
         ee_dir_1 -> e_point_1 -> e_point_2 -> e_point_3 -> e_point_4 -> e_point_5 -> e_point_6 -> e_point_7 [arrowhead=none]
     }
 	}
+subgraph financial {
+    rankdir=LR;
+    gg_dir_1 [label="财务部 \n \
+    15人  "]
+		
+    g_point_1 [shape=point]
+    h_dir_1 [label="部 长 1 \n \
+  （韩 成）"]
+    g_point_1 -> h_dir_1
+
+    g_point_2 [shape=point]
+    h_dir_2 [label="财务管理组  \n \
+  会  计 4      \n \
+ （王  强） \n \
+ （李  梅） \n \
+ （胡  旸）  \n \
+ （于  亮）"]
+    g_point_2 -> h_dir_2
+
+    g_point_3 [shape=point]
+    h_dir_3 [label= \
+"会计核算组 10  \n \
+ 组  长  1\n \
+（陈芳芳）\n \
+ 会  计  9\n \
+（马  慧）\n \
+（江  欣） \n \
+（李  然）\n \
+（张京凡)\n \
+ (张  敏） \n \
+（尹玉玲)\n \
+ (白子珍）\n \
+（张鹏程)\n \
+ (李聪颖)"]
+    g_point_3 -> h_dir_3
+
+    {
+        rank=same;
+        gg_dir_1 -> g_point_1 -> g_point_2 -> g_point_3[arrowhead=none]
+    }
+	}
 
 subgraph control {
-        x -> y -> z
-    {rank=same; x; cc_dir_1;}
-    {rank=same; z; ee_dir_1;}
+node [shape=point]
+        a -> b ->c -> d -> e
+    {rank=same; a; cc_dir_1;}
+    {rank=same; c; ee_dir_1;}
+    {rank=same; e; gg_dir_1;}
         }
 
 }
