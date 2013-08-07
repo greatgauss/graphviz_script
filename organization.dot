@@ -5,42 +5,42 @@
     fixedsize=true;          
     
  node [shape=box, fontname="FangSong" size="20,20"];
-    a_dir_1 [label="X" shape=box]
+    a_dir_1 [label="A" shape=box]
 
     a_point_1 [shape=point]
-    b_dir_1 [label="X.Y"]
+    b_dir_1 [label="A.B"]
     a_point_1 -> b_dir_1
 
     b_point_1 [shape=point]
-    c_dir_1 [label="X.Y.Z"]
+    c_dir_1 [label="A.B.C"]
     b_point_1 -> c_dir_1
 
     c_point_1 [shape=point]
-    d_dir_1 [label="X.Y.Z.100"]
+    d_dir_1 [label="A.B.C.100"]
     c_point_1 -> d_dir_1
 
     c_point_2 [shape=point]
-    d_dir_2 [label="X.Y.Z.20000"]
+    d_dir_2 [label="A.B.C.20000"]
     c_point_2 -> d_dir_2
 
     c_point_3 [shape=point]
-    d_dir_3 [label="X.Y.Z.300"]
+    d_dir_3 [label="A.B.C.300"]
     c_point_3 -> d_dir_3
 
     c_point_4 [shape=point]
-    d_dir_4 [label="X.Y.Z.400"]
+    d_dir_4 [label="A.B.C.400"]
     c_point_4 -> d_dir_4
 
     c_point_5 [shape=point]
-    d_dir_5 [label="X.Y.Z.500"]
+    d_dir_5 [label="A.B.C.500"]
     c_point_5 -> d_dir_5
 
     c_point_6 [shape=point]
-    d_dir_6 [label="X.Y.Z.6000"]
+    d_dir_6 [label="A.B.C.6000"]
     c_point_6 -> d_dir_6
  
     b_point_2 [shape=point]
-    c_dir_2 [label="X.Y.100"]
+    c_dir_2 [label="A.B.100"]
     b_point_2 -> c_dir_2
  
     {
