@@ -4,6 +4,7 @@
     fixedsize=true;          
     
  node [shape=box, fontname="FangSong" size="15,15"];
+subgraph xxx {
     cc_dir_1 [label="办公室 \n 25人"]
 
     c_point_1 [shape=point]
@@ -56,7 +57,9 @@
         cc_dir_1 -> c_point_1 -> c_point_2 -> c_point_3 -> c_point_4 -> c_point_5 -> c_point_6 -> c_point_7 -> \
         c_point_8 -> c_point_9[arrowhead=none]
     }
-
+	}
+	subgraph yyy {
+		rotate=90;
     ee_dir_1 [label="人力资源部 \n \
     9人  "]
 
@@ -109,7 +112,7 @@
         rank=same;
         ee_dir_1 -> e_point_1 -> e_point_2 -> e_point_3 -> e_point_4 -> e_point_5 -> e_point_6 -> e_point_7 [arrowhead=none]
     }
-
+	}
 
 }
  
