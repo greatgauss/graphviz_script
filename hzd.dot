@@ -3,7 +3,7 @@
     rankdir=LR;
  node [shape=box, fontname="FangSong" size="15,15"];
     
-subgraph xxx {
+subgraph Office {
     cc_dir_1 [label="办公室 \n 25人"]
 
     c_point_1 [shape=point]
@@ -58,7 +58,7 @@ subgraph xxx {
     }
 	}
 	
-	subgraph yyy {
+	subgraph HR {
     rankdir=LR;
     ee_dir_1 [label="人力资源部 \n \
     9人  "]
@@ -113,6 +113,7 @@ subgraph xxx {
         ee_dir_1 -> e_point_1 -> e_point_2 -> e_point_3 -> e_point_4 -> e_point_5 -> e_point_6 -> e_point_7 [arrowhead=none]
     }
 	}
+
 subgraph financial {
     rankdir=LR;
     gg_dir_1 [label="财务部 \n \
@@ -155,13 +156,52 @@ subgraph financial {
     }
 	}
 
-subgraph control {
-node [shape=point]
-        a -> b ->c -> d -> e
+	subgraph enter_dev {
+    rankdir=LR;
+    ii_dir_1 [label="企业发展部 \n \
+    6人  "]
+		
+    i_point_1 [shape=point]
+    j_dir_1 [label="部 长 1 \n \
+  （李晓强）"]
+    i_point_1 -> j_dir_1
+
+    i_point_2 [shape=point]
+    j_dir_2 [label="副部长 1 \n \
+ （王  涛）"]
+    i_point_2 -> j_dir_2
+
+    i_point_3 [shape=point]
+    j_dir_3 [label= "统计专员 1 \n \
+ (张雪岩)"]
+    i_point_3 -> j_dir_3
+
+    i_point_4 [shape=point]
+    j_dir_4 [label= "综合计划 1 \n \
+ (张 为)"]
+    i_point_4 -> j_dir_4
+
+    i_point_5 [shape=point]
+    j_dir_5 [label= "计划考核  2 \n \
+（李润强）\n \
+（马明明）"]
+    i_point_5 -> j_dir_5
+
+
+    {
+        rank=same;
+        ii_dir_1 -> i_point_1 -> i_point_2 -> i_point_3 -> i_point_4 -> i_point_5 [arrowhead=none]
+    }
+	}
+	
+	subgraph control {
+		node [shape=point]
+    a -> b ->c -> d -> e -> f ->g 
     {rank=same; a; cc_dir_1;}
     {rank=same; c; ee_dir_1;}
     {rank=same; e; gg_dir_1;}
-        }
+    {rank=same; g; ii_dir_1;}
+    }
 
 }
  
