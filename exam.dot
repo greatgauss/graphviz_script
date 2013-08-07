@@ -1,5 +1,6 @@
 ﻿digraph G {
-    size="4,4";
+
+subgraph hello_world {
     main [shape=box]; /*注释*/
     main -> parse [weight=8];
     parse -> execute;
@@ -12,6 +13,18 @@
     make_string [label="make a\nstring"];
     node [shape=box, style=filled, color=".7 .3 1.0"];
     execute -> compare;
+}
+
+subgraph structs {
+node[shape=record];
+    struct1[shape=record,label="<f0> left|<f1> middle|<f2> right"];
+    struct2[shape=record,label="<f0> one|<f1> two"];
+    struct3[shape=record,label="hello\nworld |{ b |{c|<here> d|e}| f}| g | h"];
+    struct1->struct2;
+    struct1->struct3;
+}
+
+/*
 subgraph G {
     a->b->c;
     b->d;
@@ -20,4 +33,5 @@ subgraph G {
     d[shape=invtriangle];
     e[shape=polygon,sides=10,distortion=.7];
 }
+*/
 }
