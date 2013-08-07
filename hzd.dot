@@ -4,7 +4,7 @@
     fixedsize=true;          
     
  node [shape=box, fontname="FangSong" size="15,15"];
-    c_dir_1 [label="办公室 \n 25人"]
+    cc_dir_1 [label="办公室 \n 25人"]
 
     c_point_1 [shape=point]
     d_dir_1 [label="主 任  1（王增梅）"]
@@ -53,8 +53,61 @@
 
     {
         rank=same;
-        c_dir_1 -> c_point_1 -> c_point_2 -> c_point_3 -> c_point_4 -> c_point_5 -> c_point_6 -> c_point_7 -> \
+        cc_dir_1 -> c_point_1 -> c_point_2 -> c_point_3 -> c_point_4 -> c_point_5 -> c_point_6 -> c_point_7 -> \
         c_point_8 -> c_point_9[arrowhead=none]
+    }
+
+    ee_dir_1 [label="人力资源部 \n \
+    9人  "]
+
+    e_point_1 [shape=point]
+    f_dir_1 [label="部 长 1 \n \
+  （唐晓英）"]
+    e_point_1 -> f_dir_1
+
+    e_point_2 [shape=point]
+    f_dir_2 [label="副部长 1     \n \
+（杨劲帆）\n \
+绩效培训主管1 \n \
+ （原大勇） \n \
+  专员1   \n \
+  (龚乐天) "]
+    e_point_2 -> f_dir_2
+
+    e_point_3 [shape=point]
+    f_dir_3 [label= \
+"招聘主管1 \n \
+	(何仲达)"]
+    e_point_3 -> f_dir_3
+
+    e_point_4 [shape=point]
+    f_dir_4 [label= \
+"薪资专员 1 \n \
+	（李  伟）"]
+    e_point_4 -> f_dir_4
+
+    e_point_5 [shape=point]
+    f_dir_5 [label= \
+"综合主办 2 \n \
+	（邳  硙）\n \
+	（张婷婷）"]
+    e_point_5 -> f_dir_5
+
+    e_point_6 [shape=point]
+    f_dir_6 [label="人事助理 1 \n \
+    （王翠华）"]
+    e_point_6 -> f_dir_6
+ 
+    e_point_7 [shape=point]
+    f_dir_7 [label="待岗3人 \n \
+	(刘荣侠) \n \
+	(丁丽华) \n \
+	(储冬梅)"]
+    e_point_7 -> f_dir_7
+
+    {
+        rank=same;
+        ee_dir_1 -> e_point_1 -> e_point_2 -> e_point_3 -> e_point_4 -> e_point_5 -> e_point_6 -> e_point_7 [arrowhead=none]
     }
 
 
