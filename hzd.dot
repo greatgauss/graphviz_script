@@ -58,6 +58,41 @@ subgraph Office {
     }
 	}
 	
+subgraph AUDIT {
+    rankdir=LR;
+    ss_dir_1 [label="审计与风险管理部 \n \
+8人 "]
+		
+    s_point_1 [shape=point]
+    t_dir_1 [label="部 长 1 \n \
+ （伍淑平）"]
+    s_point_1 -> t_dir_1
+
+    s_point_2 [shape=point]
+    t_dir_2 [label="副部长 1 \n \
+（常  欣）"]
+    s_point_2 -> t_dir_2
+
+    s_point_3 [shape=point]
+    t_dir_3 [label= "审计 4  \n \
+ （盛  燕） \n \
+  (林  华） \n \
+  (孙  浩） \n \
+  (刘燕莉) \n \
+  (彭倩雯）"]
+    s_point_3 -> t_dir_3
+
+    s_point_4 [shape=point]
+    t_dir_4 [label="风控 1 \n \
+  (李昊泽)"]
+    s_point_4 -> t_dir_4
+
+    {
+        rank=same;
+        ss_dir_1 -> s_point_1 -> s_point_2 -> s_point_3 -> s_point_4[arrowhead=none]
+    }
+	}
+
 subgraph BOARD {
     rankdir=LR;
     qq_dir_1 [label="董事会办公室 \n \
@@ -394,6 +429,7 @@ subgraph QA {
 		node [shape=point]
     a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m -> n ->o
     {rank=same; a; qq_dir_1;}
+    {rank=same; a; ss_dir_1;}
     {rank=same; c; cc_dir_1;}
     {rank=same; e; ee_dir_1;}
     {rank=same; g; gg_dir_1;}
