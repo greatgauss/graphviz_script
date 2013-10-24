@@ -1,0 +1,85 @@
+digraph G {
+	rankdir=LR
+	graph [size="8.5,11" label="NCAA Men's Basketball: 2008 Tournament"]
+	
+	node [shape=box, width=2, fontname="Helvetica"]
+	
+	11 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">North Carolina</font></td><td align="right" width="36">113</td></tr></table>>]
+	12 [label=<<table border="0"><tr><td align="left" width="108">Mount St. Mary's</td><td align="right" width="36">74</td></tr></table>>]
+	13 [label=<<table border="0"><tr><td align="left" width="108">Indiana</td><td align="right" width="36">72</td></tr></table>>]
+	14 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Arkansas</font></td><td align="right" width="36">86</td></tr></table>>]
+	15 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Notre Dame</font></td><td align="right" width="36">68</td></tr></table>>]
+	16 [label=<<table border="0"><tr><td align="left" width="108">George Mason</td><td align="right" width="36">50</td></tr></table>>]
+	17 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Washington St.</font></td><td align="right" width="36">71</td></tr></table>>]
+	18 [label=<<table border="0"><tr><td align="left" width="108">Winthrop</td><td align="right" width="36">40</td></tr></table>>]
+	19 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Oklahoma</font></td><td align="right" width="36">72</td></tr></table>>]
+	110 [label=<<table border="0"><tr><td align="left" width="108">St. Joseph's</td><td align="right" width="36">64</td></tr></table>>]
+	111 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Louisville</font></td><td align="right" width="36">79</td></tr></table>>]
+	112 [label=<<table border="0"><tr><td align="left" width="108">Boise St.</td><td align="right" width="36">61</td></tr></table>>]
+	113 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Butler</font></td><td align="right" width="36">81</td></tr></table>>]
+	114 [label=<<table border="0"><tr><td align="left" width="108">South Alabama</td><td align="right" width="36">61</td></tr></table>>]
+	115 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Tennessee</font></td><td align="right" width="36">72</td></tr></table>>]
+	116 [label=<<table border="0"><tr><td align="left" width="108">American</td><td align="right" width="36">57</td></tr></table>>]
+	
+	21 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">North Carolina</font></td><td align="right" width="36">108</td></tr></table>>]
+	22 [label=<<table border="0"><tr><td align="left" width="108">Arkansas</td><td align="right" width="36">77</td></tr></table>>]
+	23 [label=<<table border="0"><tr><td align="left" width="108">Notre Dame</td><td align="right" width="36">41</td></tr></table>>]
+	24 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Washington St.</font></td><td align="right" width="36">61</td></tr></table>>]
+	25 [label=<<table border="0"><tr><td align="left" width="108">Oklahoma</td><td align="right" width="36">48</td></tr></table>>]
+	26 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Louisville</font></td><td align="right" width="36">78</td></tr></table>>]
+	27 [label=<<table border="0"><tr><td align="left" width="108">Butler</td><td align="right" width="36">71</td></tr></table>>]
+	28 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Tennessee</font></td><td align="right" width="36">76</td></tr></table>>]
+	
+	31 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">North Carolina</font></td><td align="right" width="36">68</td></tr></table>>]
+	32 [label=<<table border="0"><tr><td align="left" width="108">Washington St.</td><td align="right" width="36">47</td></tr></table>>]
+	33 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">Louisville</font></td><td align="right" width="36">79</td></tr></table>>]
+	34 [label=<<table border="0"><tr><td align="left" width="108">Tennessee</td><td align="right" width="36">60</td></tr></table>>]
+	
+	41 [label=<<table border="0"><tr><td align="left" width="108"><font face="Helvetica Bold">North Carolina</font></td><td align="right" width="36">83</td></tr></table>>]
+	42 [label=<<table border="0"><tr><td align="left" width="108">Louisville</td><td align="right" width="36">73</td></tr></table>>]
+	
+	51 [label=<<table border="0"><tr><td width="144"><font face="Helvetica Bold">North Carolina</font></td></tr></table>>]
+	
+	11:e->21:w
+	12:e->21:w
+	13:e->22:w
+	14:e->22:w
+	15:e->23:w
+	16:e->23:w
+	17:e->24:w
+	18:e->24:w
+	19:e->25:w
+	110:e->25:w
+	111:e->26:w
+	112:e->26:w
+	113:e->27:w
+	114:e->27:w
+	115:e->28:w
+	116:e->28:w
+	21:e->31:w
+	22:e->31:w
+	23:e->32:w
+	24:e->32:w
+	25:e->33:w
+	26:e->33:w
+	27:e->34:w
+	28:e->34:w
+	31:e->41:w
+	32:e->41:w
+	33:e->42:w
+	34:e->42:w
+	41:e->51:w
+	42:e->51:w
+	
+	node [shape=plaintext]
+	
+	10 [label=<<table border="0"><tr><td><font face="Helvetica Bold">First Round</font></td></tr><tr><td>March 20 &amp; 21</td></tr></table>>]
+	20 [label=<<table border="0"><tr><td><font face="Helvetica Bold">Second Round</font></td></tr><tr><td>March 22 &amp; 23</td></tr></table>>]
+	30 [label=<<table border="0"><tr><td><font face="Helvetica Bold">Regional Semifinals</font></td></tr><tr><td>March 27</td></tr></table>>]
+	40 [label=<<table border="0"><tr><td><font face="Helvetica Bold">Regional Finals</font></td></tr><tr><td>March 29</td></tr></table>>]
+	50 [label=""]
+	
+	edge [style=invis]
+	rank=same {10->11->12->13->14->15->16->17->18->19->110->111->112->113->114->115->116}
+	10->20->30->40->50 [weight=100]
+}
