@@ -217,6 +217,34 @@ subgraph financial {
     }
 	}
 
+subgraph ASSET {
+    rankdir=LR;
+    ASSETROOT_dir_1 [label="资产管理部 \n \
+    5人  "]
+		
+    ASSET_point_1 [shape=point]
+    ASSET_dir_1 [label="部 长  1 \n \
+（陈仕俗）"]
+    ASSET_point_1 -> ASSET_dir_1
+
+    ASSET_point_2 [shape=point]
+    ASSET_dir_2 [label="投资业务主管 2 \n \
+  （吕 松） \n \
+  （张 雪）"]
+    ASSET_point_2 -> ASSET_dir_2
+
+    ASSET_point_3 [shape=point]
+    ASSET_dir_3 [label= "专员2 \n \
+ （孙  鑫） \n \
+ （白  洋）"]
+    ASSET_point_3 -> ASSET_dir_3
+
+    {
+        rank=same;
+        ASSETROOT_dir_1 -> ASSET_point_1 -> ASSET_point_2 -> ASSET_point_3[arrowhead=none]
+    }
+	}
+
 	subgraph enter_dev {
     rankdir=LR;
     ii_dir_1 [label="企业发展部 \n \
@@ -308,6 +336,33 @@ subgraph financial {
     }
 	}
 	
+subgraph TECH {
+    rankdir=LR;
+    yy_dir_1 [label="科学技术委员会 \n \
+    5人  "]
+		
+    y_point_1 [shape=point]
+    z_dir_1 [label="主 任  1 \n \
+（韦红文兼任）"]
+    y_point_1 -> z_dir_1
+
+    y_point_2 [shape=point]
+    z_dir_2 [label="常 委  4 \n \
+（金端峰 张  飚) \n \
+（杨会平 邵徽钦)"]
+    y_point_2 -> z_dir_2
+
+    y_point_3 [shape=point]
+    z_dir_3 [label= "秘书长 1 \n \
+  (朱  燕)"]
+    y_point_3 -> z_dir_3
+
+    {
+        rank=same;
+        yy_dir_1 -> y_point_1 -> y_point_2 -> y_point_3[arrowhead=none]
+    }
+	}
+	
 	subgraph JXGL {
     rankdir=LR;
     mm_dir_1 [label="经营管理部 \n \
@@ -358,6 +413,7 @@ subgraph financial {
         mm_dir_1 -> m_point_1 -> m_point_2 -> m_point_3 -> m_point_4 -> m_point_5 -> m_point_6 -> m_point_7 [arrowhead=none]
     }
 	}
+
 
 subgraph QA {
     oo_dir_1 [label="技术质量部 \n 13人"]
@@ -425,18 +481,78 @@ subgraph QA {
     }
 	}
 
+subgraph DQGZ {
+    rankdir=LR;
+    ww_dir_1 [label="党群工作部 \n \
+    3人  "]
+		
+    w_point_1 [shape=point]
+    x_dir_1 [label="部长 1 \n \
+（范升远）"]
+    w_point_1 -> x_dir_1
+
+    w_point_2 [shape=point]
+    x_dir_2 [label="党务主管 1 \n \
+ （张  研）"]
+    w_point_2 -> x_dir_2
+
+    w_point_3 [shape=point]
+    x_dir_3 [label= "党群专员 1 \n \
+ （冯玉珠）"]
+    w_point_3 -> x_dir_3
+
+    {
+        rank=same;
+        ww_dir_1 -> w_point_1 -> w_point_2 -> w_point_3[arrowhead=none]
+    }
+	}
+
+subgraph LEAGAL {
+    rankdir=LR;
+    uu_dir_1 [label="纪检法律部 \n \
+    6人  "]
+		
+    u_point_1 [shape=point]
+    v_dir_1 [label="副部长 1 \n \
+（徐  斌）"]
+    u_point_1 -> v_dir_1
+
+    u_point_2 [shape=point]
+    v_dir_2 [label="纪检专员 2 \n \
+（唐  艳）\n \
+（李向钰）"]
+    u_point_2 -> v_dir_2
+
+    u_point_3 [shape=point]
+    v_dir_3 [label= "法律专员 3 \n \
+ （韩  扬） \n \
+ （高  洁） \n \
+ （程  鹏）"]
+    u_point_3 -> v_dir_3
+
+    {
+        rank=same;
+        uu_dir_1 -> u_point_1 -> u_point_2 -> u_point_3[arrowhead=none]
+    }
+	}
+	
 	subgraph control {
 		node [shape=point]
-    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m -> n ->o
+    a -> b ->c -> d -> e -> f ->g -> h -> i -> j -> k -> l -> m -> n ->o \
+    -> p -> q
     {rank=same; a; qq_dir_1;}
     {rank=same; a; ss_dir_1;}
     {rank=same; c; cc_dir_1;}
     {rank=same; e; ee_dir_1;}
     {rank=same; g; gg_dir_1;}
     {rank=same; i; ii_dir_1;}
+    {rank=same; i; ASSETROOT_dir_1;}
     {rank=same; k; kk_dir_1;}
     {rank=same; m; mm_dir_1;}
+		{rank=same; m; yy_dir_1;}    
     {rank=same; o; oo_dir_1;}
+    {rank=same; q; uu_dir_1;}
+    {rank=same; q; ww_dir_1;}
     }
 
 }
