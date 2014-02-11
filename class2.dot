@@ -1,18 +1,13 @@
 digraph g {
-  node[shape = record, fontname="MS UI Gothic"]
-  edge[arrowhead="vee",arrowtail="onormal"]
+    node[shape = record, fontname="MS UI Gothic"]
+    edge[arrowhead="vee",arrowtail="onormal"]
 
     Main [label = "{Main}"];
 
-   src [
-   //shape = box,
-   //label = "public void targetMethod1() \{ \n  adaptee.methodA(); \n\}\l"
-   label = "public void targetMethod1() { \n  adaptee.methodA(); \n}\l"];
+    src [label = "public void targetMethod1() \{ \n  adaptee.methodA(); \n\}\l"]
     Target [label = "{\<\<interface\>\>\nTarget|| +targetMethod1() : void\n +targetMethod2() : void}"];
 
-
     Adapter [label = "{Adapter|| +targetMethod1() : void\n +targetMethod2() : void}"];
-
     Adaptee [label = "{Adaptee|| +methodA() : void\n +methodB() : void\n +methodC() : void}"];
 
     Adapter -> Adaptee[arrowtail="odiamond",dir=both,label = "Aggregation"];
@@ -21,6 +16,6 @@ digraph g {
     Target -> Adapter[style=dotted,dir=back,label = " implements"];
 
     {rank = same; Target;Adapter; Adaptee}
-    {rank = same; src}
+//    {rank = same; src}
 
 }
