@@ -1,11 +1,12 @@
 digraph g {
+	rankdir=BT;
     node[shape=record]
     edge[arrowhead=onormal]
     
     RefBase [label = "{RefBase|| +incStrong(): void\n +decStrong() : void}"];
 
-    IBinder [label = "{IBinder|| +queryLocalInterface() : sp\<IInterface\>\l +transact() : status_t\l}"];
     IInterface [label = "{IInterface|| +asBinder() : sp\<IBinder\>\l #onAsBinder() : IBinder\l}"];
+    IBinder [label = "{IBinder|| +queryLocalInterface() : sp\<IInterface\>\l +transact() : status_t\l}"];
     BpRefBase [label = "{BpRefBase|-mRemote: IBinder|}"];
     IBinder -> RefBase;
     IInterface -> RefBase;
@@ -32,15 +33,4 @@ digraph g {
         
     CalcService [label = "{CalcService||+instantiate(): void\l+add(int,int):int\l}"];
     CalcService -> BnCalcService; 
-
-	subgraph control {
-	    node [shape=point,style=invis]
-	    a -> b ->c -> d -> e -> f ->g -> h[style=invis];
-	    {rank = same; a RefBase}
-	    {rank = same; b IBinder IInterface BpRefBase}
-	    {rank = same; c BBinder BpBinder ICalcService}
-	    {rank = same; d BnInterface BpInterface}
-	    {rank = same; e BnCalcService BpCalcService}
-	    {rank = same; f CalcService}
-	}
 }
