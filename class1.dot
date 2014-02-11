@@ -1,5 +1,6 @@
 digraph G {    
     node[shape=record]    
+    {rank=same;Context Strategy}
     Context[label="{Context| +strategy : Strategy\l| +contextInterface()\l}"]   	
 
     Strategy[ label="{Strategy|\l|+algorithmInterface()\l}"]    
@@ -11,7 +12,6 @@ digraph G {
     Strategy -> Context  
 
     edge[ arrowhead="onormal", style="filled"]
-    //{rank=same;ca cb cc}
     ca->Strategy   
     cb->Strategy  
     cc->Strategy 
