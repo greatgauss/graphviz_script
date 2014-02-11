@@ -1,33 +1,19 @@
 digraph g {
- 
+  node[shape = record, fontname="MS UI Gothic"]
   edge[arrowhead="vee",arrowtail="onormal"]
 
-    Main [
-    shape = record,
-    fontname="MS UI Gothic"
-    label = "{Main}"];
+    Main [label = "{Main}"];
 
    src [
-    color = pink
-    shape = Box,
-    fontname="MS UI Gothic",
-    label = "public void targetMethod1() { \n  adaptee.methodA(); \n}\l"];
-
-    Target [
-    shape = record,
-    fontname="MS UI Gothic"
-    label = "{\<\<interface\>\>\nTarget　||+　targetMethod1() : void\n + targetMethod2() : void}"];
+   //shape = box,
+   //label = "public void targetMethod1() \{ \n  adaptee.methodA(); \n\}\l"
+   label = "public void targetMethod1() { \n  adaptee.methodA(); \n}\l"];
+    Target [label = "{\<\<interface\>\>\nTarget|| +targetMethod1() : void\n +targetMethod2() : void}"];
 
 
-    Adapter [
-    shape = record,
-    fontname="MS UI Gothic"
-    label = "{Adapter||+　targetMethod1() : void\n + targetMethod2() : void}"];
+    Adapter [label = "{Adapter|| +targetMethod1() : void\n +targetMethod2() : void}"];
 
-    Adaptee [
-    shape = record,
-    fontname="MS UI Gothic"
-    label = "{Adaptee||+　methodA() : void\n + methodB() : void\n + methodC() : void}"];
+    Adaptee [label = "{Adaptee|| +methodA() : void\n +methodB() : void\n +methodC() : void}"];
 
     Adapter -> Adaptee[arrowtail="odiamond",dir=both,label = "Aggregation"];
     Adapter -> src[dir = none,style = dotted];
