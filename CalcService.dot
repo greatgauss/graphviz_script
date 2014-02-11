@@ -1,0 +1,46 @@
+digraph g {
+    node[shape=record]
+    edge[arrowhead=onormal]
+    
+    RefBase [label = "{RefBase|| +incStrong(): void\n +decStrong() : void}"];
+
+    IBinder [label = "{IBinder|| +queryLocalInterface() : sp\<IInterface\>\l +transact() : status_t\l}"];
+    IInterface [label = "{IInterface|| +asBinder() : sp\<IBinder\>\l #onAsBinder() : IBinder\l}"];
+    BpRefBase [label = "{BpRefBase|-mRemote: IBinder|}"];
+    IBinder -> RefBase;
+    IInterface -> RefBase;
+    BpRefBase -> RefBase;
+
+    BBinder [label = "{BBinder|| +transact(): status_t\l#onTransact(): status_t\l}"];
+    BpBinder [label = "{BpBinder|| +transact(): void\l}"];
+    ICalcService [label = "{ICalcService|-descriptor: string|+asInterface(obj: IBinder): sp\<ICalcService\>\l+add(int,int): int\l}"];
+    BpBinder->IBinder;
+    BBinder -> IBinder;
+    ICalcService -> IInterface;
+
+    BnInterface [label = "{BnInterface\<ICalcService\>||}"];
+    BpInterface [label = "{BpInterface\<ICalcService\>||}"];
+    BnInterface -> BBinder;
+    BnInterface -> ICalcService;
+    BpInterface -> ICalcService;
+    BpInterface -> BpRefBase;
+    
+    BnCalcService [label = "{BnCalcService||+onTransact(): status_t\l}"];
+    BpCalcService [label = "{BpCalcService||}"];
+    BnCalcService -> BnInterface;
+    BpCalcService -> BpInterface;
+        
+    CalcService [label = "{CalcService||+instantiate(): void\l+add(int,int):int\l}"];
+    CalcService -> BnCalcService; 
+
+	subgraph control {
+	    node [shape=point,style=invis]
+	    a -> b ->c -> d -> e -> f ->g -> h[style=invis];
+	    {rank = same; a RefBase}
+	    {rank = same; b IBinder IInterface BpRefBase}
+	    {rank = same; c BBinder BpBinder ICalcService}
+	    {rank = same; d BnInterface BpInterface}
+	    {rank = same; e BnCalcService BpCalcService}
+	    {rank = same; f CalcService}
+	}
+}
