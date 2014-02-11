@@ -15,4 +15,11 @@ digraph G {
     ca->Strategy   
     cb->Strategy  
     cc->Strategy 
+
+    subgraph control {
+	    node [shape=point,style=invis]
+	    a -> b ->c -> d -> e[style=invis]
+	    {rank=same; a Strategy;}
+	    {rank=same; b ca cb cc;}
+    }
 }
