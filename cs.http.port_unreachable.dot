@@ -1,0 +1,58 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     0	[ label = "mediaserver                    ", fontcolor = RED, fontsize = 40, shape = plaintext ];
+
+     201	[ label = "__start_thread()" ];
+     202	[ label = "__pthread_start()" ];
+     203	[ label = "Thread::_threadLoop()" ];
+     204	[ label = "ALooper::loop()" ];
+     205	[ label = "ALooperRoster::deliverMessage()" ];
+     206	[ label = "AmLiveSession::onMessageReceived()", fontcolor = RED ];
+     207	[ label = "AmLiveSession::onConnect()" ];
+     208	[ label = "AmLiveSession::fetchPlaylist()" ];
+     209	[ shape = point ];
+     210	[ shape=point, style = invis ];
+201 -> 202 -> 203 -> 204 -> 205 -> 206 -> 207 -> 208 -> 209 -> 210;
+
+     1	[ label = "__start_thread()" ];
+     2	[ label = "__pthread_start()" ];
+     3	[ label = "Thread::_threadLoop()" ];
+     4	[ label = "ALooper::loop()" ];
+     5	[ label = "ALooperRoster::deliverMessage()" ];
+     6	[ label = "AmNuPlayer::HTTPLiveSource::onMessageReceived()", fontcolor = RED ];
+     7	[ shape = point ];
+     8	[ label = "AmNuPlayer::HTTPLiveSource::onSessionNotify()" ];
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8;
+
+209 -> 7[label= "kWhatPreparationFailed", fontsize = 30, fontcolor = BLUE];
+
+
+
+    
+	subgraph control {
+	node [shape=plaintext, style = invis]
+	edge [style = invis]
+a [ label = "a" ]; b [ label = "b" ]; c [ label = "c" ]; d [ label = "d" ]; e [ label = "e" ];
+f [ label = "f" ]; g [ label = "g" ]; h [ label = "h" ]; i [ label = "i" ]; j [ label = "j" ];
+//k [ label = "k" ]; l [ label = "l" ]; m [ label = "m" ]; n [ label = "n" ]; o [ label = "o" ];
+//p [ label = "p" ]; q [ label = "q" ]; r [ label = "r" ]; s [ label = "s" ]; t [ label = "t" ];
+//u [ label = "u" ]; v [ label = "v" ]; w [ label = "w" ]; x [ label = "x" ]; y [ label = "y" ];
+//z [ label = "z" ];
+
+	//[style=invis]
+	a -> b -> c -> d -> e;
+	e -> f -> g -> h -> i;
+	i -> j -> k -> l -> m;
+//	m -> n -> o -> p -> q; 
+//	q -> r -> s -> t -> u;
+//	u -> v -> w -> x -> y;
+//	y -> z;
+	
+	{rank=same; a; 0;}
+	{rank=same; b; 1;201}
+	{rank=same; j; 7; 209}
+	{rank=same; 8; k}
+	}
+     
+
+}
