@@ -1,0 +1,68 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     0	[ label = "mediaserver                              ", fontcolor = RED, fontsize = 40, shape = plaintext ];
+
+     1	[ label = "__start_thread()" ];
+     2	[ label = "__pthread_start()" ];
+     3	[ label = "Thread::_threadLoop()" ];
+     4	[ label = "IPCThreadState::joinThreadPool()" ];
+     5	[ label = "IPCThreadState::getAndExecuteCommand()" ];
+     6	[ label = "IPCThreadState::executeCommand()" ];
+     7	[ label = "BBinder::transact()" ];
+     8	[ label = "BnMediaPlayer::onTransact()//libmedia" ];
+     9	[ label = "MPS::Client::prepareAsync()//libmps" ];
+     10	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td>MPB p = getPlayer() </td> </tr>
+				<tr> <td>p-&gt;prepareAsync()</td> </tr>
+			</table>
+			>];
+     11	[ label = "AmNuPlayerDriver::prepareAsync()" ];
+     12	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td bgcolor="red">//send kWhatPrepare</td> </tr>
+				<tr> <td>AmNuPlayer::prepareAsync()</td> </tr>
+			</table>
+			> ];
+
+
+		1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10;
+    10 -> 11 -> 12;
+
+     101	[ label = "__start_thread()" ];
+     102	[ label = "__pthread_start()" ];
+     103	[ label = "Thread::_threadLoop()" ];
+     104	[ label = "ALooper::loop()" ];
+     105	[ label = "ALooperRoster::deliverMessage()" ];
+     106	[ label = "AmNuPlayer::onMessageReceived()" ];
+     107	[ label = "AmNuPlayer::HTTPLiveSource::prepareAsync()" ];
+     108	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td bgcolor="red">//send kWhatConnect</td> </tr>
+				<tr> <td>AmLiveSession::connectAsync()</td> </tr>
+			</table>
+			>];
+101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 108;
+
+
+     201	[ label = "__start_thread()" ];
+     202	[ label = "__pthread_start()" ];
+     203	[ label = "Thread::_threadLoop()" ];
+     204	[ label = "ALooper::loop()" ];
+     205	[ label = "ALooperRoster::deliverMessage()" ];
+     206	[ label = "AmLiveSession::onMessageReceived()" ];
+     207	[ label = "AmLiveSession::onConnect()" ];
+     208	[ label = "AmLiveSession::fetchPlaylist()" ];
+     
+201 -> 202 -> 203 -> 204 -> 205 -> 206 -> 207 -> 208;
+
+    
+	subgraph control {
+	node [shape=point, style=invis]
+	a -> b [style=invis]
+	{rank=same; a; 0;}
+	{rank=same; b; 1;101;201}
+	}
+     
+
+}

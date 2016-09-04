@@ -1,0 +1,40 @@
+digraph WSM {
+  size="20,20";
+  fontname = "Microsoft YaHei";
+  nodesep=0.05;
+  rankdir = LR;
+  /*rotate = 90;*/
+  edge[len=2];
+  node[style=filled, shape=record];
+  
+"Default" -> "Initial";
+"Default" -> "SupplicantStarting";
+"Default" -> "SupplicantStarted";
+"SupplicantStarted" -> "DriverStarting";
+"SupplicantStarted" -> "DriverStarted";
+"DriverStarted" -> "ScanMode";
+"DriverStarted" -> "ConnectMode";
+"ConnectMode" -> "L2Connected";
+"ConnectMode" -> "Disconnecting";
+"ConnectMode" -> "Disconnected";
+"ConnectMode" -> "WpsRunning";
+"L2Connected" -> "ObtainingIp";
+"L2Connected" -> "VerifyingLink";
+"CaptivePortalCheck";
+"L2Connected" -> "CaptivePortalCheck";
+"L2Connected" -> "Connected";
+"WaitForP2pDisable";
+"SupplicantStarted" -> "WaitForP2pDisable";
+"SupplicantStarted" -> "DriverStopping";
+"SupplicantStarted" -> "DriverStopped";
+"Default" -> "SupplicantStopping";
+"Default" -> "SoftApStarting";
+"Default" -> "SoftApStarted";
+"SoftApStarted" -> "Tethering";
+"SoftApStarted" -> "Tethered";
+"SoftApStarted" -> "Untethered";
+"KK" [ shape = plaintext ];
+}
+
+
+

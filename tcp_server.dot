@@ -1,0 +1,18 @@
+
+digraph automata_0 {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+  rotate = 180;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+
+	CLOSED -> LISTEN;
+	LISTEN -> SYN_RCVD[ label = " SYN rcvd/\n send SYN+ACK" ];
+	SYN_RCVD -> ESTABLISHED[ label = " ACK rcvd" ];
+	ESTABLISHED-> CLOSE_WAIT[ label = " FIN rcvd/\n send ACK" ];
+	CLOSE_WAIT-> LAST_ACK[ label = " App close,i.e, send FIN" ];
+	LAST_ACK -> CLOSED[ label = " ACK rcvd" ];
+
+	"TCP Server SM" [ shape = plaintext ]; }
+

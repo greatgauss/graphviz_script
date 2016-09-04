@@ -1,0 +1,23 @@
+
+digraph automata_0 {
+	size = "8.5, 11";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+        rotate = 180;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+	P2pDisabled -> P2pEnabling[ label = "CMD_ENABLE_P2P\n/ WMtr.startMonitoring() \n#connect to wpa_supplicant and send SUPP_CONNECTION_EVENT " ];
+	P2pEnabling -> Inactive[ label = "SUPP_CONNECTION_EVENT " ];
+	//Inactive -> Inactive[ label = "DISCOVER_PEERS #UI calls WMgr.discoverPeers() to send it\n / ^WN.p2pFind() #\"P2P FIND 120\" \n^send WIFI_P2P_DISCOVERY_CHANGED_ACTION " ];
+	//Inactive -> Inactive[ label = "P2P_DEVICE_FOUND_EVENT\n/ ^update WifiP2pDeviceList\n ^send WIFI_P2P_PEERS_CHANGED_ACTION " ];
+	Inactive -> Inactive[ label = "PROV_DISC_PBC_REQ_EVENT #peer requests to P2P\n/ ignore it" ];
+	Inactive -> UserAuthorizingInvitation[ label = "GO_NEG_REQ_EVENT\n/ DO nothing() " ];
+	UserAuthorizingInvitation-> UserAuthorizingInvitation[ label = "@ notifyInvitationReceived() #pop up a DIALOG(accept/decline invitation)" ];
+	UserAuthorizingInvitation-> GroupNegotiation[ label = "PEER_CONN_USER_ACCEPT\n/ WN.p2pConnect() \n send WIFI_P2P_PEERS_CHANGED_ACTION " ];
+	GroupNegotiation -> GroupNegotiation[ label = "GO_NEG_OK_EVENT # GO selected\n/ ignore it " ];
+	GroupNegotiation -> GroupCreated[ label = "GROUP_STARTED_EVENT\n /startDhcp" ];
+	GroupCreated -> GroupCreated[ label = "AP_STA_CONNECTED_EVENT\n / addClient(peer)\n send WIFI_P2P_PEERS_CHANGED_ACTION" ];
+	GroupCreated -> GroupCreated[ label = "AP_STA_DISCONNECTED_EVENT\n / removeClient(peer)\n send WIFI_P2P_PEERS_CHANGED_ACTION" ];
+	GroupCreated -> INACTIVE[ label = "GROUP_REMOVED_EVENT\n / stopDhcp\n send WIFI_P2P_PEERS_CHANGED_ACTION" ];
+	"WifiP2pStateMachine in WifiP2pService.java: JB-MR1:" [ shape = plaintext ]; }
+

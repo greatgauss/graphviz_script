@@ -1,0 +1,99 @@
+
+digraph automata_0 {
+	size = "20, 20";
+	fontname = "Microsoft YaHei";
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	DriverUnloaded [ style = filled, color=lightgrey ];
+	DriverUnloaded   -> DriverLoading [ label = "CMD_LOAD_DRIVER/" ];
+	DriverLoading -> DriverLoading [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@ WN.loadDriver()</td> </tr>
+			<tr>	<td>@ send CMD_LOAD_DRIVER_OK</td> </tr>
+			<tr>	<td bgcolor="red">WIFI_STATE_ENABLING</td> </tr>
+		</table>>];
+		
+	DriverLoading  -> DriverLoaded [ label = "CMD_LOAD_DRIVER_OK " ];
+	DriverLoaded  -> SuppStarting [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_START_SUPP/</td> </tr>
+			<tr>	<td>NMS.wifiFirmwareReload()</td> </tr>
+			<tr>	<td>WN.killSupplicant()</td> </tr>
+			<tr>	<td>WN.startSupplicant()</td> </tr>
+			<tr>	<td>WMtr.startMonitoring()</td> </tr>
+		</table>>];
+		
+	SuppStarting  -> DriverStarted [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#WMtr connected to supplicant</td> </tr>
+			<tr>	<td>SUP_CONNECTIION_EVENT/</td> </tr>
+			<tr>	<td>@ send SUPP_CONNECTION_CHANGE_ACTION</td> </tr>
+			<tr>	<td bgcolor="red">WIFI_STATE_ENABLED</td> </tr>
+		</table>>];
+		
+	DriverStarted -> DriverStarted [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@ WN.reconnect()</td> </tr>
+			<tr>	<td bgcolor="green">@ send CMD_ENABLE_P2P</td> </tr>
+		</table>>];
+
+	Disconnected [ style = filled, color=lightgrey ];
+	DriverStarted -> Disconnected;
+	//Disconnected -> Disconnected[ label = "SUP_STATE_CHANGE_EVENT |\n SCAN_RESULTS_EVENT |\n CMD_START_SCAN" ];
+	Disconnected -> ObtainingIp[ label = "NETWORK_CONNECTION_EVENT/\n ^ transitionTo(ObtainingIp) " ];
+
+	Disconnected -> SuppStopping[ label = "CMD_STOP_SUPP/ \n^^^ WHEN NOT P2pSupported" ];
+	Disconnected -> WaitForP2pDisable[ label = "CMD_STOP_SUPP/ \n^^^ WHEN P2pSupported" ];
+	WaitForP2pDisable -> WaitForP2pDisable[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td bgcolor="green">@ send CMD_DISABLE_P2P_REQ</td> </tr>
+		</table>> ];
+
+	ObtainingIp -> ObtainingIp[ label = "@ makeDhcpStateMachine\n @ send CMD_START_DHCP to DhcpSM " ];
+
+	Connected [ style = filled, color=lightgrey ];
+
+	ObtainingIp -> VerifyingLink[ label = "CMD_POST_DHCP_ACTION/\n ^handleSuccessfulIpCfg() " ];
+	VerifyingLink -> VerifyingLink[ label = "#WifiWatchdogSM send it\nPOOR_LINK_DETECTED/" ];
+	VerifyingLink -> CaptivePortalCheck[ label = "#WifiWatchdogSM send it\nGOOD_LINK_DETECTED/" ];
+
+	CaptivePortalCheck -> Connected[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#CaptivePortalTracker send it</td> </tr>
+			<tr>	<td>CMD_CAPTIVE_CHECK_COMPLETE/</td> </tr>
+			<tr>	<td>#broadcast NETWORK_STATE_CHANGED_ACTION</td> </tr>
+			<tr>	<td>#WST.WifiStateReceiver receives it and send </td> </tr>
+			<tr>	<td>#EVENT_STATE_CHANGED to CS.NSTHandler</td> </tr>
+			<tr>	<td>sendNetworkStateChangeBroadcast()</td> </tr>
+	</table>>];
+
+	Connected -> SuppStopping[ label = "CMD_STOP_SUPP/\n^^^ WHEN NOT P2pSupported" ];
+	Connected -> WaitForP2pDisable[ label = "CMD_STOP_SUPP/\n^^^ WHEN P2pSupported" ];
+	WaitForP2pDisable -> SuppStopping[ label = "CMD_DISABLE_P2P_RSP/" ];
+	SuppStopping-> SuppStopping[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@ WN.stopSupplicant()</td> </tr>
+			<tr>	<td>@ send CMD_STOP_DHCP to DhcpSM</td> </tr>
+			<tr>	<td bgcolor="red">WIFI_STATE_DISABLING</td> </tr>
+		</table>>];
+
+	SuppStopping-> DriverLoaded[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>SUP_DISCONNECTION_EVENT/</td> </tr>
+			<tr>	<td>WN.killSupplicant()</td> </tr>
+			<tr>	<td>WN.closeSupplicantConnection()</td> </tr>
+		</table>> ];
+	DriverLoaded -> DriverUnloading[ label = "CMD_UNLOAD_DRIVER " ];
+	
+	DriverUnloading -> DriverUnloading[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@ WN.unloadDriver()</td> </tr>
+			<tr>	<td>@ send CMD_UNLOAD_DRIVER_OK</td> </tr>
+			<tr>	<td bgcolor="red">WIFI_STATE_DISABLED</td> </tr>
+		</table>>];
+		
+	DriverUnloaded [ style = filled, color=lightgrey ];
+	DriverUnloading -> DriverUnloaded[ label = "CMD_UNLOAD_DRIVER_OK "];
+	"StaStateMachine: JB_MR1" [ shape = plaintext ];
+}
+

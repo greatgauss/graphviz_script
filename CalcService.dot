@@ -3,10 +3,10 @@ digraph g {
     node[shape=record]
     edge[arrowhead=onormal]
     
-    RefBase [label = "{RefBase|| +incStrong(): void\n +decStrong() : void}"];
+    RefBase [label = "{RefBase|| +incStrong(): void\n+decStrong(): void}"];
 
-    IInterface [label = "{IInterface|| +asBinder() : sp\<IBinder\>\l #onAsBinder() : IBinder\l}"];
-    IBinder [label = "{IBinder|| +queryLocalInterface() : sp\<IInterface\>\l +transact() : status_t\l}"];
+    IInterface [label = "{IInterface|| +asBinder() : sp\<IBinder\>\l#onAsBinder() : IBinder\l}"];
+    IBinder [label = "{IBinder|| +queryLocalInterface() : sp\<IInterface\>\l+transact() : status_t\l}"];
     BpRefBase [label = "{BpRefBase|-mRemote: IBinder|}"];
     IBinder -> RefBase;
     IInterface -> RefBase;
@@ -30,7 +30,19 @@ digraph g {
     BpCalcService [label = "{BpCalcService||}"];
     BnCalcService -> BnInterface;
     BpCalcService -> BpInterface;
+
+    BnCalcServiceNote [shape=note, label = "Stub"];
+    {rank = same; BnCalcService BnCalcServiceNote}
+    BnCalcServiceNote -> BnCalcService[style=dashed, dir=none];
+        
+    BpCalcServiceNote [shape=note, label = "Proxy"];
+    {rank = same; BpCalcService BpCalcServiceNote}
+    BpCalcServiceNote -> BpCalcService[style=dashed, dir=none];
         
     CalcService [label = "{CalcService||+instantiate(): void\l+add(int,int):int\l}"];
     CalcService -> BnCalcService; 
+
+    CalcServiceNote [shape=note, label = "Service"];
+    {rank = same; CalcService CalcServiceNote}
+    CalcServiceNote -> CalcService[style=dashed, dir=none];
 }

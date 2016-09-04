@@ -1,0 +1,25 @@
+digraph WSM {
+  size="20,20";
+  fontname = "Microsoft YaHei";
+  nodesep=0.05;
+  rankdir = LR;
+  /*rotate = 90;*/
+  edge[len=2];
+  node[style=filled, shape=record];
+  
+"Default" -> "ApStaDisabled";
+"Default" -> "StaEnabled";
+"StaEnabled" -> "DeviceActive";
+"StaEnabled" -> "DeviceInactive";
+"DeviceInactive" -> "ScanOnlyLockHeld";
+"DeviceInactive" -> "FullLockHeld";
+"DeviceInactive" -> "FullHighPerfLockHeld";
+"DeviceInactive" -> "NoLockHeld";
+"Default" -> "StaDisabledWithScan";
+"Default" -> "ApEnabled";
+"Default" -> "Ecm";
+"KK: WifiController Tree" [ shape = plaintext ];
+}
+
+
+

@@ -2,8 +2,9 @@
 subgraph rank_exam {
 rankdir=RL;
 {
-  node[shape = plaintext];
-  1995 -> 1996 -> 1997 -> 1998 -> 1999 -> 2000 -> 2001;
+  node[shape = plaintext]; 
+  1995 -> 1996 -> 1997 -> 1998 -> 1999 -> 2000 -> 2001[style=invis];
+  a;b;c;d;e;f;
 }
 {
   node[shape = box, style = filled];

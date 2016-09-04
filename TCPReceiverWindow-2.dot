@@ -1,0 +1,101 @@
+digraph g {
+//graph [rankdir = "TB" style="filled" gradientangle = 270];
+node [ fontsize = "24" shape = "record" style="filled" gradientangle=90];
+edge [];
+subgraph rank_base {
+rankdir=RL;
+{
+  node[shape=plaintext style=invis];
+ 
+0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
+9 -> 10 -> 11 -> 12 -> 13 -> 14 -> 15 -> 16->17[style=invis];
+}
+}
+
+ACKED_0[shape=plaintext, label=""];
+RCV_BUT_UNACKED_0[shape=record, label="0|" ]; 
+{rank = same; 0; ACKED_0; RCV_BUT_UNACKED_0}
+
+ACKED_1[shape=plaintext, label="0"];
+RCV_BUT_UNACKED_1[shape=record, label="|||"]; 
+{rank = same; 1; ACKED_1; RCV_BUT_UNACKED_1}
+
+ACKED_2[shape=plaintext, label="0"];
+RCV_BUT_UNACKED_2[shape=record, label="1|||"]; 
+{rank = same; 2; ACKED_2; RCV_BUT_UNACKED_2}
+
+ACKED_3[shape=plaintext, label="0-1"];
+RCV_BUT_UNACKED_3[shape=record, label="|||||"]; 
+{rank = same; 3; ACKED_3; RCV_BUT_UNACKED_3}
+
+ACKED_4[shape=plaintext, label="0-1"];
+RCV_BUT_UNACKED_4[shape=record, label="2|||||"]; 
+{rank = same; 4; ACKED_4; RCV_BUT_UNACKED_4}
+
+ACKED_5[shape=plaintext, label="0-2"];
+RCV_BUT_UNACKED_5[shape=record, label="|||||||"]; 
+{rank = same; 5; ACKED_5; RCV_BUT_UNACKED_5}
+
+ACKED_6[shape=plaintext, label="0-3"];
+RCV_BUT_UNACKED_6[shape=record, label="||||||||"]; 
+{rank = same; 6; ACKED_6; RCV_BUT_UNACKED_6}
+
+ACKED_7[shape=plaintext, label="0-3"];
+//RCV_BUT_UNACKED_7[shape=record, label="4|5|6|7|8|9|10|11|"]; 
+RCV_BUT_UNACKED_7[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" >
+  <TR>
+    <TD COLSPAN="2">4</TD>
+    <TD COLSPAN="2">5</TD>
+    <TD COLSPAN="2">6</TD>
+    <TD COLSPAN="2">7</TD>
+    <TD COLSPAN="2">8</TD>
+    <TD COLSPAN="2">9</TD>
+    <TD COLSPAN="2">10</TD>
+    <TD COLSPAN="2">11</TD>
+  </TR>
+</TABLE>
+>
+]; 
+
+    struct3 [label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+  <TR>
+    <TD ROWSPAN="3">hello<BR/>world</TD>
+    <TD COLSPAN="3">b</TD>
+    <TD ROWSPAN="3">g</TD>
+    <TD ROWSPAN="3">h</TD>
+  </TR>
+  <TR>
+    <TD>c</TD><TD PORT="here">d</TD><TD>e</TD>
+  </TR>
+  <TR>
+    <TD COLSPAN="3">f</TD>
+  </TR>
+</TABLE>>];
+
+
+{rank = same; 7; ACKED_7; RCV_BUT_UNACKED_7}
+
+ACKED_8[shape=plaintext, label="0-B"];
+RCV_BUT_UNACKED_8[shape=record, label="||"]; 
+{rank = same; 8; ACKED_8; RCV_BUT_UNACKED_8}
+
+ACKED_9[shape=plaintext, label="0-B"];
+RCV_BUT_UNACKED_9[shape=record, label="12|13|14"]; 
+{rank = same; 9; ACKED_9; RCV_BUT_UNACKED_9}
+
+ACKED_10[shape=plaintext, label="0-14"];
+RCV_BUT_UNACKED_10[shape=record, label=" "]; 
+{rank = same; 10; ACKED_10; RCV_BUT_UNACKED_10}
+
+ACKED_11[shape=plaintext, label="0-14"];
+RCV_BUT_UNACKED_11[shape=record, label="15"]; 
+{rank = same; 11; ACKED_11; RCV_BUT_UNACKED_11}
+
+ACKED_12[shape=plaintext, label="0-15"];
+{rank = same; 12; ACKED_12}
+
+}
+
+

@@ -1,0 +1,116 @@
+
+digraph xxxx {
+	size = "20, 20";
+    
+    subgraph TetherMasterSM{
+	size = "20, 20";
+	fontname = "Microsoft YaHei";
+	node [shape = record, fontname = "Microsoft YaHei",];
+	edge [fontname = "Microsoft YaHei"];
+   TetherMasterSM_desc[ label="TetherMasterSM",  shape = plaintext ];
+	TetherMasterSM_Initial[label="Initial"]
+	TetherMasterSM_Initial -> TetherModeAlive [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="red">CMD_TETHER_MODE_REQUESTED</td> </tr>
+	</table>>];
+	TetherModeAlive -> TetherModeAlive [ label = " CMD_TETHER_MODE_REQUESTED \n /send CMD_TETHER_CONNECTION_CHANGED" ];
+	TetherModeAlive -> TetherModeAlive [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>@ turnOnMasterTetherSettings():</td> </tr>
+		<tr> 	<td>// change /proc/sys/net/ipv4/ip_forward </td> </tr>
+		<tr> 	<td>NMS.setIpForwardingEnabled(true)</td> </tr>
+		<tr> 	<td>//start dnsmasq</td> </tr>
+		<tr> 	<td>NMS.startTethering() </td> </tr>
+		<tr> 	<td>NMS.setDnsForwarders()</td> </tr>
+		<tr> 	<td>//select uplink interface </td> </tr>
+		<tr> 	<td bgcolor="yellow">//send CMD_TETHER_CONNECTION_CHANGED</td> </tr>
+		<tr> 	<td>@ chooseUpstreamType() </td> </tr>
+		<tr> 	<td>~@ notifyTetheredOfNewUpstreamIface(null)</td> </tr>
+	</table>>
+	 ];
+	
+	TetherModeAlive:w -> TetherModeAlive:s[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_UPSTREAM_CHANGED/</td> </tr>
+		<tr> 	<td bgcolor="yellow">//send CMD_TETHER_CONNECTION_CHANGED</td> </tr>
+		<tr> 	<td>chooseUpstreamType() </td> </tr>
+	</table>> ];
+
+	TetherModeAlive -> TetherMasterSM_Initial[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td bgcolor="green">CMD_TETHER_MODE_UNREQUESTED/</td> </tr>
+		<tr>	<td>NMS.setIpForwardingEnabled(false)</td> </tr>
+		<tr> 	<td>NMS.stopTethering()//send SIGTERM to dnsmasq</td> </tr>
+	</table>> ];
+	{rank=same; TetherMasterSM_desc; TetherMasterSM_Initial}
+}
+
+subgraph TetherInterfaceSM{
+	size = "20, 20";
+	fontname = "Microsoft YaHei";
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	TetherInterfaceSM_Initial[label="Initial"];
+	TetherInterfaceSM_Initial:nw -> TetherInterfaceSM_Initial:w[label=
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="pink">@send ACTION_TETHER_STATE_CHANGED</td> </tr>
+	</table>>];
+	TetherInterfaceSM_Initial -> Starting [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td  bgcolor="orange">CMD_TETHER_REQUESTED/</td> </tr>
+		<tr>	<td bgcolor="red">Send CMD_TETHER_MODE_REQUESTED</td> </tr>
+	</table>> ];
+	TetherInterfaceSM_Initial [ style = filled, color=lightgrey ];
+	TetherInterfaceSM_Initial -> Unavailable[ label = "CMD_INTERFACE_DOWN\n" ];
+	Starting-> Starting[label=
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="pink">@send ACTION_TETHER_STATE_CHANGED</td> </tr>
+	</table>>];
+
+	Tethered [ style = filled, color=lightgrey ];
+	Starting-> Tethered;
+	Tethered:s-> Tethered:w[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td>@ NMS.tetherInterface("wlan0")</td> </tr>
+		<tr> 	<td bgcolor="pink">@send ACTION_TETHER_STATE_CHANGED</td> </tr>
+	</table>> ];
+	Tethered-> Tethered[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td bgcolor="yellow">CMD_TETHER_CONNECTION_CHANGED/</td> </tr>
+		<tr>	<td>NMS.disableNat("wlan0","eth0")</td> </tr>
+		<tr> 	<td>NMS.enableNat("wlan0","ppp0")</td> </tr>
+	</table>>	 ];
+	Tethered-> TetherInterfaceSM_Initial[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td bgcolor="orange">CMD_TETHER_UNREQUESTED/</td> </tr>
+		<tr>	<td>NMS.disableNat("wlan0","eth0");</td> </tr>
+		<tr> 	<td>NMS.untetherInterface("wlan0")</td> </tr>
+		<tr> 	<td bgcolor="green">send CMD_TETHER_MODE_UNREQUESTED</td></tr>
+	</table>>	 ];
+	Tethered-> Unavailable[ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_INTERFACE_DOWN/</td> </tr>
+		<tr>	<td>NMS.disableNat("wlan0","eth0");</td> </tr>
+		<tr> 	<td>NMS.untetherInterface("wlan0")</td> </tr>
+		<tr> 	<td bgcolor="green">send CMD_TETHER_MODE_UNREQUESTED</td></tr>
+	</table>>	 ];
+	Unavailable:w-> Unavailable:s[label=
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="pink">@send ACTION_TETHER_STATE_CHANGED</td> </tr>
+	</table>>];
+
+	 TetherInterfaceSM_desc[ label="TetherInterfaceSM",  shape = plaintext ];
+	{rank=same; TetherInterfaceSM_desc; TetherInterfaceSM_Initial}
+}
+
+	subgraph control {
+		node [shape=point,style=invis]
+		a -> b ->c -> d -> e[style=invis]
+		/*
+		node [shape=record]
+		a -> b ->c -> d -> e
+		*/
+		{rank=same; a; TetherInterfaceSM_Initial}
+		{rank=same; e; TetherMasterSM_Initial}
+	}
+}

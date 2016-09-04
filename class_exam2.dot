@@ -1,0 +1,22 @@
+digraph G {
+	randdir=BT
+    node[shape=record]
+    AHandler[label="{AHandler||<f2>}"]   	
+	{
+       edge[dir=none]
+		Node[shape=point,radius=8,label=""] AHandler1 -> AHandler2 -> AHandler3->AHandler4->AHandler5
+		{rank=same; AHandler1 AHandler2 AHandler3 AHandler4 AHandler5}
+	}
+    RTPSink[ label="{RTPSink||}"]
+	TunnelRenderer[ label="{TunnelRenderer||}"]
+	WifiDisplaySink[ label="{WifiDisplaySink||}"]	
+	SinkHandler[ label="{SinkHandler||}"]	
+
+	//AHandler -> {RTPSink TunnelRenderer WifiDisplaySink}
+	AHandler -> AHandler3[dir=both, arrowhead=none, arrowtail=onormal]
+    edge[dir=none]
+	AHandler1 -> RTPSink:n
+	AHandler2 -> TunnelRenderer:n
+	AHandler4 -> WifiDisplaySink:n
+	AHandler5 -> SinkHandler:n
+}

@@ -1,4 +1,5 @@
-Execute command in DOS:
-dot -Tjpg -o SM_EnableWifi.jpg SM_EnableWifi.dot
+Execute command in DOS(Windows Console):
+
+dot -Tjpg -o xxx.jpg xxx.dot
 
 to produce jpg from dot file

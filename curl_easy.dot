@@ -1,0 +1,15 @@
+digraph CURL_EASY{
+node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];
+	0[ label = "curl_global_init()" ];
+	1[ label = "CURL *ce = curl_easy_init()" ];
+	2[ label = "{curl_easy_setopt\n(ce, CURLOPT_URL, url)}" ];
+	3[ label = "{curl_easy_setopt\n(ce, CURLOPT_WRITEFUNCTION, WriteCallback)}" ];
+	4[ label = "curl_easy_perform(ce)" ];
+	5[ label = "{curl_easy_getinfo\n(ce, CURLINFO_SIZE_DOWNLOAD, &val)}" ];
+	6[ label = "{curl_easy_getinfo\n(ce, CURLINFO_TOTAL_TIME, &val)}" ];
+	7[ label = "{curl_easy_getinfo\n(ce, CURLINFO_SPEED_DOWNLOAD, &val)}" ];
+	8[ label = "curl_easy_cleanup(ce)" ];
+	9[ label = "curl_global_cleanup()" ];
+
+	0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9;
+}

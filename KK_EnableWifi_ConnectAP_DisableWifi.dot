@@ -1,0 +1,100 @@
+
+digraph automata_0 {
+  size = "20, 20";
+	fontname = "Microsoft YaHei";
+	fontsize = 15;
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	Initial [ style = filled, shape = doublecircle, color=lightgrey ];
+	Initial -> Initial [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@WN.killSupplicant()</td>	</tr>
+			<tr> 	<td>@WN.unloadDriver()</td> </tr>
+	</table>>];
+
+	Initial  -> SuppStarting[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_START_SUPP/</td> </tr>
+			<tr> 	<td>WN.loadDriver()</td> </tr>
+			<tr> 	<td>NMS.wifiFirmwareReload()</td> </tr>
+			<tr> 	<td>WMtr.killSupplicant()</td> </tr>
+			<tr> 	<td>WN.startSupplicant()</td> </tr>
+			<tr>	<td  bgcolor="red">WIFI_STATE_ENABLING</td> </tr>
+			<tr> 	<td>#connect to supplicant to monitor</td> </tr>
+			<tr> 	<td>WMtr.startMonitoring()</td> </tr>
+	</table>>];
+	
+	SuppStarting  -> DriverStarted [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#WMtr connected to supplicant</td>	</tr>
+			<tr>	<td>SUP_CONNECTION_EVENT/</td>	</tr>
+			<tr>	<td  bgcolor="red">WIFI_STATE_ENABLED</td> </tr>
+	</table>>];
+	
+	DriverStarted -> DriverStarted [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@ WN.reconnect()</td>	</tr>
+			<tr>	<td  bgcolor="green">@ send CMD_ENABLE_P2P</td>	</tr>
+	</table>> ];
+
+	Disconnected [ style = filled, color=lightgrey ];
+	DriverStarted -> Disconnected[ label = "@ transitionTo(Disconnected)" ];
+	Disconnected -> ObtainingIp[ label = "NETWORK_CONNECTION_EVENT/\n ^ transitionTo(ObtainingIp) " ];
+	ObtainingIp -> ObtainingIp[ label = "@ makeDhcpStateMachine\n @ send CMD_START_DHCP to DhcpSM " ];
+	ObtainingIp -> VerifyingLink[ label = "CMD_POST_DHCP_ACTION/\n ^handleSuccessfulIpCfg() " ];
+	VerifyingLink -> VerifyingLink[ label = "#WifiWatchdogSM send it\nPOOR_LINK_DETECTED/" ];
+	VerifyingLink -> CaptivePortalCheck[ label = "#WifiWatchdogSM send it\nGOOD_LINK_DETECTED/" ];
+	CaptivePortalCheck -> Connected[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#CaptivePortalTracker send it</td> </tr>
+			<tr>	<td>CMD_CAPTIVE_CHECK_COMPLETE/</td> </tr>
+			<tr>	<td>#broadcast NETWORK_STATE_CHANGED_ACTION</td> </tr>
+			<tr>	<td>#WST.WifiStateReceiver receives it and send </td> </tr>
+			<tr>	<td>#EVENT_STATE_CHANGED to CS.NSTHandler</td> </tr>
+			<tr>	<td>sendNetworkStateChangeBroadcast()</td> </tr>
+	</table>>];
+	
+	Connected [ style = filled, color=lightgrey ];
+	Connected -> WaitForP2pDisable[ label = "CMD_STOP_SUPP/" ];
+	Connected -> Disconnecting [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#P2PService notifies me</td>	</tr>
+			<tr>	<td  bgcolor="green">DISCONNECT_WIFI_REQUEST/</td>	</tr>
+			<tr>	<td>^WN.disconnect()</td> </tr>
+			<tr>	<td>^TempDisconnectWifi = TRUE</td> </tr>			
+	</table>>, color=green, style = dashed];
+
+	Disconnecting -> Disconnected [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>SUPP_STATE_CHANGE_EVENT/</td> </tr>
+			<tr>	<td>if(TempDisconnectWifi) send </td>	</tr>
+			<tr>	<td  bgcolor="green">DISCONNECT_WIFI_RESPONSE</td> </tr>
+	</table>>, color=green, style = dashed];
+
+	Disconnected -> Disconnected [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#P2PService notifies me</td>	</tr>
+			<tr>	<td  bgcolor="green">DISCONNECT_WIFI_REQUEST/</td>	</tr>
+			<tr>	<td>^WN.reconnect()</td> </tr>
+			<tr>	<td>^TempDisconnectWifi = FALSE</td> </tr>			
+	</table>>, color=green, style = dashed];
+
+	WaitForP2pDisable -> WaitForP2pDisable[ label = "@Send CMD_DISABLE_P2P_REQ" ];
+	WaitForP2pDisable-> SuppStopping[ label = "CMD_DISABLE_P2P_RSP/" ];
+	SuppStopping-> SuppStopping [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@handleNetworkDisconnect()</td>	</tr>
+			<tr>	<td>@ WMtr.stopSupplicant()</td> </tr>
+			<tr>	<td  bgcolor="red">WIFI_STATE_DISABLING</td> </tr>
+	</table>>];
+	
+	SuppStopping-> Initial[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#WMtr disconnected from supplicant</td>	</tr>
+			<tr>	<td>SUP_DISCONNECTION_EVENT/</td> </tr>
+			<tr>	<td>WMtr.killSupplicant()</td>	</tr>
+			<tr>	<td  bgcolor="red">WIFI_STATE_DISABLED</td> </tr>
+	</table>>];
+	"KK: WifiStateMachine" [ shape = plaintext ];
+}
+

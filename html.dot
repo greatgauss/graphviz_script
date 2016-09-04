@@ -1,11 +1,30 @@
 digraph structs {
     node [shape=plaintext]
+
+    struct0 [label=<
+<TABLE BORDER="15" CELLBORDER="10" CELLSPACING="30">
+  <TR>
+  	<TD>left</TD>
+  	<TD>middle</TD>
+  	<TD>right</TD>
+  </TR>
+<TR>
+  	<TD>America</TD>
+  	<TD>China</TD>
+  </TR>
+</TABLE>
+>];
+
     struct1 [label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="30">
   <TR>
   	<TD>left</TD>
   	<TD PORT="f1">middle</TD>
   	<TD PORT="f2">right</TD>
+  </TR>
+<TR>
+  	<TD>America</TD>
+  	<TD>China</TD>
   </TR>
 </TABLE>
 >];
@@ -27,7 +46,9 @@ digraph structs {
     <TD ROWSPAN="3">h</TD>
   </TR>
   <TR>
-    <TD>c</TD><TD PORT="here">d</TD><TD>e</TD>
+    <TD>c</TD>
+    <TD PORT="here">d</TD>
+    <TD>e</TD>
   </TR>
   <TR>
     <TD COLSPAN="3">f</TD>

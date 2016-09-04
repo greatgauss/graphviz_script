@@ -1,0 +1,78 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     0	[ label = "mediaserver                                                     ", fontcolor = RED, fontsize = 40, shape = plaintext ];
+
+     1	[ label = "__start_thread()" ];
+     2	[ label = "__pthread_start()" ];
+     3	[ label = "Thread::_threadLoop()" ];
+     4	[ label = "IPCThreadState::joinThreadPool()" ];
+     5	[ label = "IPCThreadState::getAndExecuteCommand()" ];
+     6	[ label = "IPCThreadState::executeCommand()" ];
+     7	[ label = "BBinder::transact()" ];
+     8	[ label = "BnMediaPlayer::onTransact()//libmedia" ];
+     9	[ label = "MPS::Client::setDataSource()//libmps" ];
+     10	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td>MPF::getPlayerType(url)//libmps </td> </tr>
+				<tr> <td bgcolor="pink">createThreadEtc(playerSwitchTread)</td> </tr>
+				<tr> <td>MPB p = MPS::Client::createPlayer(AMNU)</td> </tr>
+				<tr> <td>p-&gt;setDataSource()</td> </tr>
+			</table>
+			>];
+     11	[ label = "AmNuPlayerDriver::setDataSource()" ];
+     12	[ label = "AmNuPlayer::setDataSourceAsync()" ];
+
+
+		1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10;
+    10 -> 11 -> 12;
+
+     101	[ label = "__start_thread()" ];
+     102	[ label = "__pthread_start()" ];
+     103	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td bgcolor="pink">MPS::Client::playerSwitchTread()</td></tr>
+			</table>
+			> ];
+     104	[ label = "MPS::Client::createAnotherPlayer()" ];
+     105	[ label = "{<f0>MPB p = MPF::createPlayer(AMSUPER)|<f1>p-\>hardwareOutput()|<f2>p-\>setDataSource()|<f3>p-\>prepareAsync()}" ];
+     106	[ label = "AmMF::createPlayer()" ];
+     107	[ label = "new AmSuperPlayer()" ];
+     108	[ label = "AmSP::setDataSource()" ];
+     109	[ label = "AmSP::prepareAsync()" ];
+     110	[ label = <
+      	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+	  			<tr> <td bgcolor="green">createThreadEtc(AmSP::startThread)</td> </tr>
+		  	</table>
+			>];
+
+		101 -> 102 -> 103 -> 104 -> 105;
+		105:f0:e -> 106 -> 107;
+		105:f2:w -> 108;
+		105:f3 -> 109 -> 110;
+
+     201	[ label = "__start_thread()" ];
+     202	[ label = "__pthread_start()" ];
+     203	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr><td bgcolor="green">AmSP::startThread()</td></tr>
+			</table>
+			> ];
+     204	[ label = "AmSP::initThread()" ];
+     205	[ label = "AmSP::CreatePlayer()" ];
+     206	[ label = "{MBP p = AmSP::createPlayer(AMLOGIC)|<f1>p-\>hardwareOutput()|<f2>p-\>setDataSource()|<f3>p-\>prepareAsync()}" ];
+     207	[ label = "AmlogicPlayer::prepareAsync()" ];
+     208	[ label = "player_start() //libamplayer", fontcolor = RED ];
+          		
+		201 -> 202 -> 203 -> 204 -> 205 -> 206;
+    206:f3:w ->207 -> 208;
+
+    
+	subgraph control {
+	node [shape=point, style=invis]
+	a -> b [style=invis]
+	{rank=same; a; 0;}
+	{rank=same; b; 1;101;201}
+	}
+     
+
+}

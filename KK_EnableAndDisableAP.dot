@@ -1,0 +1,92 @@
+
+digraph WSM_EnableAndDisableAp {
+    size = "20, 20";
+	fontname = "Microsoft YaHei";
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	Initial [ style = filled, shape = doublecircle, color=lightgrey ];
+	
+	Initial -> Initial [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@WN.killSupplicant()</td>	</tr>
+			<tr> 	<td>@WN.unloadDriver()</td> </tr>
+	</table>>];
+
+	Initial -> SoftApStarting [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>send CMD_START_AP/</td>	</tr>
+		<tr> 	<td>send WIFI_AP_STATE_CHANGED_ACTION:</td> </tr>
+			<tr>	<td  bgcolor="red">WIFI_AP_STATE_ENABLING</td> </tr>
+			<tr> 	<td>WN.loadDriver()</td> </tr>
+	</table>>];
+
+	SoftApStarting:w  -> SoftApStarting:w [ label = <@send CMD_REQUEST_AP_CONFIG>];
+	
+	SoftApStarting  -> SoftApStarting [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_RESPONSE_AP_CONFIG/</td>	</tr>
+			<tr> 	<td>new Thread to NMS.startAccessPoint(): </td> </tr>
+			<tr> 	<td>1. softap start wlan0</td> </tr>
+			<tr> 	<td>2. config ap</td> </tr>
+			<tr> 	<td>3. softap startap //run hostapd</td> </tr>
+			<tr> 	<td>4. send CMD_START_AP_SUCCESS</td> </tr>
+	</table>>];
+
+	SoftApStarting  -> SoftApStarted [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_START_AP_SUCCESS/</td> </tr>
+		<tr> 	<td>send WIFI_AP_STATE_CHANGED_ACTION:</td> </tr>
+		<tr> 	<td bgcolor="red">WIFI_AP_STATE_ENABLED</td> </tr>
+	</table>> ];
+
+	SoftApStarted  -> Tethering [ label =
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="pink">CMD_TETHER_STATE_CHANGE/</td> </tr>
+		<tr>	<td>//startTethering()</td> </tr>
+		<tr>	<td>1. config wlan0 IP and UP wlan0</td> </tr>
+		<tr>	<td>2. call CM.tether() to send</td> <td bgcolor="orange">CMD_TETHER_REQUESTED</td> </tr>
+	</table>>];
+	Tethering:w -> Tethering:w [ label = "@delaySend CMD_TETHER_NOTIFICATION_TIMED_OUT" ];
+	Tethering -> Tethering [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_TETHER_NOTIFICATION_TIMED_OUT/ </td>	</tr>
+		<tr> 	<td bgcolor="yellow">send CMD_STOP_AP</td> </tr>
+	</table>>];
+	Tethering -> Tethered [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr>	<td bgcolor="pink">CMD_TETHER_STATE_CHANGE </td> <td>AND isWifiTethered()</td> </tr>
+	</table>>];
+	Tethered -> Tethered [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td bgcolor="pink">CMD_TETHER_STATE_CHANGE </td> <td>AND ! isWifiTethered()/</td> 	</tr>
+		<tr> 	<td bgcolor="yellow">send CMD_STOP_AP</td> </tr>
+	</table>>];
+	
+	Tethered -> Untethering [ label = 
+	 <<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_STOP_AP/</td> 	</tr>
+		<tr> 	<td>1. send WIFI_AP_STATE_CHANGED_ACTION:</td> </tr>
+		<tr> 	<td bgcolor="red">WIFI_AP_STATE_DISABLING</td> </tr>
+		<tr> 	<td>2. clear wlan0's IP</td> </tr>
+		<tr> 	<td>3. call CM.untether("wlan0") to send</td><td bgcolor="orange">CMD_TETHER_UNREQUESTED</td>  </tr>		
+		<tr> 	<td>4. deferMsg()</td>  </tr>		
+	</table>> ];
+
+	Untethering -> SoftApStarted [ label = 
+	<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td bgcolor="pink">CMD_TETHER_STATE_CHANGE/</td> </tr>
+	</table>>	 ] ;
+	
+	SoftApStarted -> Initial 
+	[ label = 
+	 <<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+		<tr> 	<td>CMD_STOP_AP/</td> </tr>
+		<tr> 	<td>NMS.stopAccessPoint()</td> </tr>
+		<tr> 	<td>send WIFI_AP_STATE_CHANGED_ACTION:</td> </tr>
+		<tr> 	<td bgcolor="red">WIFI_AP_STATE_DISABLED</td> </tr>
+	</table>> ];
+
+	"ApStateMachine: KK" [ shape = plaintext ];
+
+}
+

@@ -1,0 +1,29 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     0	[ label = "mediaserver", fontcolor = RED, fontsize = 40, shape = plaintext ];
+
+     1	[ label = "__start_thread() //libc" ];
+     2	[ label = "__pthread_start() //libc" ];
+     3	[ label = "Thread::_threadLoop() //libutils" ];
+     4	[ label = "IPCThreadState::joinThreadPool() //libbinder" ];
+     5	[ label = "IPCThreadState::getAndExecuteCommand()" ];
+     6	[ label = "IPCThreadState::executeCommand()" ];
+     7	[ label = "BBinder::transact() //libbinder"];
+     8	[ label = "BnMediaPlayer::onTransact()//libmedia" ];
+     9	[ label = "MPS::Client::create()//libmps" ];
+     10	[ label = <
+     	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td>new Client()</td> </tr>
+				<tr> <td>Add client</td> </tr>
+			</table>
+			>];
+
+		1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10;
+	subgraph control {
+	node [shape=point, style=invis]
+	a -> b [style=invis]
+	{rank=same; a; 0;}
+	{rank=same; b; 1;}
+	}
+
+}

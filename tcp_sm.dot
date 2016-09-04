@@ -1,0 +1,40 @@
+digraph automata_0 {
+	size = "20, 20";
+	fontname = "Microsoft YaHei";
+  rotate = 180;
+	node [shape = record, fontname = "Microsoft YaHei", fontsize = 10];
+	edge [fontname = "Microsoft YaHei", fontsize = 10];
+  //rankdir=LR;  
+    	
+	//subgraph client {
+		C_CLOSED[label = "CLOSED"];
+		S_CLOSED[label = "CLOSED"];
+		//C_ESTABLISHED[label = "ESTABLISHED"];		
+		//S_ESTABLISHED[label = "ESTABLISHED"];		
+	
+		C_CLOSED -> SYN_SENT[ label = " App active open i.e, Send SYN" ];;
+		SYN_SENT -> ESTABLISHED[ label = " SYN+ACK rcvd/\n send ACK" ];
+		ESTABLISHED-> FIN_WAIT_1[ label = " App close,i.e, send FIN" ];
+		FIN_WAIT_1-> FIN_WAIT_2[ label = " ACK rcvd" ];
+		FIN_WAIT_2-> TIME_WAIT[ label = " FIN rcvd/\n send ACK" ];
+		TIME_WAIT -> C_CLOSED[ label = " 2MSL Timeout" ];
+	//}
+
+	//subgraph server {
+	edge [style=dashed, color=red];
+
+		S_CLOSED -> LISTEN;
+		LISTEN -> SYN_RCVD[ label = " SYN rcvd/\n send SYN+ACK" ];
+		SYN_RCVD -> ESTABLISHED[ label = " ACK rcvd" ];
+		ESTABLISHED-> CLOSE_WAIT[ label = " FIN rcvd/\n send ACK" ];
+		CLOSE_WAIT-> LAST_ACK[ label = " App close,i.e, send FIN" ];
+		LAST_ACK -> S_CLOSED[ label = " ACK rcvd" ];
+	//}
+	subgraph control {
+	node [shape=point,style=invis]
+	a -> b ->c -> d -> e[style=invis]
+	{rank=same; a; C_CLOSED;S_CLOSED}
+	{rank=same; c; C_ESTABLISHED;S_ESTABLISHED}
+	}
+}
+

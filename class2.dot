@@ -1,8 +1,7 @@
 digraph g {
     node[shape = record, fontname="MS UI Gothic"]
     edge[arrowhead="vee",arrowtail="onormal"]
-
-    Main [label = "{Main}"];
+    Main [label = "Main"];
 
     src [label = "public void targetMethod1() \{ \n  adaptee.methodA(); \n\}\l"]
     Target [label = "{\<\<interface\>\>\nTarget|| +targetMethod1() : void\n +targetMethod2() : void}"];
@@ -16,6 +15,4 @@ digraph g {
     Target -> Adapter[style=dotted,dir=back,label = " implements"];
 
     {rank = same; Target;Adapter; Adaptee}
-//    {rank = same; src}
-
 }

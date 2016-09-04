@@ -1,0 +1,90 @@
+digraph g {
+graph [rankdir = "TB" style="filled" gradientangle = 270];
+node [ fontsize = "24" shape = "record" style="filled" gradientangle=90];
+edge [];
+subgraph rank_base {
+rankdir=RL;
+{
+  node[shape=plaintext style=invis];
+ 
+0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 
+9 -> 10 -> 11 -> 12 -> 13 -> 14 -> 15 -> 16->17[style=invis];
+}
+}
+
+
+ACKED_0[shape=plaintext, label=""];
+RCV_BUT_UNACKED_0[shape=record, label=" 0|1"]; 
+{rank = same; 0; ACKED_0; RCV_BUT_UNACKED_0}
+
+ACKED_1[shape=plaintext, label="0"];
+RCV_BUT_UNACKED_1[shape=record, label="1|||"]; 
+{rank = same; 1; ACKED_1; RCV_BUT_UNACKED_1}
+
+ACKED_2[shape=plaintext, label="0"];
+RCV_BUT_UNACKED_2[shape=record, label="1|2|3|4"]; 
+{rank = same; 2; ACKED_2; RCV_BUT_UNACKED_2}
+
+ACKED_3[shape=plaintext, label="0-1"];
+RCV_BUT_UNACKED_3[shape=record, label="2|3|4|||"]; 
+{rank = same; 3; ACKED_3; RCV_BUT_UNACKED_3}
+
+ACKED_4[shape=plaintext, label="0-1"];
+RCV_BUT_UNACKED_4[shape=record, label="2|3|4|5|6|7"]; 
+{rank = same; 4; ACKED_4; RCV_BUT_UNACKED_4}
+
+ACKED_5[shape=plaintext, label="0-2"];
+RCV_BUT_UNACKED_5[shape=record, label="3|4|5|6|7|||"]; 
+{rank = same; 5; ACKED_5; RCV_BUT_UNACKED_5}
+
+ACKED_6[shape=plaintext, label="0-2"];
+RCV_BUT_UNACKED_6[shape=record, label="3|4|5|6|7|8|9|"]; 
+{rank = same; 6; ACKED_6; RCV_BUT_UNACKED_6}
+
+ACKED_7[shape=plaintext, label="0-3"];
+RCV_BUT_UNACKED_7[shape=record, label="4|5|6|7|8|9|||"]; 
+{rank = same; 7; ACKED_7; RCV_BUT_UNACKED_7}
+
+ACKED_8[shape=plaintext, label="0-3"];
+RCV_BUT_UNACKED_8[shape=record, label="4|5|6|7|8|9|10|11|"]; 
+{rank = same; 8; ACKED_8; RCV_BUT_UNACKED_8}
+
+ACKED_9[shape=plaintext, label="0-5"];
+RCV_BUT_UNACKED_9[shape=record, label="6|7|8|9|10|11||"]; 
+{rank = same; 9; ACKED_9; RCV_BUT_UNACKED_9}
+
+ACKED_10[shape=plaintext, label="0-5"];
+RCV_BUT_UNACKED_10[shape=record, label="6|7|8|9|10|11|12|13"]; 
+{rank = same; 10; ACKED_10; RCV_BUT_UNACKED_10}
+
+ACKED_11[shape=plaintext, label="0-7"];
+RCV_BUT_UNACKED_11[shape=record, label="8|9|10|11|12|13"]; 
+{rank = same; 11; ACKED_11; RCV_BUT_UNACKED_11}
+
+ACKED_12[shape=plaintext, label="0-9"];
+RCV_BUT_UNACKED_12[shape=record, label="10|11|12|13|"]; 
+{rank = same; 12; ACKED_12; RCV_BUT_UNACKED_12}
+
+ACKED_13[shape=plaintext, label="0-11"];
+RCV_BUT_UNACKED_13[shape=record, label="12|13|"]; 
+{rank = same; 13; ACKED_13; RCV_BUT_UNACKED_13}
+
+ACKED_14[shape=plaintext, label="0-11"];
+RCV_BUT_UNACKED_14[shape=record, label="12|13|14"]; 
+{rank = same; 14; ACKED_14; RCV_BUT_UNACKED_14}
+
+ACKED_15[shape=plaintext, label="0-13"];
+RCV_BUT_UNACKED_15[shape=record, label="14|"]; 
+{rank = same; 15; ACKED_15; RCV_BUT_UNACKED_15}
+
+ACKED_16[shape=plaintext, label="0-13"];
+RCV_BUT_UNACKED_16[shape=record, label="14|15"]; 
+{rank = same; 16; ACKED_16; RCV_BUT_UNACKED_16}
+
+ACKED_17[shape=plaintext, label="0-15"];
+{rank = same; 17; ACKED_17}
+
+
+}
+
+

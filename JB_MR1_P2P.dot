@@ -1,0 +1,123 @@
+
+digraph automata_0 {
+	size = "20, 20";
+	fontname = "Microsoft YaHei";
+	rotate = 180;
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	P2pDisabled[ style = filled, shape = doublecircle, color=lightgrey ]
+	P2pDisabled -> P2pEnabling[ 	label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>WifiStateMachine notify me</td> </tr>
+			<tr>	<td bgcolor="green">CMD_ENABLE_P2P/</td> </tr>
+			<tr>	<td>#connect to wpa_supplicant to monitor</td> </tr>
+			<tr>	<td>WMtr.startMonitoring()</td> </tr>
+		</table>>];
+
+	Inactive [ style = filled, color=lightgrey ];
+	P2pEnabling -> Inactive[ label = "SUPP_CONNECTION_EVENT " ];
+	Inactive -> Inactive[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#called in enter() of parent: P2pEnabled</td> </tr>
+			<tr>	<td>#sendP2pStateChangedBroadcast()</td> </tr>
+			<tr>	<td bgcolor="red">WIFI_P2P_STATE_ENABLED</td> </tr>
+		</table>>];
+
+	/*
+	Inactive -> Inactive[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#UI calls WMgr.discoverPeers() to send it</td> </tr>
+			<tr>	<td>DISCOVER_PEERS/</td> </tr>
+			<tr>	<td>^WN.p2pFind()</td> </tr>
+			<tr>	<td>^send WIFI_P2P_DISCOVERY_CHANGED_ACTION</td> </tr>
+		</table>>];
+	*/
+	
+	/*
+	Inactive -> Inactive[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#WifiMonitor sends to me</td> </tr>
+			<tr>	<td>P2P_DEVICE_FOUND_EVENT/</td> </tr>
+			<tr>	<td>^update WifiP2pDeviceList</td> </tr>
+			<tr>	<td>^send WIFI_P2P_PEERS_CHANGED_ACTION</td> </tr>
+		</table>>];
+	*/
+	
+	//Inactive -> Inactive[ label = "P2P_PROV_DISC_PBC_REQ_EVENT #peer requests to P2P/\n ignore it" ];
+	
+	Inactive -> P2pDisabling[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td bgcolor="green">CMD_DISABLE_P2P_REQ/</td> </tr>
+			<tr>	<td>^ WN.closeSupplicantConnection()</td> </tr>
+		</table>>];
+
+	P2pDisabling -> P2pDisabling[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#in exit() of parent of Inactive</td> </tr>
+			<tr>	<td>#exit() called when Inactive =&gt;  P2pDisabling</td> </tr>			
+			<tr>	<td bgcolor="red">WIFI_P2P_STATE_DISABLED</td> </tr>
+		</table>>];
+
+	P2pDisabling -> P2pDisabled[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>SUPP_DISCONNECTION_EVENT/</td> </tr>
+			<tr>	<td bgcolor="green">$ send CMD_DISABLE_P2P_RSP</td> </tr>			
+		</table>>];
+
+	Inactive -> UserAuthorizinghNegReq[ 	label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#WifiMonitor sends to me</td> </tr>
+			<tr>	<td>P2P_GO_NEG_REQUEST_EVENT/</td> </tr>
+		</table>>];
+		
+	UserAuthorizinghNegReq-> UserAuthorizinghNegReq[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#hint user to accept/decline invitation</td> </tr>
+			<tr>	<td>@ notifyInvitationReceived()/</td> </tr>
+		</table>>];
+		
+	UserAuthorizinghNegReq-> GroupNegotiation[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>PEER_CONNECTION_USER_ACCEPT/</td> </tr>
+			<tr>	<td>WN.p2pStopFind</td> </tr>
+			<tr>	<td>p2pConnectWithPinDisplay</td> </tr>
+			<tr>	<td>send WIFI_P2P_PEERS_CHANGED_ACTION</td> </tr>
+		</table>>];
+	
+	GroupNegotiation -> GroupNegotiation[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>#GO is seclected</td> </tr>
+			<tr>	<td>P2P_GO_NEG_SUCCESS_EVENT/</td> </tr>
+			<tr>	<td>ignore it</td> </tr>
+		</table>>];
+	GroupNegotiation -> GroupNegotiation[ label = "NETWORK_CONNECTION_EVENT\n /^^ ignore it " ];
+	GroupNegotiation -> GroupCreated[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>P2P_GROUP_STARTED_EVENT/</td> </tr>
+			<tr>	<td>IF (isGO) startDhcpServer()</td> </tr>
+			<tr>	<td>ELSE send CMD_START_DHCP</td> </tr>
+		</table>> ];
+
+	GroupCreated [ style = filled, color=lightgrey ];
+	GroupCreated -> GroupCreated[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>AP_STA_CONNECTED_EVENT/</td> </tr>
+			<tr>	<td>addClient(peer)</td> </tr>
+			<tr>	<td>send WIFI_P2P_PEERS_CHANGED_ACTION</td> </tr>
+		</table>>];
+		
+	GroupCreated -> GroupCreated[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>AP_STA_DISCONNECTED_EVENT/</td> </tr>
+			<tr>	<td>removeClient(peer)</td> </tr>
+			<tr>	<td>send WIFI_P2P_PEERS_CHANGED_ACTION</td> </tr>
+		</table>>,  style=dashed, color=red ];
+	
+	GroupCreated -> Inactive[ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>P2P_GROUP_REMOVED_EVENT/</td> </tr>
+			<tr>	<td>IF (isGO) stopDhcpServer()</td> </tr>
+			<tr>	<td>ELSE send CMD_STOP_DHCP</td> </tr>
+		</table>>, style=dashed, color=red ];
+	"WifiP2pStateMachine: JB_MR1" [ shape = plaintext ]; }
+

@@ -1,0 +1,46 @@
+
+digraph SM_WifiController {
+    size = "20, 20";
+	fontname = "Microsoft YaHei";
+	node [shape = record, fontname = "Microsoft YaHei"];
+	edge [fontname = "Microsoft YaHei"];
+	ApStaDisabled [ style = filled, shape = doublecircle, color=lightgrey ];
+	
+	ApStaDisabled -> ApStaDisabled [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@send </td> <td bgcolor="orange">CMD_STOP_SUPP</td> </tr>
+	</table>>];
+
+	ApStaDisabled -> ApEabled [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_SET_AP/</td> </tr>
+			<tr>	<td>send</td></tr>
+			<tr><td bgcolor="orange">CMD_START_AP</td> </tr>
+	</table>>];
+
+	ApEabled -> ApStaDisabled [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_SET_AP/</td> </tr>
+			<tr>	<td>send</td></tr>
+			<tr><td bgcolor="orange">CMD_STOP_AP</td> </tr>
+	</table>>];
+
+	ApStaDisabled -> DeviceActive [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_WIFI_TOGGLED/</td>	</tr>
+	</table>>];
+
+	DeviceActive -> DeviceActive [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>@@send </td> <td bgcolor="orange">CMD_START_SUPP</td> </tr>
+	</table>>];
+
+	DeviceActive -> ApStaDisabled [ label = 
+		<<table cellpadding="0" cellborder="0" cellspacing="0" border="0">
+			<tr>	<td>CMD_WIFI_TOGGLED/</td>	</tr>
+	</table>>];
+
+
+	"WifiController: KK" [ shape = plaintext ];
+}
+

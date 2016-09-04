@@ -1,0 +1,19 @@
+digraph RANKDIR
+{
+    fixedsize=true;          
+    node [shape=box, size="15,15"];
+    rankdir=LR;    
+    Parent_1 [label="rankdir: LR"];
+
+    point_1 [shape=point];
+    Person_1 [label="Alice"];
+    point_1 -> Person_1;
+
+    point_2 [shape=point];
+    Person_2 [label="Black"];
+    point_2 -> Person_2;
+
+    point_3 [shape=point];
+    Person_3 [label="Clerk"]
+    point_3 -> Person_3;
+}

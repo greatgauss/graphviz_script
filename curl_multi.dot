@@ -1,0 +1,35 @@
+digraph CURL_EASY{
+node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];
+	0[ label = "curl_global_init()" ];
+	1[ label = "CURLM *cm = curl_multi_init()" ];
+	2[ label = "{curl_multi_setopt\n(cm, CURLMOPT_MAXCONNECTS, 2)}" ];
+	3[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="2">FORLOOP(i=0; i &lt; 2;i++)</TD> </TR>
+			  <TR> <TD ROWSPAN="5"></TD> </TR>
+			  <TR> <TD>CURL *ce = curl_easy_init()</TD> </TR>
+			  <TR> <TD>curl_easy_setopt<BR/>(ce, CURLOPT_WRITEFUNCTION, callbacks[i])</TD> </TR>
+			  <TR> <TD>curl_easy_setopt<BR/>(eh, CURLOPT_URL, urls[i])</TD> </TR>
+			  <TR> <TD>curl_multi_add_handle(cm, ce)</TD> </TR>
+			</TABLE>
+		> ];
+
+	4[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="2">WHILE(U)</TD> </TR>
+			  <TR> <TD ROWSPAN="8"></TD> </TR>
+			  <TR> <TD>curl_multi_perform(cm, &amp;U)</TD> </TR>
+			  <TR> <TD>FD_ZERO(&amp;R)</TD> </TR>
+			  <TR> <TD>FD_ZERO(&amp;W)</TD> </TR>
+			  <TR> <TD>FD_ZERO(&amp;E)</TD> </TR>
+			  <TR> <TD>curl_multi_fdset(cm, &amp;R, &amp;W, &amp;E, &amp;Maxfd)</TD> </TR>
+			  <TR> <TD>select(Maxfd+1, &amp;R, &amp;W, &amp;E, &amp;T)</TD> </TR>
+			  <TR> <TD>while ((msg = curl_multi_info_read(cm, &amp;Q)))</TD> </TR>
+			</TABLE>
+		> ];
+
+	5[ label = "curl_multi_cleanup(cm)" ];
+	6[ label = "curl_global_cleanup()" ];
+
+	0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6;
+}

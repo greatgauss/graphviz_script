@@ -1,0 +1,11 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     1	[ label = "__start_thread()" ];
+     2	[ label = "__pthread_start()" ];
+     3	[ label = "Thread::_threadLoop()" ];
+     4	[ label = "ALooper::loop()" ];
+     5	[ label = "ALooperRoster::deliverMessage()" ];
+     6	[ label = "AmLiveSession::onMessageReceived()" ];
+     7	[ label = "AmLiveSession::onConnect()" ];
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7;
+}

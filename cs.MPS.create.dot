@@ -1,0 +1,22 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     
+     1	[ label = "mediaserver    ", fontcolor = RED, fontsize = 40, shape = plaintext ];
+     
+     2	[ label = "IPCThreadState::joinThreadPool()" ];
+     2	[ label = "IPCThreadState::joinThreadPool()" ];
+     3	[ label = "IPCThreadState::getAndExecuteCommand()" ];
+     4	[ label = "IPCThreadState::executeCommand()" ];
+     5	[ label = "BBinder::transact()" ];
+     6	[ label = "BnMPS::onTransact()" ];
+     7	[ label = "MPS::create()" ];
+     
+     2 -> 3 -> 4 -> 5 -> 6 -> 7;
+
+	subgraph control {
+	node [shape=point, style=invis]
+	a -> b [style=invis]
+	{rank=same; a; 1;}
+	{rank=same; b; 2}
+	}
+}

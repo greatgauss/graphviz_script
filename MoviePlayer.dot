@@ -1,0 +1,36 @@
+digraph MoviePlayer{
+node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];
+	0[ label = "MovieActivity.onCreate()" ];
+	1[ label = "new MoviePlayer" ];
+	2[ label = "{mVV = new VideoView |<f0>mVV.setVideoURI() |<f1>new Thread.run() |<f2>mVV.start()}" ];
+	4[ label = "mp.start()", fontcolor= RED ];
+	5[ label = "jni_start()" ];
+	6[ label = "{<f0>mp = new MediaPlayer()|<f1>mp.setDataSource()|<f2>mp.prepareAsync()}",fontcolor= RED ];
+	7[ label = "native_setup() //libmedia_jni" ];
+	8[ label = "new MediaPlayer //libmedia" ];
+	9[ label = "mVV.setVisibility()" ];
+	10[ label = "SurfaceView.setVisibility()" ];
+	11[ label = "SurfaceView.updateWindow()" ];	
+	12[ label = "mVV.surfaceCreated()" ];	
+  13[ label = "mVV.openVideo()" ];	
+	14[ label = "setDataSource() //libmedia_jni" ];
+	15[ label = "MP: setDataSource() //libmedia" ];
+	16[ label = "{<f0>I-MPS service = getMPS() |<f1>I-MP player = service-\>create()|<f2>player-\>setDataSource() }" ];
+  17[ label = "I-MPS: remote()-\>transact\n(CREATE)" ];
+  18[ label = "I-MP: remote()-\>transact\n(SET_DATA_SOURCE_URL)" ];
+	19[ label = "prepareAsync() //libmedia_jni" ];
+	20[ label = "MP: prepareAsync_l() //libmedia" ];
+  21[ label = "I-MP: remote()-\>transact\n(PREPARE_ASYNC)" ];
+		
+	0 -> 1;
+	1 -> 2;
+	2:f1 -> 9[style=dotted, label = "Another thread",fontcolor= green];
+	9 -> 10 -> 11 -> 12 -> 13 -> 6;
+	6:f0:w -> 7 -> 8;
+	6:f1:e -> 14 -> 15 -> 16;
+	6:f2:s -> 19 -> 20 -> 21;
+	16:f1:w -> 17;
+	16:f2:e -> 18;	
+	2:f2:w -> 4 -> 5;
+	
+}

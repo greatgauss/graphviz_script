@@ -1,0 +1,22 @@
+digraph setDataSource{
+node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];
+  0[ label = "X(Context context, Uri uri)" ];
+  1[ label = "X(Context context, Uri uri, Map\<String, String\> headers)" ];
+  2[ label = "X(String path)" ];	
+	3[ label = "X(String path, Map\<String, String\> headers)" ];	
+	4[ label = "X(String path, String[] keys, String[] values)" ];	
+	5[ label = "X(FileDescriptor fd)" ];
+	6[ label = "X(FileDescriptor fd, long offset, long length)" ];
+	7[ label = "native _X(FileDescriptor fd, long offset, long length)" ];
+  
+	0 -> 1;
+	1 -> 2:n; 2:s -> 4;
+	1 -> 3 -> 4;
+	1 -> 5 -> 6;
+	1 -> 6;
+	
+	4 -> 7;
+	4 -> 5;
+	6-> 7;
+
+}
