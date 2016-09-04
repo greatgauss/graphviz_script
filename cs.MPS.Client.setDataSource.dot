@@ -15,16 +15,20 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
      	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
 				<tr> <td>MPF::getPlayerType(url)//libmps </td> </tr>
 				<tr> <td bgcolor="pink">createThreadEtc(playerSwitchTread)</td> </tr>
-				<tr> <td>MPB p = MPS::Client::createPlayer(AMNU)</td> </tr>
-				<tr> <td>p-&gt;setDataSource()</td> </tr>
+				<tr> <td port="f0">MPB p = MPS::Client::createPlayer(AMNU)</td> </tr>
+				<tr> <td port="f1">p-&gt;setDataSource()</td> </tr>
 			</table>
-			>];
-     11	[ label = "AmNuPlayerDriver::setDataSource()" ];
+			>, shape=plaintext];
+     11	[ label = "AmNuPlayerDriver::setDataSource() //libamnuplayer" ];
      12	[ label = "AmNuPlayer::setDataSourceAsync()" ];
-
+     13	[ label = "MPF::createPlayer()" ];
+     14	[ label = "AmMF::createPlayer() //libmedia_amlogic" ];
+     15	[ label = "new AmNuPlayerDriver() //libamnuplayer" ];
+     16	[ label = "AmNuPlayerDriver.mLooper-\>start()" ];
 
 		1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10;
-    10 -> 11 -> 12;
+    10:f1:w -> 11 -> 12;
+    10:f0 -> 13 -> 14 -> 15 -> 16;
 
      101	[ label = "__start_thread()" ];
      102	[ label = "__pthread_start()" ];
@@ -32,7 +36,7 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
      	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
 				<tr> <td bgcolor="pink">MPS::Client::playerSwitchTread()</td></tr>
 			</table>
-			> ];
+			>, shape = plaintext ];
      104	[ label = "MPS::Client::createAnotherPlayer()" ];
      105	[ label = "{<f0>MPB p = MPF::createPlayer(AMSUPER)|<f1>p-\>hardwareOutput()|<f2>p-\>setDataSource()|<f3>p-\>prepareAsync()}" ];
      106	[ label = "AmMF::createPlayer()" ];
@@ -43,7 +47,7 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
       	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
 	  			<tr> <td bgcolor="green">createThreadEtc(AmSP::startThread)</td> </tr>
 		  	</table>
-			>];
+			>, shape = plaintext];
 
 		101 -> 102 -> 103 -> 104 -> 105;
 		105:f0:e -> 106 -> 107;
@@ -56,7 +60,7 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
      	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
 				<tr><td bgcolor="green">AmSP::startThread()</td></tr>
 			</table>
-			> ];
+			>, shape = plaintext ];
      204	[ label = "AmSP::initThread()" ];
      205	[ label = "AmSP::CreatePlayer()" ];
      206	[ label = "{MBP p = AmSP::createPlayer(AMLOGIC)|<f1>p-\>hardwareOutput()|<f2>p-\>setDataSource()|<f3>p-\>prepareAsync()}" ];
@@ -73,6 +77,5 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
 	{rank=same; a; 0;}
 	{rank=same; b; 1;101;201}
 	}
-     
-
+    
 }
