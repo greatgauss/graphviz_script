@@ -38,11 +38,16 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
      107	[ label = "AmNuPlayer::HTTPLiveSource::prepareAsync()" ];
      108	[ label = <
      	<table cellpadding="0" cellborder="1" cellspacing="0" border="0">
+				<tr> <td PORT = "f0">mLS = new AmLiveSession()</td> </tr>
+				<tr> <td>mLiveLooper-&gt;registerHandler(mLS)</td> </tr>
 				<tr> <td bgcolor="red">//send kWhatConnect</td> </tr>
-				<tr> <td>AmLiveSession::connectAsync()</td> </tr>
+				<tr> <td>mLS-&gt;connectAsync(url)</td> </tr>
 			</table>
-			>];
+			>, shape = plaintext ];
+     109	[ label = "curl_global_init()" ];
+
 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 108;
+108:f0:e -> 109;
 
 
      201	[ label = "__start_thread()" ];
