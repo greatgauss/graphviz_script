@@ -26,7 +26,17 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
 
 209 -> 7[label= "kWhatPreparationFailed", fontsize = 30, fontcolor = BLUE];
 
-
+    301	[ label = "__start_thread()" ];
+    302	[ label = "__pthread_start()" ];
+    303	[ label = "Thread::_threadLoop()" ];
+    304	[ label = "ALooper::loop()" ];
+    305	[ label = "ALooperRoster::deliverMessage()" ];
+    306	[ label = "AmNuPlayer::onMessageReceived()", fontcolor = RED ];
+    307	[ label = "AmNuPlayer::onSourceNotify()" ];
+    308	[ label = "AmNuPlayerDriver::notifyPrepareCompleted()" ];
+    309	[ label = "AmNuPlayerDriver::notifyListener_l()" ];
+    310	[ label = "MediaPlayerService::Client::notify()" ];
+301 -> 302 -> 303 -> 304 -> 305 -> 306 -> 307 -> 308 -> 309 -> 310;
 
     
 	subgraph control {
@@ -49,7 +59,7 @@ f [ label = "f" ]; g [ label = "g" ]; h [ label = "h" ]; i [ label = "i" ]; j [ 
 //	y -> z;
 	
 	{rank=same; a; 0;}
-	{rank=same; b; 1;201}
+	{rank=same; b; 1;201;301}
 	{rank=same; j; 7; 209}
 	{rank=same; 8; k}
 	}
