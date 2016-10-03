@@ -16,4 +16,8 @@ digraph RANKDIR
     point_3 [shape=point, color=RED];
     Person_3 [label="Clerk", color=GREEN]
     point_3 -> Person_3;
+    {
+      rank=same;
+	    Parent_1 -> point_1 -> point_2 -> point_3[arrowhead=none, color=blue]
+    }
 }
