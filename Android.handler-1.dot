@@ -1,54 +1,28 @@
 digraph handler {
-    node [shape=record fontsize=12 fontname=Courier style=filled];
-    edge[color=blue];
-    rankdir=LR;
+  node [shape=record fontsize=12 fontname="Microsoft YaHei" style=filled];
+  edge[color=blue];
+  rankdir=LR;
+  color = lightgray;
+  style=filled;
 
-subgraph cluster_us_data  {
-    node [shape=record fontsize=12 fontname=Courier style=filled];
-    color = lightgray;
-    style=filled;
-    label = "Struct us_data ";
-    edge[color="#2e3436"];
-    
-    node_us_data [shape=record label= \
-	    "<f0>******|\
-<f28>struct usb_ctrlrequest *cr\l|\
-<f29>struct usb_sg_request current_sg\l|\
-<f30>unsigned char   *iobuf\l|\
-		"];
-}
 
-subgraph cluster_usb_ctrlrequest  {
-    node [shape=record fontsize=12 fontname=Courier style=filled];
-    color = lightgray;
-    style=filled;
-    label = "Struct usb_ctrlrequest ";
-    edge[color="#2e3436"];
-    node_usb_ctrlrequest [shape=record label= \
-     "<f0>******|\
-<f2>__u8 bRequestType|\
-<f3>__u8 bRequest|\
-<f6>__le16 wLength|<f999>\
-		"];
-}
+  node_handler [shape=record label= " ***Handler\{ \}*** |<f0>mQueue\l|<f1>mLooper\l|\l"];
+  node_TLS [shape=record label= "***Thread.TLS***|<f0>|"];
+  node_Looper [shape=record label= "***Looper\{ \}***|<f0>mQueue\l|\l|\l"];
+  node_MQ [shape=record label= "***MessageQueue\{ \}***|{<f0>| |  | |} "];
 
-subgraph cluster_usb_sg_request  {
-    node [shape=record fontsize=12 fontname=Courier style=filled];
-    color = lightgray;
-    style=filled;
-    label = "Struct usb_sg_request ";
-    edge[color="#2e3436"];
-		node_usb_sg_request [shape=record label= \
-			"<f0>******|\
-<f2>int      status\l|\
-<f3>size_t       bytes\l|\
-<f9>int      count\l|\
-<f10>struct completion complete\l|<f999>\
-		"];
-}
+	node_TLS:f0 -> node_Looper:f0[color=RED, label="A"];
+	node_handler:f1 -> node_Looper:f0[color=RED, label="B"];
+	node_handler:f0 -> node_MQ:f0;
+	node_Looper:f0 ->  node_MQ:f0;
 
-node_us_data:f28 -> node_usb_ctrlrequest:f0;
-node_us_data:f29 -> node_usb_sg_request:f0[color=brown];
-node_us_data:f29 -> node_usb_sg_request:f999[color=brown];
-
+	subgraph control {
+	node [shape=point,style=invis]
+	a -> b ->c -> d -> e[style=invis]
+	{rank=same; a; node_TLS;}
+	{rank=same; b; node_handler;}
+	{rank=same; c; node_Looper;}
+	{rank=same; d; node_MQ;}
+	}
+	
 }

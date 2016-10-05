@@ -1,8 +1,0 @@
-digraph G {
-node [shape=record];
-graph [rankdir = "BT" bgcolor = "lightblue" style="filled" gradientangle = 270];
-node0 [label = "ONE |TWO |THREE"];
-A[shape=point, style=invis];
-B[shape=point, style=invis];
-A -> B [label="rankdir"];
-}

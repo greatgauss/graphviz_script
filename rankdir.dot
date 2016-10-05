@@ -1,23 +1,11 @@
-digraph RANKDIR
-{
-    fixedsize=true;          
-    node [shape=box, size="15,15"];
-    rankdir=LR;    
-    Parent_1 [label="rankdir: LR", color=RED];
+﻿digraph G {
+abcd [shape=none, margin=0, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+  <TR> <TD></TD>  <TD>1</TD> <TD>2</TD> <TD>3</TD> <TD>4</TD> </TR>
+  <TR> <TD>1</TD> <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD> </TR>
+  <TR> <TD>2</TD> <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD> </TR>
+  <TR> <TD>3</TD> <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD> </TR>
+  <TR> <TD>4</TD> <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD> </TR>
+</TABLE>>];
 
-    point_1 [shape=point, color=RED];
-    Person_1 [label="Alice", color=GREEN];
-    point_1 -> Person_1;
-
-    point_2 [shape=point, color=RED];
-    Person_2 [label="Black", color=GREEN];
-    point_2 -> Person_2;
-
-    point_3 [shape=point, color=RED];
-    Person_3 [label="Clerk", color=GREEN]
-    point_3 -> Person_3;
-    {
-      rank=same;
-	    Parent_1 -> point_1 -> point_2 -> point_3[arrowhead=none, color=blue]
-    }
 }

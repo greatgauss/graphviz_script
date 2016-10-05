@@ -6,23 +6,21 @@ nodesep=0.6;
 node [fontsize=11];
 //edge[weight=0.2];
 
-A -> B [label="I/5"]
-A -> A [label="*/0"]
-A -> C [label="ii/2"]
-A -> H [label="vii/1"]
-B -> D [label="iii/1"]
-B -> E [label="IV/2"]
-B -> F [headlabel="V/2", labeldistance=4, labelangle=-10, labelfontcolor=red]
-B -> B [label="vi/2"]
-C -> F [label="V/2"]
-C -> H [label="vii/1"]
-D -> E [label="IV/2"]
-E -> D [label="iii/2"]
-E -> G [label="iv/1"]
-E -> F [headlabel="V/3", labeldistance=8, labelangle=-7, labelfontcolor=red]
-F -> B [label="I/4"]
-F -> B [label="vi/1"]
-F -> B [label="*/0"]
-G -> B [taillabel="I/5", labeldistance=4, labelangle=15, labelfontcolor=red]
-H -> B [label="vi/1"]
+A -> B
+A -> C
+A -> H
+B -> D
+B -> E
+B -> F [label="BF", labeldistance=4, labelangle=-10, labelfontcolor=red]
+C -> F
+C -> H
+D -> E
+E -> D
+E -> G
+E -> F [label="EF", labeldistance=8, labelangle=-7, labelfontcolor=red]
+F -> B
+F -> B
+F -> B
+G -> B [taillabel="GB", labeldistance=4, labelangle=15, labelfontcolor=red]
+H -> B
 }
