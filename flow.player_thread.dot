@@ -1,0 +1,40 @@
+digraph abc{
+ rankdir=LR;  
+ node [shape = record, fontname = Microsoft YaHei, fontsize = 40];
+	   
+
+	   1  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="6">     am_packet_t *pkt = NULL<BR/>AVCodecContext *ic = NULL<BR/>AVCodec *codec = NULL<BR/>AVFrame *picture = NULL<BR/></TD> </TR>
+			  <TR> <TD COLSPAN="6"> update_player_start_paras(p_para, p_para-&gt;start_param)<BR/>player_para_init(p_para)<BR/>av_packet_init(pkt)<BR/>av_init_packet(pkt-&gt;avpkt)<BR/>p_para-&gt;p_pkt = pkt</TD> </TR>
+			  <TR> <TD COLSPAN="6"> <B>set_player_state</B>(p_para, <U>PLAYER_INITING</U>)<BR/>update_playing_info(p_para)<BR/>update_player_states(p_para, 1)</TD> </TR>
+			  <TR> <TD COLSPAN="6" port="ffmpeg_open_file"> ffmpeg_open_file(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> ffmpeg_parse_file_type(p_para, &amp;filetype)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> <B>set_player_state</B>(p_para, <U>PLAYER_TYPE_REDY</U>)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> send_event(p_para, EVENTS_STATE_CHANGED, REDY)<BR/>send_event(p_para, EVENTS_FILE_TYPE, &amp;filetype)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> player_dec_init(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> set_media_info(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> <B>set_player_state</B>(p_para, <U>PLAYER_INITOK</U>)<BR/>update_playing_info(p_para)<BR/>update_player_states(p_para, 1)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> check_start_cmd(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> ffmpeg_buffering_data(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> player_offset_init(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> player_decoder_init(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> set_cntl_mode(p_para, TRICKMODE_NONE)<BR/>set_cntl_avthresh(p_para, AV_SYNC_THRESH)<BR/>set_cntl_syncthresh(p_para)<BR/>set_sysfs_int("/sys/class/tsync/vpause_flag",0)</TD> </TR>
+			  <TR> <TD COLSPAN="6"> <B>set_player_state</B>(p_para, <U>PLAYER_START</U>)<BR/>update_playing_info(p_para)<BR/>update_player_states(p_para, 1)<BR/>player_mate_init(p_para, 1000 * 10)<BR/>ffmpeg_seturl_buffered_level(p_para,0)</TD> </TR>
+			  <TR> <TD COLSPAN="6" align="left"><font color="purple"><B>do {</B></font></TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="12"></TD> </TR>
+			  <TR> <TD  COLSPAN="5">pre_header_feeding(p_para)</TD> </TR>
+			  <TR> <TD  COLSPAN="5" align="left"><font color="green"><B>do {</B></font></TD></TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="7"></TD> </TR>
+			  <TR> <TD  COLSPAN="4"><font color="red"><B>read_av_packet</B></font>(p_para)</TD> </TR>
+			  <TR> <TD  COLSPAN="4">ret=<font color="red"><B>write_av_packet</B></font>(p_para)</TD> </TR>
+			  <TR> <TD  COLSPAN="4"><B><I>if (ret == PLAYER_WR_FINISH) break</I></B></TD> </TR>
+			  <TR> <TD  COLSPAN="4">update_playing_info(p_para)<BR/>update_player_states(p_para, 0)</TD> </TR>
+			  <TR> <TD  COLSPAN="4">check_subtitle_info(p_para)</TD> </TR>
+			  <TR> <TD  COLSPAN="4">set_header_info(p_para)</TD> </TR>
+			  <TR> <TD  COLSPAN="5"  align="left"><font color="green"><B>}while (!p_para-&gt;playctrl_info.end_flag)</B></font></TD> </TR>
+			  <TR> <TD  COLSPAN="5">ret = player_reset(p_para)</TD> </TR>
+			  <TR> <TD COLSPAN="6" align="left"><font color="purple"><B>} while(true)</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+}

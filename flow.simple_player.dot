@@ -1,0 +1,134 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 40];
+
+     A	[ label = "main()" ];
+	   B  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="3">play_control_t  <font color="red"><B>ctrl</B></font> </TD> <TD COLSPAN="0" port="here"></TD> </TR>
+			  <TR> <TD COLSPAN="3">memset(&amp;<font color="red"><B>ctrl</B></font>,0)</TD> </TR>
+			  <TR> <TD COLSPAN="3"><font color="red"><B>ctrl</B></font>.file_name=argv[1]</TD> </TR>
+			  <TR> <TD COLSPAN="3" port="player_init">player_init()</TD> </TR>
+			  <TR> <TD COLSPAN="3" port="player_start">pid=player_start(&amp;<font color="red"><B>ctrl</B></font>, 0)</TD> </TR>
+			  <TR> <TD COLSPAN="3">while(!PLAYER_THREAD_IS_STOPPED(pid))</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="2"></TD> </TR>
+			  <TR> <TD  COLSPAN="2">usleep(10000)</TD> </TR>
+			  <TR> <TD  COLSPAN="3">player_stop(pid)</TD> </TR>
+			  <TR> <TD  COLSPAN="3">player_exit(pid)</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+ 
+	   C  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>//The first unused id in pid_pool<BR/>//Same as file descriptor<BR/>pid = player_request_pid()</TD></TR>
+			  <TR> <TD>play_para_t *<font color="blue"><B>p_para</B></font> = MALLOC()</TD> </TR>
+			  <TR> <TD>player_init_pid_data(pid, <font color="blue"><B>p_para</B></font>)</TD> </TR>
+			  <TR> <TD>message_pool_init(<font color="blue"><B>p_para</B></font>)</TD> </TR>
+			  <TR> <TD>p_para-&gt;start_param = <font color="red"><B>ctrl</B></font><BR/>
+			  				 p_para-&gt;player_id = pid<BR/>
+			  				 p_para-&gt;extern_priv = priv </TD> </TR>
+			  <TR> <TD port="player_thread_create">player_thread_create(<font color="blue"><B>p_para</B></font>)</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+ 		 
+	   D  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>pthread_t       <font color="green"><B>tid</B></font></TD></TR>
+			  <TR> <TD>pthread_attr_t pthread_attr</TD> </TR>
+			  <TR> <TD>player_thread_mgt_t *mgt = &amp;<font color="blue"><B>p_para</B></font>-&gt;thread_mgt</TD> </TR>
+			  <TR> <TD>pthread_attr_init(&amp;pthread_attr)</TD> </TR>
+			  <TR> <TD port="amthreadpool_pthread_create">amthreadpool_pthread_create(<Br/>&amp;<font color="green"><B>tid</B></font>, 
+			  																			<Br/>&amp;pthread_attr, 
+			  																			<Br/>(void*)&amp;<font color="brown"><B>player_thread_t</B></font>, 
+			  																			<Br/>(void*)<font color="blue"><B>p_para</B></font>)</TD> </TR>
+			  <TR> <TD>pthread_setname_np(tid,<I>"<U>AmplayerMain</U>"</I>)</TD> </TR>
+			  <TR> <TD>pthread_attr_destroy(&amp;pthread_attr)</TD> </TR>
+			  <TR> <TD>mgt-&gt;pthread_id = <font color="green"><B>tid</B></font></TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+ 		 
+	   E  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>pthread_t subtid</TD> </TR>
+			  <TR> <TD>threadpool_thread_data_t *<font color="purple"><B>td</B></font> = malloc()</TD> </TR>
+			  <TR> <TD><font color="purple"><B>td</B></font>-&gt;start_routine = <font color="brown"><B>player_thread_t</B></font><BR/>
+							    <font color="purple"><B>td</B></font>-&gt;arg = <font color="blue"><B>p_para</B></font><BR/>
+							    <font color="purple"><B>td</B></font>-&gt;ppid[0] = pthread_self()</TD> </TR>
+			  <TR> <TD>pthread_create(&amp;subtid,<BR/>attr,<BR/><B>amthreadpool_start_thread</B>,<BR/>(void *)td)</TD> </TR>
+			  <TR> <TD>*<font color="green"><B>tid</B></font> = subtid</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+
+	   F  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="ffmpeg_init">ffmpeg_init()</TD> </TR>
+			  <TR> <TD>ts_register_stream_decoder()</TD> </TR>
+			  <TR> <TD>es_register_stream_decoder()</TD> </TR>
+			  <TR> <TD>ps_register_stream_decoder()</TD> </TR>
+			  <TR> <TD>rm_register_stream_decoder()</TD> </TR>
+			  <TR> <TD>audio_register_stream_decoder()</TD> </TR>
+			  <TR> <TD>video_register_stream_decoder()</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+
+	   G  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>av_register_all()</TD> </TR>
+			  <TR> <TD port="ffmpeg_load_external_module">ffmpeg_load_external_module()</TD> </TR>
+			  <TR> <TD>url_set_interrupt_cb(ffmpeg_interrupt_callback)</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+
+	   H  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>libdash_module_methods-&gt;init()</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+
+	   I  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>libdash_mod_init()</TD> </TR>
+			</TABLE>
+		  >, shape=plaintext ];
+
+	   J  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>av_register_input_format(&amp;ff_dash_demuxer)</TD> </TR>
+			  <TR> <TD>av_register_protocol(&amp;dash_protocol)</TD> </TR>			  
+			</TABLE>
+		  >, shape=plaintext ];
+
+ 		 A -> B
+ 		 B:player_start -> C
+ 		 B:player_init:e -> F
+ 		 C:player_thread_create:e -> D
+ 		 D:amthreadpool_pthread_create -> E
+ 		 F:ffmpeg_init -> G
+ 		 G:ffmpeg_load_external_module -> H [style="dashed"]
+ 		 H -> I -> J
+ 		 
+     1	[ label = "pthread_create()" ];
+     2	[ label = "__thread_entry()" ];
+     3	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><B>amthreadpool_start_thread(<font color="purple"><B>td</B></font>)</B></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ]
+	   4  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><font color="purple"><B>td</B></font>-&gt;pid = pthread_self()</TD> </TR>
+			  <TR> <TD port="callback"><font color="purple"><B>td</B></font>-&gt;start_routine(td-&gt;arg)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+     5  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>//libamplayer.so<BR/>//amplayer/player/player.c<BR/><font color="brown"><B>player_thread_t</B></font>(<font color="blue"><B>p_para</B></font>)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+     6  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>player_thread(<font color="blue"><B>p_para</B></font>)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+		 1 -> 2 -> 3 -> 4
+		 4:callback:e -> 5 -> 6
+}

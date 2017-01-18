@@ -1,20 +1,41 @@
 digraph handler {
-  node [shape=record fontsize=12 fontname="Microsoft YaHei" style=filled];
+  node [shape=plaintext fontsize=12 fontname="Microsoft YaHei"];
   edge[color=blue];
   rankdir=LR;
-  color = lightgray;
-  style=filled;
+
+  node_handler [label=
+  <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD BGCOLOR="yellow"><FONT POINT-SIZE="18"> <I>Handler</I>{}</FONT></TD></TR>
+    <TR><TD PORT="here0">mQueue</TD></TR>
+    <TR><TD PORT="here1">mLooper</TD></TR>
+    <TR><TD> </TD></TR>
+  </TABLE>>];
+
+  node_TLS [label=
+  <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD BGCOLOR="yellow"><FONT POINT-SIZE="18"><I>Thread.TLS</I></FONT></TD></TR>
+    <TR><TD PORT="here"> </TD></TR>
+    <TR><TD> </TD></TR>
+  </TABLE>>];
+
+  node_Looper [label=
+  <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD BGCOLOR="yellow"><FONT POINT-SIZE="18"><I>Looper</I>{}</FONT></TD></TR>
+    <TR><TD PORT="here0">mQueue</TD></TR>
+    <TR><TD> </TD></TR>
+  </TABLE>>];
 
 
-  node_handler [shape=record label= " ***Handler\{ \}*** |<f0>mQueue\l|<f1>mLooper\l|\l"];
-  node_TLS [shape=record label= "***Thread.TLS***|<f0>|"];
-  node_Looper [shape=record label= "***Looper\{ \}***|<f0>mQueue\l|\l|\l"];
-  node_MQ [shape=record label= "***MessageQueue\{ \}***|{<f0>| |  | |} "];
+  node_MQ [label=
+  <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD COLSPAN="5" BGCOLOR="yellow"><FONT POINT-SIZE="18" COLOR="BLACK"><I>MessageQueue</I>{}</FONT></TD></TR>
+    <TR><TD PORT="f0"> </TD><TD> </TD><TD> </TD><TD> </TD><TD> </TD></TR>
+  </TABLE>>];
 
-	node_TLS:f0 -> node_Looper:f0[color=RED, label="A"];
-	node_handler:f1 -> node_Looper:f0[color=RED, label="B"];
-	node_handler:f0 -> node_MQ:f0;
-	node_Looper:f0 ->  node_MQ:f0;
+	node_TLS:here -> node_Looper:here0[color=RED, label="A", fontcolor=RED];
+	node_handler:here1 -> node_Looper:here0[color=RED, label="B", fontcolor=RED];
+	node_handler:here0 -> node_MQ:f0;
+	node_Looper:here0 ->  node_MQ:f0;
 
 	subgraph control {
 	node [shape=point,style=invis]
@@ -24,5 +45,4 @@ digraph handler {
 	{rank=same; c; node_Looper;}
 	{rank=same; d; node_MQ;}
 	}
-	
 }

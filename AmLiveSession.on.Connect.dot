@@ -1,0 +1,11 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     1	[ label = "__start_thread()" ];
+     2	[ label = "__pthread_start()" ];
+     3	[ label = "android::Thread::_threadLoop()" ];
+     4	[ label = "android::ALooper::loop()" ];
+     5	[ label = "android::ALooperRoster::deliverMessage()" ];
+     6	[ label = "android::AmLiveSession::onMessageReceived()" ];
+     7	[ label = "android::AmLiveSession::onConnect()" ];
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7;
+}

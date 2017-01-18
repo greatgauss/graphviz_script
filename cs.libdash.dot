@@ -1,0 +1,72 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+
+     A	[ label = "pthread_create()" ];
+     B	[ label = "__thread_entry()" ];
+     C	[ label = "DASHReceiver::DoBuffering()" ];
+	   D[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="4">DASHReceiver::DownloadInitSegment()</TD> <TD COLSPAN="0" port="here"></TD> </TR>
+			  <TR> <TD COLSPAN="4">DASHReceiver::GetNextSegment()</TD> </TR>
+			  <TR> <TD COLSPAN="4">WHILE( true )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="6"></TD> </TR>
+			  <TR> <TD  COLSPAN="3"  PORT="f1">MediaObject::StartDownload()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">MediaObjectBuffer::PushBack()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">MediaObject::WaitFinished()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">DASHReceiver::NotifySegmentDownloaded()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">DASHReceiver::GetNextSegment()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+     E	[ label = "MediaObject::StartDownload()" ];
+     F	[ label = "{<f0>AbstractChunk::AttachDownloadObserver()| \
+                    <f1>AbstractChunk::StartDownload()}" ];
+
+    
+		 A -> B -> C -> D;
+		 D:here -> E-> F;
+		      
+     1	[ label = "pthread_create()" ];
+     2	[ label = "__thread_entry()" ];
+     3	[ label = "amthreadpool_start_thread()" ];
+     4	[ label = "//libamplayer.so\n//amplayer/player/player.c\nplayer_thread()" ];
+     5	[ label = "ffmpeg_open_file()" ];
+     6	[ label = "avformat_open_input_header()" ];
+     6.1	[ label = "avio_open_h()" ];
+     6.2	[ label = "ffurl_open_h()" ];
+     7	[ label = "dash_protocol_open()" ];
+     8	[ label = "dash_open()" ];
+    9[ label = "{<f0>CreateDashManager()| \
+                 <f1>DASHManager::Open()| \
+                 <f2>//One session per AdaptationSet\n dash_open_session()}" ];
+
+    13	[ label = "1. new DASHManager2" ];
+    14	[ label = "new DASHReceiver" ];
+    15	[ label = "new AdaptationSetStream", fontcolor= RED ];
+    16	[ label = "AdaptationSetStream::Initialize()" ];
+    16.1	[ label = "RepresentationStreamFactory::Create()" ];
+    16.2	[ label = "new SegmentTemplateStream" ];
+    16.3	[ label = "SegmentTemplateStream::CalculateSegmentStartTimes()" ];
+
+    20	[ label = "2. DASHManager2::SetRepresentation()" ];
+    21[ label = "{<f0>new AdaptationSetStream|<f1>DASHReceiver::DownloadInitSegment()}", fontcolor= RED ];
+    22[ label = "{<f0>DASHReceiver::GetInitSegment()|<f1>MediaObject::StartDownload()}" ];
+    23	[ label = "AbstractChunk::StartDownload()" ];
+    24	[ label = "SegmentTemplateStream::GetInitializationSegment()" ];
+
+    10	[ label = "3. DASHManager2::Start()" ];
+    11	[ label = "DASHReceiver::Start()" ];
+    12	[ label = "pthread_create(DASHReceiver::DoBuffering())" ];
+
+    18	[ label = "DOMParser::Parse()" ];
+    19	[ label = "// Download MPD\nAbstractChunk::StartDownload()" ];
+            
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9;
+
+9:s -> 10 -> 11 -> 12
+9:s -> 13 ->14 -> 15 -> 16 -> 16.1 -> 16.2 -> 16.3; 
+6 -> 6.1 -> 6.2 -> 7;
+9:s -> 20 ->21 -> 22 -> 23;
+22:f0 -> 24;
+9:f1 -> 18 -> 19; 
+
+}

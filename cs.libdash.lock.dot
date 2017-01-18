@@ -1,0 +1,59 @@
+digraph abc{
+node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+     A	[ label = "pthread_create()" ];
+     B	[ label = "__thread_entry()" ];
+     C	[ label = "DASHReceiver::DoBuffering()" ];
+     
+     D  [ label = "MediaObject::WaitFinished()" ];
+     E	[ label = "wait qCond_stateChanged:seg#0\nwait qCond_stateChanged:seg#1\nwait qCond_stateChanged:seg#2\n", fontcolor= RED ];
+     F	[ label = "MediaObject::StartDownload()" ];
+     G	[ label = "AbstractChunk::StartDownload()" ];
+     H	[ label = "DownloadStateManager::State(IN_PROGRESS)" ];
+     I	[ label = "DownloadStateManager::Notify()" ];
+     J	[ label = "MediaObject::OnDownloadStateChanged()" ];
+     K	[ label = "signal qCond_stateChanged:seg#init\nsignal qCond_stateChanged:seg#0\nsignal qCond_stateChanged:seg#1\nsignal qCond_stateChanged:seg#2\n", fontcolor= RED  ];
+		 
+		 A -> B -> C;
+		 C -> D -> E;
+		 C -> F -> G -> H -> I -> J -> K;
+
+
+     AAA	[ label = "pthread_create()" ];
+     BBB	[ label = "__thread_entry()" ];
+     CCC	[ label = "AbstractChunk::DownloadInternalConnection()" ];
+     DDD  [ label = "DownloadStateManager::State(COMPLETED)" ];
+     EEE	[ label = "DownloadStateManager::Notify()" ];
+     FFF	[ label = "MediaObject::OnDownloadStateChanged()" ];
+     GGG	[ label = "signal qCond_stateChanged:seg#0\nsignal qCond_stateChanged:seg#1\nsignal qCond_stateChanged:seg#2\n", fontcolor= RED ];
+     		 
+		 AAA -> BBB -> CCC -> DDD -> EEE -> FFF -> GGG;
+
+
+     AA	[ label = "pthread_create()" ];
+     BB	[ label = "__thread_entry()" ];
+     CC	[ label = "DASHReceiver::DoBuffering()" ];
+     DD  [ label = "MediaObjectBuffer::PushBack()" ];
+     EE	[ label = "__pthread_cond_timedwait()", fontcolor= RED ];
+		 
+		 AA -> BB -> CC -> DD -> EE;
+
+
+     1	[ label = "pthread_create()" ];
+     2	[ label = "__thread_entry()" ];
+     3	[ label = "amthreadpool_start_thread()" ];
+     4	[ label = "player_thread()" ];
+     5	[ label = "read_av_packet()" ];
+     6	[ label = "av_read_packet()" ];
+     6	[ label = "av_get_packet()" ];
+     7	[ label = "avio_read()" ];
+     8	[ label = "ffurl_read()" ];
+     9	[ label = "dash_protocol_read()" ];
+    10	[ label = "DASHManager2::Read()" ];
+    11	[ label = "MediaObject::Read()" ];
+    12	[ label = "SyncedBlockStream::GetBytes()" ];
+    13	[ label = "__pthread_cond_timedwait()", fontcolor= RED ];
+
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13;
+
+
+}
