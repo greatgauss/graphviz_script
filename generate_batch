@@ -1,0 +1,1 @@
+find . -name "*.dot" | sed  's/.dot//' | sed 's/.\///' | sed 's/\(.*\)/ gv.bat \1/' > batch.bat
