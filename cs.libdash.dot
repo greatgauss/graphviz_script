@@ -1,9 +1,13 @@
 digraph abc{
-node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
+node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 
-     A	[ label = "pthread_create()" ];
+     //A	[ label = "pthread_create()" ];
      B	[ label = "__thread_entry()" ];
-     C	[ label = "DASHReceiver::DoBuffering()" ];
+     C	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>DASHReceiver::<font color="brown"><B>DoBuffering()</B></font><BR/></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
 	   D[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD COLSPAN="4" port="DownloadInitSegment">DASHReceiver::DownloadInitSegment()</TD> </TR>
@@ -22,10 +26,10 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
                     <f1>AbstractChunk::StartDownload()}" ];
 
     
-		 A -> B -> C -> D;
+		 B -> C -> D;
 		 D:DownloadInitSegment:e -> E-> F;
 		      
-     1	[ label = "pthread_create()" ];
+     //1	[ label = "pthread_create()" ];
      2	[ label = "__thread_entry()" ];
      3	[ label = "amthreadpool_start_thread()" ];
      4	[ label = "//libamplayer.so\n//amplayer/player/player.c\nplayer_thread()" ];
@@ -35,37 +39,57 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
      8	[ label = "ffurl_open_h()" ];
      9	[ label = "dash_protocol_open()" ];
      10	[ label = "dash_open()" ];
-    11 [ label = "{<f0>CreateDashManager()| \
-                 <f1>DASHManager::Open()| \
-                 <f2>//One session per AdaptationSet\n dash_open_session()}" ];
-
+    11 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="CreateDashManager">CreateDashManager()</TD> </TR>
+			  <TR> <TD port="DASHManager_Open">DASHManager::Open()</TD> </TR>
+			  <TR> <TD port="dash_open_session"> \
+			  <font color="purple"><B>//One session per AdaptationSet</B></font><BR/> \
+			  dash_open_session()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+		 
     12 [ label = "{<f0>new DASHManager2| \
                  <f1>DASHManager2::SetRepresentation()| \
                  <f2>DASHManager2::Start()}" ];
 
     13	[ label = "new DASHReceiver" ];
-    14	[ label = "new AdaptationSetStream", fontcolor= RED ];
+    14  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="f0"><font color="red"><B>new AdaptationSetStream</B></font></TD> </TR>
+ 			</TABLE>
+		 >, shape=plaintext ];
+
     15	[ label = "AdaptationSetStream::Initialize()" ];
     16	[ label = "RepresentationStreamFactory::Create()" ];
     17	[ label = "new SegmentTemplateStream" ];
     18	[ label = "SegmentTemplateStream::CalculateSegmentStartTimes()" ];
 
-    19 [ label = "{<f0>new AdaptationSetStream|<f1>DASHReceiver::DownloadInitSegment()}", fontcolor= RED ];
+    19 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="f0"><font color="red"><B>new AdaptationSetStream</B></font></TD> </TR>
+			  <TR> <TD port="f1">DASHReceiver::DownloadInitSegment()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
     20 [ label = "{<f0>DASHReceiver::GetInitSegment()|<f1>MediaObject::StartDownload()}" ];
     21 [ label = "AbstractChunk::StartDownload()" ];
 
     22 [ label = "DASHReceiver::Start()" ];
-    23 [ label = "pthread_create(DASHReceiver::DoBuffering())" ];
+    23 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>pthread_create(DASHReceiver::<font color="brown"><B>DoBuffering</B></font>)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext];
 
     24 [ label = "DOMParser::Parse()" ];
     25 [ label = "// Download MPD\nAbstractChunk::StartDownload()" ];
             
             
-1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 11;
+2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 11;
 6 -> 7 -> 8 -> 9
 
-11:f1 -> 24 -> 25
-11:f2:w -> 12;
+11:DASHManager_Open -> 24 -> 25
+11:dash_open_session:w -> 12;
 12:f0 ->13 -> 14 -> 15 -> 16 -> 17 -> 18
 12:f1 -> 19 -> 20 -> 21
 12:f2 -> 22 -> 23
