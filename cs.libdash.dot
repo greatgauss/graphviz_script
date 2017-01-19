@@ -14,7 +14,7 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 			  <TR> <TD COLSPAN="4">DASHReceiver::GetNextSegment()</TD> </TR>
 			  <TR> <TD COLSPAN="4">WHILE( true )</TD> </TR>
 			  <TR> <TD  COLSPAN="1" ROWSPAN="6"></TD> </TR>
-			  <TR> <TD  COLSPAN="3"  PORT="f1">MediaObject::StartDownload()</TD> </TR>
+			  <TR> <TD  COLSPAN="3"  PORT="f1"><font color="green"><B>MediaObject::StartDownload</B></font></TD> </TR>
 			  <TR> <TD  COLSPAN="3">MediaObjectBuffer::PushBack()</TD> </TR>
 			  <TR> <TD  COLSPAN="3">MediaObject::WaitFinished()</TD> </TR>
 			  <TR> <TD  COLSPAN="3">DASHReceiver::NotifySegmentDownloaded()</TD> </TR>
@@ -22,9 +22,12 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 			</TABLE>
 		 >, shape=plaintext ];
      E	[ label = "MediaObject::StartDownload()" ];
-     F	[ label = "{<f0>AbstractChunk::AttachDownloadObserver()| \
-                    <f1>AbstractChunk::StartDownload()}" ];
-
+     F	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="f0">AbstractChunk::AttachDownloadObserver()</TD> </TR>
+			  <TR> <TD port="f1"><font color="green"><B>AbstractChunk::StartDownload</B></font>()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext]
     
 		 B -> C -> D;
 		 D:DownloadInitSegment:e -> E-> F;
@@ -72,7 +75,11 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 			</TABLE>
 		 >, shape=plaintext ];
     20 [ label = "{<f0>DASHReceiver::GetInitSegment()|<f1>MediaObject::StartDownload()}" ];
-    21 [ label = "AbstractChunk::StartDownload()" ];
+    21 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><font color="green"><B>AbstractChunk::StartDownload</B></font>()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext];
 
     22 [ label = "DASHReceiver::Start()" ];
     23 [ label = <
@@ -82,7 +89,11 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 		 >, shape=plaintext];
 
     24 [ label = "DOMParser::Parse()" ];
-    25 [ label = "// Download MPD\nAbstractChunk::StartDownload()" ];
+    25 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>// Download MPD<BR/><font color="green"><B>AbstractChunk::StartDownload</B></font>()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext];
             
             
 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 11;
