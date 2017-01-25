@@ -1,7 +1,6 @@
 digraph abc{
 node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 
-     //A	[ label = "pthread_create()" ];
      B	[ label = "__thread_entry()" ];
      C	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
@@ -10,29 +9,37 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
 		 >, shape=plaintext ];
 	   D[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD COLSPAN="4" port="DownloadInitSegment">DASHReceiver::DownloadInitSegment()</TD> </TR>
+			  <TR> <TD COLSPAN="4">DASHReceiver::DownloadInitSegment()</TD> </TR>
 			  <TR> <TD COLSPAN="4">DASHReceiver::GetNextSegment()</TD> </TR>
 			  <TR> <TD COLSPAN="4">WHILE( true )</TD> </TR>
 			  <TR> <TD  COLSPAN="1" ROWSPAN="6"></TD> </TR>
-			  <TR> <TD  COLSPAN="3"  PORT="f1"><font color="green"><B>MediaObject::StartDownload</B></font></TD> </TR>
+			  <TR> <TD  COLSPAN="3"  PORT="f0"><font color="green"><B>MediaObject::StartDownload()</B></font></TD> </TR>
 			  <TR> <TD  COLSPAN="3">MediaObjectBuffer::PushBack()</TD> </TR>
 			  <TR> <TD  COLSPAN="3">MediaObject::WaitFinished()</TD> </TR>
 			  <TR> <TD  COLSPAN="3">DASHReceiver::NotifySegmentDownloaded()</TD> </TR>
 			  <TR> <TD  COLSPAN="3">DASHReceiver::GetNextSegment()</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ];
-     E	[ label = "MediaObject::StartDownload()" ];
-     F	[ label = <
+
+     E	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD port="f0">AbstractChunk::AttachDownloadObserver()</TD> </TR>
 			  <TR> <TD port="f1"><font color="green"><B>AbstractChunk::StartDownload</B></font>()</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext]
     
+     F	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="f0">AbstractChunk this</TD> </TR>
+			  <TR> <TD port="f0">this-&gt;curl = curl_easy_init()</TD> </TR>
+			  <TR> <TD port="f0">curl_easy_setopt(this-&gt;curl, <BR/>CURLOPT_WRITEFUNCTION,<BR/>AbstractChunk::<font color="brown"><B>CurlResponseCallback</B></font>)</TD> </TR>
+			  <TR> <TD port="f0"><B><U><I>pthread_create</I></U></B>(<font color="brown"><B>DownloadInternalConnection</B></font>)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext]
+
 		 B -> C -> D;
-		 D:DownloadInitSegment:e -> E-> F;
+		 D:f0:e -> E; E:f1:w -> F;
 		      
-     //1	[ label = "pthread_create()" ];
      2	[ label = "__thread_entry()" ];
      3	[ label = "amthreadpool_start_thread()" ];
      4	[ label = "//libamplayer.so\n//amplayer/player/player.c\nplayer_thread()" ];
@@ -42,7 +49,7 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
      8	[ label = "ffurl_open_h()" ];
      9	[ label = "dash_protocol_open()" ];
      10	[ label = "dash_open()" ];
-    11 [ label = <
+     11 [ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD port="CreateDashManager">CreateDashManager()</TD> </TR>
 			  <TR> <TD port="DASHManager_Open">DASHManager::Open()</TD> </TR>
@@ -84,22 +91,43 @@ node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
     22 [ label = "DASHReceiver::Start()" ];
     23 [ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD>pthread_create(DASHReceiver::<font color="brown"><B>DoBuffering</B></font>)</TD> </TR>
+			  <TR> <TD><B><U><I>pthread_create</I></U></B>(DASHReceiver::<font color="brown"><B>DoBuffering</B></font>)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext];
 
     24 [ label = "DOMParser::Parse()" ];
     25 [ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD>// Download MPD<BR/><font color="green"><B>AbstractChunk::StartDownload</B></font>()</TD> </TR>
+			  <TR> <TD COLSPAN="5">// Download MPD<BR/><font color="green"><B>HttpDownloader::StartDownload</B></font>()</TD> </TR>
+			  <TR> <TD COLSPAN="5">WHILE( true )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="3"></TD> </TR>
+			  <TR> <TD  COLSPAN="4"  PORT="f0">HttpDownloader::Read(recvBuf)</TD> </TR>
+			  <TR> <TD  COLSPAN="4">strContent.append(recvBuf)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext];
+
+    26 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>HttpDownloader::Read()</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext];
             
+    27 [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>SyncedBlockStream::GetBytes()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext];
+
+     28	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><font color="brown"><B>wait qCond_full</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
             
 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 11;
 6 -> 7 -> 8 -> 9
 
-11:DASHManager_Open -> 24 -> 25
+11:DASHManager_Open -> 24 -> 25; 25:f0:e -> 26 -> 27 -> 28
 11:dash_open_session:w -> 12;
 12:f0 ->13 -> 14 -> 15 -> 16 -> 17 -> 18
 12:f1 -> 19 -> 20 -> 21
