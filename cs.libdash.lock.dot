@@ -1,59 +1,177 @@
 digraph abc{
-node [shape = record, fontname = Microsoft YaHei, fontsize = 20];
-     A	[ label = "pthread_create()" ];
-     B	[ label = "__thread_entry()" ];
+node [shape = record, fontname = Microsoft YaHei, fontsize = 30];
+
+     B	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD align="left">//<B><I>dashThread</I></B><BR/>__thread_entry()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
      C	[ label = "DASHReceiver::DoBuffering()" ];
+	   D[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="4"  align="left">WHILE( true )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="6"></TD> </TR>
+			  <TR> <TD  COLSPAN="3"  port="StartDownload"><B>MediaObject::StartDownload()</B></TD> </TR>
+			  <TR> <TD  COLSPAN="3" port="PushBack">MediaObjectBuffer::PushBack()</TD> </TR>
+			  <TR> <TD  COLSPAN="3" port="WaitFinished">MediaObject::WaitFinished()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">DASHReceiver::NotifySegmentDownloaded()</TD> </TR>
+			  <TR> <TD  COLSPAN="3">DASHReceiver::GetNextSegment()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
      
-     D  [ label = "MediaObject::WaitFinished()" ];
-     E	[ label = "wait qCond_stateChanged:seg#0\nwait qCond_stateChanged:seg#1\nwait qCond_stateChanged:seg#2\n", fontcolor= RED ];
-     F	[ label = "MediaObject::StartDownload()" ];
+     E	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD ><font color="purple"><B>wait qCond_stateChanged:seg#0<BR/> wait qCond_stateChanged:seg#1<BR/>wait qCond_stateChanged:seg#2</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
      G	[ label = "AbstractChunk::StartDownload()" ];
      H	[ label = "DownloadStateManager::State(IN_PROGRESS)" ];
      I	[ label = "DownloadStateManager::Notify()" ];
      J	[ label = "MediaObject::OnDownloadStateChanged()" ];
-     K	[ label = "signal qCond_stateChanged:seg#init\nsignal qCond_stateChanged:seg#0\nsignal qCond_stateChanged:seg#1\nsignal qCond_stateChanged:seg#2\n", fontcolor= RED  ];
+     K	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD ><font color="purple"><B>signal qCond_stateChanged:seg#init<BR/> signal qCond_stateChanged:seg#0<BR/>signal qCond_stateChanged:seg#1<BR/>signal qCond_stateChanged:seg#2</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+	   L[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="4">WHILE( <BR/>this-&gt;mediaobjects.size() &gt;= MAXCAPACITY<BR/> AND !this-&gt;eos )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="2"></TD> </TR>
+			  <TR> <TD  COLSPAN="3"><font color="blue"><B>wait qCond_empty</B></font></TD> </TR>
+			  <TR> <TD COLSPAN="4"><font color="red"><B>signal qCond_full</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
 		 
-		 A -> B -> C;
-		 C -> D -> E;
-		 C -> F -> G -> H -> I -> J -> K;
+		 B -> C -> D;
+		 D:PushBack:w -> L;
+		 D:WaitFinished:w -> E;
+		 D:StartDownload:e -> G -> H -> I -> J -> K;
 
 
-     AAA	[ label = "pthread_create()" ];
-     BBB	[ label = "__thread_entry()" ];
+     BBB	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>//<B><I>curlThread</I></B><BR/>__thread_entry()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
      CCC	[ label = "AbstractChunk::DownloadInternalConnection()" ];
-     DDD  [ label = "DownloadStateManager::State(COMPLETED)" ];
+     DDD	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="curl_easy_perform">curl_easy_perform(url)</TD> </TR>
+			  <TR> <TD port="State">DownloadStateManager::State(COMPLETED)</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
      EEE	[ label = "DownloadStateManager::Notify()" ];
      FFF	[ label = "MediaObject::OnDownloadStateChanged()" ];
-     GGG	[ label = "signal qCond_stateChanged:seg#0\nsignal qCond_stateChanged:seg#1\nsignal qCond_stateChanged:seg#2\n", fontcolor= RED ];
-     		 
-		 AAA -> BBB -> CCC -> DDD -> EEE -> FFF -> GGG;
+     GGG	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD ><font color="purple"><B>signal qCond_stateChanged:seg#0<BR/>signal qCond_stateChanged:seg#1<BR/>signal qCond_stateChanged:seg#2</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
 
 
-     AA	[ label = "pthread_create()" ];
-     BB	[ label = "__thread_entry()" ];
-     CC	[ label = "DASHReceiver::DoBuffering()" ];
-     DD  [ label = "MediaObjectBuffer::PushBack()" ];
-     EE	[ label = "__pthread_cond_timedwait()", fontcolor= RED ];
-		 
-		 AA -> BB -> CC -> DD -> EE;
+     HHH	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>Curl_readwrite()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+     III	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>Curl_client_write()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+     JJJ	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><B>AbstractChunk::CurlResponseCallback</B>()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+     KKK	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>SyncedBlockStream::PushBack()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+     LLL	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><font color="brown"><B>signal qCond_full</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+		 BBB -> CCC -> DDD; 
+		 DDD:State:w -> EEE -> FFF -> GGG;
+		 DDD:curl_easy_perform:e -> HHH -> III -> JJJ -> KKK -> LLL;
 
 
-     1	[ label = "pthread_create()" ];
-     2	[ label = "__thread_entry()" ];
+     2	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD align="left">//<B><I>playerThread</I></B><BR/>__thread_entry()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
      3	[ label = "amthreadpool_start_thread()" ];
      4	[ label = "player_thread()" ];
-     5	[ label = "read_av_packet()" ];
-     6	[ label = "av_read_packet()" ];
-     6	[ label = "av_get_packet()" ];
-     7	[ label = "avio_read()" ];
-     8	[ label = "ffurl_read()" ];
-     9	[ label = "dash_protocol_read()" ];
-    10	[ label = "DASHManager2::Read()" ];
-    11	[ label = "MediaObject::Read()" ];
-    12	[ label = "SyncedBlockStream::GetBytes()" ];
-    13	[ label = "__pthread_cond_timedwait()", fontcolor= RED ];
+     5	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD align="left" port="read_av_packet"><B>read_av_packet()</B></TD> </TR>
+			  <TR> <TD align="left" port="write_av_packet"><B>write_av_packet()</B></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
 
-1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13;
+		 6	[ label = <
+		  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD>av_read_packet()</TD> </TR>
+			  <TR> <TD>av_get_packet()</TD> </TR>
+			  <TR> <TD>avio_read()</TD> </TR>
+			  <TR> <TD>ffurl_read()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
 
+    7  [ label = "dash_protocol_read()" ];
+    8	 [ label = "DASHManager2::Read()" ];
+    9  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="6"  align="left">WHILE( true )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="10"></TD> </TR>
+			  <TR> <TD COLSPAN="5"  align="left">if( NULL == this-&gt;<U>currentMediaDecoder</U> )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="4"></TD> </TR>
+			  <TR> <TD  COLSPAN="4" port="GetFront">mediaSegment = this-&gt;buffer-&gt;GetFront()</TD> </TR>
+			  <TR> <TD  COLSPAN="4">if(NULL == mediaSegment AND<BR/> !this-&gt;buffer-&gt;GetEOS()) {<BR/> \
+			  sleep 1s ;<BR/> <B><I>continue</I></B> }</TD> </TR>
+			  <TR> <TD  COLSPAN="4">this-&gt;<U>currentMediaDecoder</U> = <BR/>new MediaObjectDecoder(mediaSegment)</TD> </TR>
+			  <TR> <TD  COLSPAN="5" port="Read">ret =  this-&gt;<U>currentMediaDecoder</U>-&gt;Read()</TD> </TR>
+			  <TR> <TD  COLSPAN="5">if(ret &gt; 0) <B><I>break</I></B></TD> </TR>
+			  <TR> <TD  COLSPAN="5">delete  this-&gt;<U>currentMediaDecoder</U></TD> </TR>
+			  <TR> <TD  COLSPAN="5">this-&gt;<U>currentMediaDecoder</U>= NULL</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+
+    10	[ label = "MediaObject::Read()" ];
+    11	[ label = "SyncedBlockStream::GetBytes()" ];
+    12	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD><font color="brown"><B>wait qCond_full</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext] 
+
+	  13  [ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD COLSPAN="4">WHILE( this-&gt;mediaobjects.size() ==0<BR/> AND !this-&gt;eos )</TD> </TR>
+			  <TR> <TD  COLSPAN="1" ROWSPAN="2"></TD> </TR>
+			  <TR> <TD  COLSPAN="3"><font color="red"><B>wait qCond_full</B></font></TD> </TR>
+			  <TR> <TD COLSPAN="4"><font color="blue"><B>signal qCond_empty</B></font></TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ];
+
+2 -> 3 -> 4 -> 5:read_av_packet:n;
+5:read_av_packet:w -> 6 -> 7 -> 8 -> 9
+9:Read:e -> 10 -> 11 -> 12;
+9:GetFront:w -> 13;
+5:write_av_packet:s -> 5:read_av_packet:n
 
 }
