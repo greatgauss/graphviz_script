@@ -23,28 +23,16 @@ digraph abc{
 
      4	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD port="begin"><font color="blue"><B>dash_read_header</B></font>(<font color="brown"><B>pFCtx</B></font>)</TD> </TR>
+			  <TR> <TD port="begin"><font color="blue"><B>mov_read_header</B></font>(<font color="brown"><B>pFCtx</B></font>)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
+
 
      5	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD port="dash_open">dash_open(url, url_interrupt_cb)</TD> </TR>
-			  <TR> <TD port="dash_parser_next_segment">dash_parser_next_segment(<font color="brown"><B>pFCtx</B></font>)</TD> </TR>
-			</TABLE>
-		 >, shape=plaintext ]
-
-     6	[ label = <
-			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD port="begin">avformat_open_input()</TD> </TR>
-			</TABLE>
-		 >, shape=plaintext ]
-
-     7	[ label = <
-			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD align="left">if (<font color="brown"><B>pFCtx</B></font>-&gt;pb){</TD></TR>
 			  <TR> <TD align="left">  if ( !<font color="brown"><B>pFCtx</B></font>-&gt;iformat ) {</TD> </TR>
-			  <TR> <TD align="left" port="av_probe_input_buffer">     <B>return</B> av_probe_input_buffer<BR/>        (<font color="brown"><B>pFCtx</B></font>-&gt;pb, &amp;<font color="brown"><B>pFCtx</B></font>-&gt;iformat)</TD> </TR>
+			  <TR> <TD align="left" port="av_probe_input_buffer_1">     <B>return</B> av_probe_input_buffer<BR/>        (<font color="brown"><B>pFCtx</B></font>-&gt;pb, &amp;<font color="brown"><B>pFCtx</B></font>-&gt;iformat)</TD> </TR>
 			  <TR> <TD align="left">  }</TD> </TR>
 			  <TR> <TD align="left">  retun 0</TD> </TR>
 			  <TR> <TD align="left">}</TD> </TR>
@@ -59,22 +47,29 @@ digraph abc{
 			  <TR> <TD align="left">if( filename contains "shttp" and "mpd"  ) {</TD> </TR>
 			  <TR> <TD align="left" port="avio_open_h">  avio_open_h(&amp;<font color="brown"><B>pFCtx</B></font>-&gt;pb, url, FLAG_READ)</TD> </TR>
 				<TR> <TD align="left">}</TD> </TR>
+			  <TR> <TD align="left" port="av_probe_input_buffer_2"><B>return</B> av_probe_input_buffer<BR/>(<font color="brown"><B>pFCtx</B></font>-&gt;pb, &amp;<font color="brown"><B>pFCtx</B></font>-&gt;iformat)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
-     8	[ label = <
+     6	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD align="left" port="av_probe_input_format3">//guess file format<BR/><font color="red"><B>av_probe_input_format3</B></font>(&amp;pd, <B><I>1</I></B>)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
-     10	[ label = <
+     7	[ label = <
+			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+			  <TR> <TD port="begin">//<font color="blue"><B>mov_probe</B></font>()<BR/>ff_mov_demuxer.read_probe()</TD> </TR>
+			</TABLE>
+		 >, shape=plaintext ]
+
+     8	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD port="begin">//<font color="blue"><B>dash_read_probe</B></font>()<BR/>ff_dash_demuxer.read_probe()</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
-     11	[ label = <
+     9	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD align="left">if ( url with prefix http:|shttp:|https:</TD> </TR>
 			  <TR> <TD align="left">     AND with postfix .mpd|.MPD ) {</TD> </TR>
@@ -83,47 +78,43 @@ digraph abc{
 			</TABLE>
 		 >, shape=plaintext ]
 
-     9	[ label = <
+     10	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD align="left">URLContext *<font color="purple"><B>puc</B></font>=NULL</TD> </TR>
 			  <TR> <TD align="left" port="ffurl_open_h">ffurl_open_h(&amp;<font color="purple"><B>puc</B></font>, url, FLAG_READ)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
-     9.1	[ label = <
+     11	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
-			  <TR> <TD align="left">//Get URL-SCEME from rul and <BR/>//search URLProtocol{} in <B><I>first_protocol</I></B> <BR/>//matched with the scheme<BR/>ffurl_alloc(&amp;<font color="purple"><B>puc</B></font>, url)</TD> </TR>
+			  <TR> <TD align="left" port="begin">//Get URL-SCEME from rul and <BR/>//search URLProtocol{} in <B><I>first_protocol</I></B> <BR/>//matched with the scheme<BR/>ffurl_alloc(&amp;<font color="purple"><B>puc</B></font>, url)</TD> </TR>
 			  <TR> <TD align="left" port="ffurl_connect">ffurl_connect(<font color="purple"><B>puc</B></font>)</TD> </TR>
 			  <TR> <TD align="left">ffurl_close(<font color="purple"><B>puc</B></font>)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
-     9.2	[ label = <
+     12	[ label = <
 			<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
 			  <TR> <TD align="left">//<font color="purple"><B>puc</B></font>-&gt;prot-&gt;url_open(<font color="purple"><B>puc</B></font>, url)<BR/><font color="blue"><B>dash_protocol_open</B></font>(<font color="purple"><B>puc</B></font>, url)</TD> </TR>
 			</TABLE>
 		 >, shape=plaintext ]
 
 
-		 2:avformat_open_input_header -> 3:init_input:w
-		 3:init_input -> 7; 
-		 7:av_probe_input_buffer -> 8
-		 7:avio_open_h -> 9 -> 9.1; 9.1:ffurl_connect -> 9.2
-		 7:av_probe_input_format3 -> 10[style="dashed" color=green];  10 -> 11 
-		 3:read_header -> 4 [style="dashed" color=green]
-		 4 -> 5
-		 
-		 5:dash_parser_next_segment -> 6
-		 6:begin:n -> 2:avformat_open_input_header:e
+		 2:avformat_open_input_header:w -> 3:init_input:w
+		 3:init_input -> 5; 
+		 3:read_header:e -> 4:e [style="dashed" color=green]
+		 5:av_probe_input_buffer_2 ->6; 6:e -> 7:e
+		 5:avio_open_h -> 10; 10:ffurl_open_h -> 11:begin:n; 11:ffurl_connect -> 12
+		 5:av_probe_input_format3 -> 8[style="dashed" color=green];  8 -> 9 
 
 	subgraph control {
 	//node [shape=point,style=invis]
 	node [shape=point]
 	//a -> b ->c -> d -> e[style=invis]
 	a -> b ->c -> d -> e
-	{rank=same; 5;8}
-	//{rank=same; c; HR_Parent;}
-	//{rank=same; e; F_Parent;}
+	{rank=same; 2;3;4}
+	{rank=same; 6;7}
+	{rank=same; 11;12}
 	}
 
 }
